@@ -1,4 +1,4 @@
-ONRXHRPollingDataSource = ONRDataSource.extend({
+ONR.ONRXHRPollingDataSource = ONR.ONRDataSource.extend({
    
    ONRRESTPrefix: '/REST',
    
