@@ -50,13 +50,13 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     for (var i=0,len=versions.length; i<len; i++){
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "key":                       versions[i].key,
-        "format":                     versions[i].format,
-        "language":                     versions[i].language,
-        "rank":                       versions[i].rank,
-        "height": versions[i].height,
-        "width":      versions[i].width,
-        "depth":  versions[i].depth});
+        "key":      versions[i].key,
+        "format":   versions[i].format,
+        "language": versions[i].language,
+        "rank":     versions[i].rank,
+        "height":   versions[i].height,
+        "width":    versions[i].width,
+        "depth":    versions[i].depth});
 
       // this.generateCheckVersionsFunction is provided to create the function that
       // checks for READY_CLEAN for all versions for a given book. When all such 

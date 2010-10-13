@@ -38,7 +38,7 @@ ONRTestApp.dataController = SC.ObjectController.create(
                                                                           depth: 0.8,
                                                                           isbns: [{ key: 3, type: 'tenLetter', text: "0553210793"}, 
                                                                                   { key: 4, type: 'thirteenLetter', text: "978-0553210798"}]},
-                                                                        { key: 3, format: "hardcover", 
+                                                                { key: 3, format: "hardcover", 
                                                                           publisher: "Collector's Library", 
                                                                           date: "August 1, 2010", 
                                                                           language: "English", 
@@ -71,7 +71,7 @@ ONRTestApp.dataController = SC.ObjectController.create(
     // succession, waiting on READY_CLEAN for dependencies.
     //
     for (var title in this.get('content')) {
-      console.log('common author: ' + title);
+      console.log('title: ' + title);
       ONRTestApp.versionsController.createVersions(title);
     }
   }

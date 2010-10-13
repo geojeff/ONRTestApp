@@ -47,7 +47,7 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
     for (var i=0,len=isbns.length; i<len; i++){
       var isbn;
       isbn = ONRTestApp.store.createRecord(ONRTestApp.ISBN, {
-        "key": isbns[i].key,
+        "key":  isbns[i].key,
         "type": isbns[i].type,
         "text": isbns[i].text
       });

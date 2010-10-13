@@ -53,10 +53,10 @@ ONRTestApp.booksController = SC.ArrayController.create(
         
     var book;
     book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-      "key":       key,
-      "title": title,
+      "key":         key,
+      "title":       title,
       "author":      authorship.author,
-      "nationality":    authorship.nationality
+      "nationality": authorship.nationality
     });
 
     ONRTestApp.store.commitRecords();
