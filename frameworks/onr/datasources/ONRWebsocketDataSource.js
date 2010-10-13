@@ -1,4 +1,4 @@
-sc_require('data_sources/ONRDataSource');
+sc_require('datasources/ONRDataSource');
 
 ONR.ONRWebsocketDataSource = ONR.ONRDataSource.extend({
    
