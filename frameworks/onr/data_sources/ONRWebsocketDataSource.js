@@ -1,3 +1,5 @@
+sc_require('data_sources/ONRDataSource');
+
 ONR.ONRWebsocketDataSource = ONR.ONRDataSource.extend({
    
    OrionNodeRiakHost: 'localhost',

@@ -1,3 +1,5 @@
+sc_require('data_sources/ONRDataSource');
+
 ONR.ONRXHRPollingDataSource = ONR.ONRDataSource.extend({
    
    ONRRESTPrefix: '/REST',
