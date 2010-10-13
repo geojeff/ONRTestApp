@@ -1,7 +1,7 @@
 // ==========================================================================                                                                                                                                                                                            
 // ONRTestApp.DataSource
 // ==========================================================================
-/* globals ONRTestApp onr */
+/* globals ONRTestApp ONR */
 
 /** 
 
@@ -11,7 +11,7 @@ This controller manages the creation of data.
    @author Jeff Pittman
 */
 
-//sc_require('SC.ONRWebsocketDataSource');
+sc_require('ONR.ONRWebsocketDataSource');
 
 ONRTestApp.DataSource =  SC.ONRWebsocketDataSource.extend({
   authSuccessCallback: function(){

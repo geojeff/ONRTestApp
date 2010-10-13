@@ -35,7 +35,7 @@ There are a few conditions that need to be in place to make this work:
 // basic version without traffic specific stuff
 
 
-SC.ONRDataSource = SC.DataSource.extend({
+ONR.ONRDataSource = ONR.DataSource.extend({
    /*
      =====
      User configurable properties

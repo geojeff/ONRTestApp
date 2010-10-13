@@ -1,7 +1,7 @@
 // ==========================================================================
 // Project:   onr
 // ==========================================================================
-/*globals onr */
+/*globals ONR */
 
 /** @namespace
 
@@ -14,10 +14,10 @@ sc_require('ONRDataSource');
 sc_require('ONRWebsocketDataSource');
 sc_require('ONRXHRPollingDataSource');
 
-onr = SC.Object.create(
+ONR = SC.Object.create(
   /** @scope onr.prototype */ {
 
-  NAMESPACE: 'onr',
+  NAMESPACE: 'ONR',
   VERSION: '0.1.0'
 
   // TODO: Add global constants or singleton objects needed by your app here.
