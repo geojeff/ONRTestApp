@@ -1,4 +1,4 @@
-ONR.ONRWebsocketDataSource = ONR.ONRDataSource.extend({
+ONRWebsocketDataSource = ONRDataSource.extend({
    
    OrionNodeRiakHost: 'localhost',
    

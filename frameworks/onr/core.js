@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   onr
+// Project:   ONR
 // ==========================================================================
 /*globals ONR */
 
@@ -10,12 +10,12 @@
   @extends SC.Object
 */
 
-sc_require('ONRDataSource');
-sc_require('ONRWebsocketDataSource');
-sc_require('ONRXHRPollingDataSource');
+//sc_require('ONRDataSource');
+//sc_require('ONRWebsocketDataSource');
+//sc_require('ONRXHRPollingDataSource');
 
 ONR = SC.Object.create(
-  /** @scope onr.prototype */ {
+  /** @scope ONR.prototype */ {
 
   NAMESPACE: 'ONR',
   VERSION: '0.1.0'

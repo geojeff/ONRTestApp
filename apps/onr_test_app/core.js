@@ -18,10 +18,4 @@ ONRTestApp = SC.Application.create(
 
   store: SC.Store.create().from('ONRTestApp.DataSource')
   
-//  ALL_ABBREVIATIONS: SC.Query.local(ONRTestApp.ISBN),
-//  ALL_FEEDER_OBSERVATIONS: SC.Query.local(ONRTestApp.Version),
-//  ALL_BIRDS: SC.Query.local(ONRTestApp.Book),
-//  KINGLET: SC.Query.local(ONRTestApp.Book, "author = {gn_ltrs} AND title CONTAINS {ltrs}", { gn_ltrs:"Regulus", ltrs:"Kinglet"}),
-//  FINCH: SC.Query.local(ONRTestApp.Book, "author = {gn_ltrs} AND title CONTAINS {ltrs}", { gn_ltrs:"Carpodacus", ltrs:"Finch"})
-
 }) ;
