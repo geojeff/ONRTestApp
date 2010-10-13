@@ -39,13 +39,20 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
  
   createISBNs: function(title){
     //console.log('createISBNs ' + title);
-    var isbns = ONRTestApp.dataController.get('content')[title]['isbns'];
+    var isbns = [];
+    var versions = ONRTestApp.dataController.get('content')[title]['versions'];
+    versions.forEach(function(version) {
+      isbns.pushObjects(version['isbns']);
+    });
+
+    console.log(isbns.get('length'));
 
     this._tmpRecordCache[title] = [];
-    this._tmpRecordCacheCount[title] = isbns.length;
+    this._tmpRecordCacheCount[title] = isbns.get('length');
         
-    for (var i=0,len=isbns.length; i<len; i++){
+    for (var i=0,len=isbns.get('length'); i<len; i++){
       var isbn;
+      console.log('type ' + isbns[i].type);
       isbn = ONRTestApp.store.createRecord(ONRTestApp.ISBN, {
         "key":  isbns[i].key,
         "type": isbns[i].type,

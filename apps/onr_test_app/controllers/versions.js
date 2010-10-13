@@ -45,9 +45,9 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     var versions = ONRTestApp.dataController.get('content')[title]['versions'];
   
     this._tmpRecordCache[title] = [];
-    this._tmpRecordCacheCount[title] = versions.length;
+    this._tmpRecordCacheCount[title] = versions.get('length');
         
-    for (var i=0,len=versions.length; i<len; i++){
+    for (var i=0,len=versions.get('length'); i<len; i++){
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
         "key":      versions[i].key,

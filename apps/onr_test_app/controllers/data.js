@@ -72,7 +72,7 @@ ONRTestApp.dataController = SC.ObjectController.create(
     //
     for (var title in this.get('content')) {
       console.log('title: ' + title);
-      ONRTestApp.versionsController.createISBNs(title);
+      ONRTestApp.isbnsController.createISBNs(title);
     }
   }
 
