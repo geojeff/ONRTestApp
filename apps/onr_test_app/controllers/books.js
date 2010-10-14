@@ -31,10 +31,6 @@ ONRTestApp.booksController = SC.ArrayController.create(
           var versionsInBook = book.get('versions');
           versionsInBook.pushObjects(versions);
 
-          var isbns = ONRTestApp.dataController.get('content')[title]['records']['isbns'];
-          var isbnsInBook = book.get('isbns');
-          isbnsInBook.pushObjects(isbns);
-
           ONRTestApp.store.commitRecords();
         }
         return YES;

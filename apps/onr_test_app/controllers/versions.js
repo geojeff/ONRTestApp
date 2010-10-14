@@ -32,7 +32,14 @@ ONRTestApp.versionsController = SC.ArrayController.create(
         if (me._tmpRecordCacheCount[title] === 0){
           delete me._tmpRecordCache[title]; // delete the old contents
           delete me._tmpRecordCacheCount[title];
-          ONRTestApp.bookController.createBook(title);
+
+          // At this point, all isbns were created, and, now, the version too,
+          // so set relations between version and its isbns.
+          var isbns = ONRTestApp.dataController.get('content')[title]['records']['isbns'];                                                                                                                                                                               
+          var isbnsInVersion = version.get('isbns');
+          isbnsInVersion.pushObjects(isbns);
+
+          ONRTestApp.booksController.createBook(title);
         }
         return YES;
       }
