@@ -14,6 +14,10 @@ This controller manages the creation of isbn data.
 ONRTestApp.isbnsController = SC.ArrayController.create(
 /** @scope ONRTestApp.isbnsController.prototype */ {
 
+  getISBN: function(fixturesKey) {
+    return this._tmpRecordCache[fixturesKey];
+  },
+
   generateCheckISBNsFunction: function(isbn){
     var me = this;
     return function(val){
@@ -33,7 +37,7 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
 
           me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForISBNs);
 
-          delete me._tmpRecordCache;
+          //delete me._tmpRecordCache;
 
           ONRTestApp.versionsController.createVersions();
         }

@@ -13,6 +13,10 @@ This controller manages the creation of version data.
 ONRTestApp.versionsController = SC.ArrayController.create(
 /** @scope ONRTestApp.versionsController.prototype */ {
 
+  getVersion: function(fixturesKey) {
+     return this._tmpRecordCache[fixturesKey];
+   },
+
   // This is a closure, that will create an unnamed function, for checking
   // for completion of versions records. The generator function has version
   // as a passed-in argument, in scope for the generated function. The
@@ -39,14 +43,15 @@ ONRTestApp.versionsController = SC.ArrayController.create(
             var isbnsInVersion = versionRecord.get('isbns');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Version.FIXTURES[fixturesKey-1].isbns.forEach(function(isbnFixturesKey) {
-              var isbnRiakKey = fixturesKeysToRiakKeysForISBNs[isbnFixturesKey];
-              isbnsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.ISBN, isbnRiakKey)));
+              //var isbnRiakKey = fixturesKeysToRiakKeysForISBNs[isbnFixturesKey];
+              //isbnsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.ISBN, isbnRiakKey)));
+              isbnsInVersion.pushObject(ONRTestApp.isbnsController.getISBN(isbnFixturesKey));
             });
           }
 
           me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForVersions);
 
-          delete me._tmpRecordCache;
+          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
 

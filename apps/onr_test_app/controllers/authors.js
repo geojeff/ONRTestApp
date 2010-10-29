@@ -37,18 +37,16 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	recalculateFromAuthors: function() {
 	  if (this.get("selection") && this.get("selection").get("length") > 0) {
 	    var result = SC.Set.create();
-      var books = [];
 	    this.get("selection").forEach(function(author){
         console.log('author: ' + author.get('lastName') + ' books.length: ' + author.get('books').get('length'));
-        books.pushObjects(author.get("books"));
-	      result.addEach(author.get("books"));
+	      author.get("books").forEach(function(book) {
+          console.log('adding: ' + book.get('title'));
+          result.add(book);
+        });
 	    });
 
-      books.forEach(function(book) {
-        console.log('title: ' + book.get('title'));
-      });
-	    this.set("effectiveSelection", books);
-      //this.set("effectiveSelection", result.toArray());
+      console.log('set length = ' + result.get('length'));
+      this.set("effectiveSelection", result.toArray());
 	    this.set("allIsSelected", NO);
     }
 	},
@@ -125,6 +123,10 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  book.set("pendingAuthors", pa);
 	},
 
+  getAuthor: function(fixturesKey) {
+     return this._tmpRecordCache[fixturesKey];
+   },
+
   checkAuthorsFunction: function(book){
     var me = this;
     return function(val){
@@ -147,14 +149,17 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
             var booksInAuthor = authorRecord.get('books');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Author.FIXTURES[fixturesKey-1].books.forEach(function(bookFixturesKey) {
-              var bookRiakKey = fixturesKeysToRiakKeysForBooks[bookFixturesKey];
-              booksInAuthor.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Book, bookRiakKey)));
+              //var bookRiakKey = fixturesKeysToRiakKeysForBooks[bookFixturesKey];
+              //console.log('riakKey: ' + bookRiakKey);
+              //console.log('storeKey: ' + ONRTestApp.store.storeKeyFor(ONRTestApp.Book, bookRiakKey));
+              //booksInAuthor.pushObject(ONRTestApp.store.find(ONRTestApp.Book, bookRiakKey));
+              booksInAuthor.pushObject(ONRTestApp.booksController.getBook(bookFixturesKey));
             });
           }
 
           me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForAuthors);
 
-          delete me._tmpRecordCache;
+          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
         }

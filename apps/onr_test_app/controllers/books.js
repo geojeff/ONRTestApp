@@ -101,6 +101,10 @@ ONRTestApp.booksController = SC.ArrayController.create(
     book.commitRecord();
   },
 
+  getBook: function(fixturesKey) {
+     return this._tmpRecordCache[fixturesKey];
+   },
+
   checkBooksFunction: function(book){
     var me = this;
     return function(val){
@@ -122,14 +126,15 @@ ONRTestApp.booksController = SC.ArrayController.create(
             var versionsInBook = bookRecord.get('versions');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.forEach(function(versionFixturesKey) {
-              var versionRiakKey = fixturesKeysToRiakKeysForVersions[versionFixturesKey];
-              versionsInBook.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Version, versionRiakKey)));
+              //var versionRiakKey = fixturesKeysToRiakKeysForVersions[versionFixturesKey];
+              //versionsInBook.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Version, versionRiakKey)));
+              versionsInBook.pushObject(ONRTestApp.versionsController.getVersion(versionFixturesKey));
             });
           }
 
           me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForBooks);
 
-          delete me._tmpRecordCache;
+          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
 
