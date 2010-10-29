@@ -13,8 +13,8 @@ This controller manages book data.
 ONRTestApp.booksController = SC.ArrayController.create(
 /** @scope ONRTestApp.booksController.prototype */ {
 
-  contentBinding: "ONRTestApp.booksSortController.sortedContent",
-  isSearchingBinding: "ONRTestApp.bookSearchController.isSearching",
+  contentBinding: "ONRTestApp.authorsController.effectiveSelection",
+  selection: null,
   canAddContent: YES,
   canReorderContent: NO,
   canRemoveContent: YES,
@@ -25,14 +25,6 @@ ONRTestApp.booksController = SC.ArrayController.create(
   inAll: YES, // can be NO or YES. If YES, the parent controller is called to remove items.
   inAllBinding: "ONRTestApp.authorsController.allIsSelected",
 
-  resultDidChange: function() {
-    if (this.get("isSearching")) {
-      // select the first, or none at all
-      if (this.get("length") > 0) this.selectObject(this.objectAt(0));
-      else this.deselectObjects(this.get("selection"));
-    }
-  }.observes("[]"),
-
   collectionViewDeleteContent: function(view, content, indexes) {
     // get records first for safety :)
     var records = indexes.map(function(idx) {
@@ -41,7 +33,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
     // we only handle deletion if in "All" category.
     if (!this.get("inAll")) {
-      ONRTestApp.authorsController.removeONRTestApp(records);
+      ONRTestApp.authorsController.removeBooks(records);
       return;
     }
 

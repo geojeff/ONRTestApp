@@ -37,11 +37,18 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	recalculateFromAuthors: function() {
 	  if (this.get("selection") && this.get("selection").get("length") > 0) {
 	    var result = SC.Set.create();
+      var books = [];
 	    this.get("selection").forEach(function(author){
+        console.log('author: ' + author.get('lastName') + ' books.length: ' + author.get('books').get('length'));
+        books.pushObjects(author.get("books"));
 	      result.addEach(author.get("books"));
 	    });
 
-	    this.set("effectiveSelection", result.toArray());
+      books.forEach(function(book) {
+        console.log('title: ' + book.get('title'));
+      });
+	    this.set("effectiveSelection", books);
+      //this.set("effectiveSelection", result.toArray());
 	    this.set("allIsSelected", NO);
     }
 	},
@@ -98,7 +105,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  });
 	},
 
-	removeONRTestApp: function(books) {
+	removeBooks: function(books) {
 	  var sel = this.get("selection");
 	  if (!sel) return;
 
