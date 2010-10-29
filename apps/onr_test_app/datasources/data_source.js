@@ -15,7 +15,7 @@ sc_require('onr/datasources/ONRWebsocketDataSource');
 
 ONRTestApp.DataSource =  ONR.ONRWebsocketDataSource.extend({
   authSuccessCallback: function(){
-    ONRTestApp.dataController.initiateDataCreation();
+    ONRTestApp.initiateDataCreation();
   }
 });
 

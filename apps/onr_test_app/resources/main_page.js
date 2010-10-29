@@ -18,7 +18,7 @@ ONRTestApp.mainPage = SC.Page.design({
     toolbar: SC.ToolbarView.design({
       classNames: ["hback", "toolbar"],
       layout: { left: 0, top: 0, right: 0, height: 32 },
-      childViews: "appLabel search".w(),
+      childViews: "appLabel recordCount".w(),
 
       appLabel: SC.LabelView.design({
         layout: { left: 10, width: 200, height: 20, centerY: 0 },
@@ -27,20 +27,10 @@ ONRTestApp.mainPage = SC.Page.design({
         value: "Welcome to ONRTestApp!"
       }),
 
-      search: SC.TextFieldView.design({
-        layout: { right: 10, width: 300, height: 20, centerY: 0 },
-        classNames: ["searchBox"],
-        hint: "Search...",
-        valueBinding: "ONRTestApp.bookSearchController.search",
-        leftAccessoryView: SC.View.create({
-          layout: {left:5, width:20, height:16, centerY: 0 },
-          childViews: 'icon'.w(),
-          icon: SC.ImageView.create({
-          layout: {left:0, top: 0, width:16, height: 16 },
-          value: "icons search-16 icon"
-          })
-        })
-      }) // search
+      recordCount: SC.LabelView.design({
+        layout: { right: 10, width: 30, height: 20, centerY: 0 },
+        valueBinding: "ONRTestApp.recordCount",
+      })
     }), // toolbar
 
     // splitter, with authors list on the left, and books list and view on the right.
