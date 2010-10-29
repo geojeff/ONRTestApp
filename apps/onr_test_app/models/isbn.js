@@ -8,12 +8,13 @@
    @author Jeff Pittman
 */
 
-ONRTestApp.ISBN = SC.Record.extend({
+ONRTestApp.ISBN = SC.Record.extend(
+/** @scope ONRTestApp.ISBN.prototype */ {
   primaryKey:  'key',
   bucket:      'isbn',
   type:        SC.Record.attr(String),
   text:        SC.Record.attr(String),
 
-  book: SC.Record.toOne("ONRTestApp.Book", 
-                        { inverse: "isbns", isMaster: NO })
+  version: SC.Record.toOne("ONRTestApp.Version",  { inverse: "isbns", isMaster: NO })
+
 });

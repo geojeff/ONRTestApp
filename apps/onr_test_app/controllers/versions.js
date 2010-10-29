@@ -13,33 +13,44 @@ This controller manages the creation of version data.
 ONRTestApp.versionsController = SC.ArrayController.create(
 /** @scope ONRTestApp.versionsController.prototype */ {
 
-  // This is a closure, that will create an unauthord function, for checking
-  // for completion of versions records. The generator function
-  // has title, version as passed-in variables which are in 
-  // scope for the generated function. The 'var me = this;' line sets me so
-  // that there is also a reference to the controller within the generated
-  // function.
-  generateCheckVersionsFunction: function(title,version){
+  // This is a closure, that will create an unnamed function, for checking
+  // for completion of versions records. The generator function has version
+  // as a passed-in argument, in scope for the generated function. The
+  // 'var me = this;' line sets me so that there is also a reference to the
+  // controller within the generated function.
+  generateCheckVersionsFunction: function(version){
     var me = this;
     return function(val){
-      //console.log('checking Versions ' + title + '/' + val);
       if (val & SC.Record.READY_CLEAN){
-        me._tmpRecordCache[title].pushObject(version);
-        ONRTestApp.dataController.get('content')[title]['records']['versions'].pushObject(version);
-        //console.log(SC.inspect(ONRTestApp.dataController.get('content')[title]['records']['versions']));
-        me._tmpRecordCacheCount[title]--;
-        //console.log('checking Versions ' + title + '/' + me._tmpRecordCacheCount[title]);
-        if (me._tmpRecordCacheCount[title] === 0){
-          delete me._tmpRecordCache[title]; // delete the old contents
-          delete me._tmpRecordCacheCount[title];
+        me._tmpRecordCount--;
+        if (me._tmpRecordCount === 0){
+          delete me._tmpRecordCount;
 
-          // At this point, all isbns were created, and, now, the version too,
-          // so set relations between version and its isbns.
-          var isbns = ONRTestApp.dataController.get('content')[title]['records']['isbns'];                                                                                                                                                                               
-          var isbnsInVersion = version.get('isbns');
-          isbnsInVersion.pushObjects(isbns);
+          // In this loop we will use the key mapping from the isbnController
+          // to set the relations into versions, while at the same time, preparing
+          // key mappings for this controller, readying for the call to createBooks.
+          var fixturesKeysToRiakKeysForISBNs = ONRTestApp.isbnsController.get('fixturesKeysToRiakKeys');
+          var fixturesKeysToRiakKeysForVersions = {};
+          var versionRecord;
+          for (fixturesKey in me._tmpRecordCache) {
+            versionRecord = me._tmpRecordCache[fixturesKey];
+            fixturesKeysToRiakKeysForVersions[fixturesKey] = versionRecord.get('key');
 
-          ONRTestApp.booksController.createBook(title);
+            var isbnsInVersion = versionRecord.get('isbns');
+            // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
+            ONRTestApp.Version.FIXTURES[fixturesKey-1].isbns.forEach(function(isbnFixturesKey) {
+              var isbnRiakKey = fixturesKeysToRiakKeysForISBNs[isbnFixturesKey];
+              isbnsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.ISBN, isbnRiakKey)));
+            });
+          }
+
+          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForVersions);
+
+          delete me._tmpRecordCache;
+
+          ONRTestApp.store.commitRecords();
+
+          ONRTestApp.booksController.createBooks();
         }
         return YES;
       }
@@ -47,40 +58,35 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     };
   },
  
-  createVersions: function(title){
-    //console.log('createVersions ' + title);
-    var versions = ONRTestApp.dataController.get('content')[title]['versions'];
-  
-    this._tmpRecordCache[title] = [];
-    this._tmpRecordCacheCount[title] = versions.get('length');
-        
-    for (var i=0,len=versions.get('length'); i<len; i++){
+  createVersions: function(){
+    this._tmpRecordCount = ONRTestApp.Version.FIXTURES.get('length');
+
+    for (var i=0,len=ONRTestApp.Version.FIXTURES.get('length'); i<len; i++){
+      var fixturesKey = ONRTestApp.Version.FIXTURES[i].key;
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "key":      versions[i].key,
-        "format":   versions[i].format,
-        "language": versions[i].language,
-        "rank":     versions[i].rank,
-        "height":   versions[i].height,
-        "width":    versions[i].width,
-        "depth":    versions[i].depth});
+        "key":      ONRTestApp.Version.FIXTURES[i].key,
+        "format":   ONRTestApp.Version.FIXTURES[i].format,
+        "language": ONRTestApp.Version.FIXTURES[i].language,
+        "rank":     ONRTestApp.Version.FIXTURES[i].rank,
+        "height":   ONRTestApp.Version.FIXTURES[i].height,
+        "width":    ONRTestApp.Version.FIXTURES[i].width,
+        "depth":    ONRTestApp.Version.FIXTURES[i].depth
+      });
+
+      this._tmpRecordCache[fixturesKey] = version;
 
       // this.generateCheckVersionsFunction is provided to create the function that
       // checks for READY_CLEAN for all versions for a given book. When all such 
       // versions are READY_CLEAN, in turn, createBook(), the last step in 
       // the data creation scheme, is fired.
-      version.addFiniteObserver('status',this,this.generateCheckVersionsFunction(title,version),this);
-
-      ONRTestApp.store.commitRecords();
+      version.addFiniteObserver('status',this,this.generateCheckVersionsFunction(version),this);
     }
+    ONRTestApp.store.commitRecords();
   },
 
-  // _tmpRecordCache are for versions that have been created. _tmpRecordCacheCount is
-  // initially set to the number of versions that should be created for the given book.
-  // Then, as versions are created, the count is decremented. The count is checked, so
-  // that, when 0, the next step in the data creation scheme is fired (createISBNs()).
   _tmpRecordCache: {},
-  _tmpRecordCacheCount: {}
+  _tmpRecordCount: 0
 
 });
         

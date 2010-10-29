@@ -14,22 +14,28 @@ This controller manages the creation of isbn data.
 ONRTestApp.isbnsController = SC.ArrayController.create(
 /** @scope ONRTestApp.isbnsController.prototype */ {
 
-  // See comment in the versions controller about the creation of a closure.
-  // The same logic applies here, except for isbns this time.  Once isbn 
-  // records for a book have been created, the final step, creation of the actual book 
-  // record, is fired.
-  generateCheckISBNsFunction: function(title,isbn){
+  generateCheckISBNsFunction: function(isbn){
     var me = this;
     return function(val){
-      //console.log('checking ISBNs ' + title);
       if (val & SC.Record.READY_CLEAN){
-        me._tmpRecordCache[title].pushObject(isbn);
-        ONRTestApp.dataController.get('content')[title]['records']['isbns'].pushObject(isbn);
-        me._tmpRecordCacheCount[title]--;
-        if (me._tmpRecordCacheCount[title] === 0){
-          delete me._tmpRecordCache[title]; // delete the old contents
-          delete me._tmpRecordCacheCount[title];
-          ONRTestApp.versionsController.createVersions(title);
+        me._tmpRecordCount--;
+        if (me._tmpRecordCount === 0){
+          delete me._tmpRecordCount;
+
+          // In this loop we will set the key mapping for this controller,
+          // readying for the call to createVersions.
+          var fixturesKeysToRiakKeysForISBNs = {};
+          var isbnRecord;
+          for (fixturesKey in me._tmpRecordCache) {
+            isbnRecord = me._tmpRecordCache[fixturesKey];
+            fixturesKeysToRiakKeysForISBNs[fixturesKey] = isbnRecord.get('key');
+          }
+
+          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForISBNs);
+
+          delete me._tmpRecordCache;
+
+          ONRTestApp.versionsController.createVersions();
         }
         return YES;
       }
@@ -37,38 +43,25 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
     };
   },
  
-  createISBNs: function(title){
-    //console.log('createISBNs ' + title);
-    var isbns = [];
-    var versions = ONRTestApp.dataController.get('content')[title]['versions'];
-    versions.forEach(function(version) {
-      isbns.pushObjects(version['isbns']);
-    });
-
-    console.log(isbns.get('length'));
-
-    this._tmpRecordCache[title] = [];
-    this._tmpRecordCacheCount[title] = isbns.get('length');
+  createISBNs: function(){
+    this._tmpRecordCount = ONRTestApp.ISBN.FIXTURES.get('length');
         
-    for (var i=0,len=isbns.get('length'); i<len; i++){
+    for (var i=0,len=ONRTestApp.ISBN.FIXTURES.get('length'); i<len; i++){
       var isbn;
-      console.log('type ' + isbns[i].type);
       isbn = ONRTestApp.store.createRecord(ONRTestApp.ISBN, {
-        "key":  isbns[i].key,
-        "type": isbns[i].type,
-        "text": isbns[i].text
+        "key":  ONRTestApp.ISBN.FIXTURES[i].key,
+        "type": ONRTestApp.ISBN.FIXTURES[i].type,
+        "text": ONRTestApp.ISBN.FIXTURES[i].text
       });
 
-      ONRTestApp.store.commitRecords();
+      this._tmpRecordCache[ONRTestApp.ISBN.FIXTURES[i].key] = isbn;
 
-      // this.generateCheckISBNsFunction() is provided here to fire createVersions as the next
-      // step in data creation, which will create versions of the book.
-      isbn.addFiniteObserver('status',this,this.generateCheckISBNsFunction(title,isbn),this);
+      isbn.addFiniteObserver('status',this,this.generateCheckISBNsFunction(isbn), this);
     }
+    ONRTestApp.store.commitRecords();
   },
 
-  // See comment above, in the versions controller, about the use of _tmpRecordCache,Count.
   _tmpRecordCache: {},
-  _tmpRecordCacheCount: {}
+  _tmpRecordCount: 0
 
 });

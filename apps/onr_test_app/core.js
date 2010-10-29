@@ -1,6 +1,5 @@
 // ==========================================================================
 // Project:   ONRTestApp
-// Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals ONRTestApp */
 
@@ -17,5 +16,6 @@ ONRTestApp = SC.Application.create(
   VERSION: '0.1.0',
 
   store: SC.Store.create().from('ONRTestApp.DataSource')
-  
+  //store: SC.Store.create().from(SC.Record.fixtures)
+
 }) ;

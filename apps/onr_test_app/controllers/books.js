@@ -5,7 +5,7 @@
 
 /** 
 
-This controller manages the creation of book data.
+This controller manages book data.
 
    @extends SC.ArrayController
    @author Jeff Pittman
@@ -13,25 +13,135 @@ This controller manages the creation of book data.
 ONRTestApp.booksController = SC.ArrayController.create(
 /** @scope ONRTestApp.booksController.prototype */ {
 
-  // See comments in the other controllers about the use of closures.
-  generateSetRelationsFunction: function(title){
+  contentBinding: "ONRTestApp.booksSortController.sortedContent",
+  isSearchingBinding: "ONRTestApp.bookSearchController.isSearching",
+  canAddContent: YES,
+  canReorderContent: NO,
+  canRemoveContent: YES,
+  isEditable: YES,
+
+  // deleting books is handled by booksController.
+  // removing books from authors is handled by the authorController.
+  inAll: YES, // can be NO or YES. If YES, the parent controller is called to remove items.
+  inAllBinding: "ONRTestApp.authorsController.allIsSelected",
+
+  resultDidChange: function() {
+    if (this.get("isSearching")) {
+      // select the first, or none at all
+      if (this.get("length") > 0) this.selectObject(this.objectAt(0));
+      else this.deselectObjects(this.get("selection"));
+    }
+  }.observes("[]"),
+
+  collectionViewDeleteContent: function(view, content, indexes) {
+    // get records first for safety :)
+    var records = indexes.map(function(idx) {
+      return this.objectAt(idx);
+    }, this);
+
+    // we only handle deletion if in "All" category.
+    if (!this.get("inAll")) {
+      ONRTestApp.authorsController.removeONRTestApp(records);
+      return;
+    }
+
+    // process OUR WAY!
+    this._pendingOperation = { action: "deleteBooks", records: records, indexes: indexes  };
+
+    // calculate text
+    var text = "";
+    var name = "Book";
+    var len = indexes.get("length");
+    if (len > 1) {
+      name += "s";
+      text = "Are you sure you want to delete these " + len + " books?";
+    } else {
+      text = "Are you sure you want to delete this book?";
+    }
+
+    // show warning
+    SC.AlertPane.warn(
+      "Be Careful!",
+      text,
+      null,
+      "Keep " + name,
+      "Delete " + name,
+      null,
+      this
+    );
+  },
+
+  deleteBooks: function(op) {
+    var records = op.records, indexes = op.indexes;
+    records.invoke('destroy');
+
+    var selIndex = indexes.get('min') - 1;
+    if (selIndex < 0) selIndex = 0;
+    this.selectObject(this.objectAt(selIndex));
+
+    ONRTestApp.store.commitRecords();
+  },
+
+  alertPaneDidDismiss: function(pane, status) {
+    if (!this._pendingOperation) return;
+    switch (status) {
+      case SC.BUTTON2_STATUS:
+        this[this._pendingOperation.action].call(this, this._pendingOperation);
+        this._pendingOperation = null;
+        break;
+      case SC.BUTTON1_STATUS:
+        break;
+    }
+  },
+
+  addBook: function() {
+    var book;
+    book = ONRTestApp.store.createRecord(ONRTestApp.Book, { title: "" });
+
+    // add book to current author if needed
+    if (!this.get("inAll")) ONRTestApp.authorsController.addNewBook(book);
+
+    this.selectObject(book);
+    this.invokeLater(function(){
+      ONRTestApp.bookController.beginEditing();
+    });
+
+    book.commitRecord();
+  },
+
+  checkBooksFunction: function(book){
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
-        //console.log('setting relations for Book ' + title);
-        me._tmpRecordCache[title].pushObject(book);
-        me._tmpRecordCacheCount[title]--;
-        if (me._tmpRecordCacheCount[title] === 0){
-          delete me._tmpRecordCache[title]; // delete the old contents
-          delete me._tmpRecordCacheCount[title];
+        me._tmpRecordCount--;
+        if (me._tmpRecordCount === 0){
+          delete me._tmpRecordCount;
 
-          var book = ONRTestApp.dataController.get('content')[title]['records']['book'];
+          // In this loop we will use the key mapping from the versionController
+          // to set the relations into books, while at the same time, preparing
+          // key mappings for this controller, readying for the call to createAuthors.
+          var fixturesKeysToRiakKeysForVersions = ONRTestApp.versionsController.get('fixturesKeysToRiakKeys');
+          var fixturesKeysToRiakKeysForBooks = {};
+          var bookRecord;
+          for (fixturesKey in me._tmpRecordCache) {
+            bookRecord = me._tmpRecordCache[fixturesKey];
+            fixturesKeysToRiakKeysForBooks[fixturesKey] = bookRecord.get('key');
 
-          var versions = ONRTestApp.dataController.get('content')[title]['records']['versions'];
-          var versionsInBook = book.get('versions');
-          versionsInBook.pushObjects(versions);
+            var versionsInBook = bookRecord.get('versions');
+            // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
+            ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.forEach(function(versionFixturesKey) {
+              var versionRiakKey = fixturesKeysToRiakKeysForVersions[versionFixturesKey];
+              versionsInBook.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Version, versionRiakKey)));
+            });
+          }
+
+          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForBooks);
+
+          delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
+
+          ONRTestApp.authorsController.createAuthors();
         }
         return YES;
       }
@@ -39,37 +149,27 @@ ONRTestApp.booksController = SC.ArrayController.create(
     };
   },
  
-  createBook: function(title){
-    //console.log('createBook ' + title);
-    var key = ONRTestApp.dataController.get('content')[title]['key'];
-    var authorship = ONRTestApp.dataController.get('content')[title]['authorship'];
+  createBooks: function(){
+    this._tmpRecordCount = ONRTestApp.Book.FIXTURES.get('length');
 
-    this._tmpRecordCache[title] = [];
-    this._tmpRecordCacheCount[title] = 1;
-        
-    var book;
-    book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-      "key":         key,
-      "title":       title,
-      "author":      authorship.author,
-      "nationality": authorship.nationality
-    });
+    for (var i=0,len=ONRTestApp.Book.FIXTURES.get('length'); i<len; i++){
+      var book;
+      book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
+        "key":      ONRTestApp.Book.FIXTURES[i].key,
+        "title":    ONRTestApp.Book.FIXTURES[i].title,
+      });
 
+      this._tmpRecordCache[ONRTestApp.Book.FIXTURES[i].key] = book;
+      
+      // The book record has been created, and its versions and the isbns of those versions.
+      // Once the book records come back READY_CLEAN, create authors in the final step.
+      book.addFiniteObserver('status',this,this.checkBooksFunction(book),this);
+    }
     ONRTestApp.store.commitRecords();
-
-    ONRTestApp.dataController.get('content')[title]['records']['book'] = book;
-
-    // The book record has been created, and its versions and the isbns of those
-    // versions, so all that is left is the setting of relations between them,
-    // once the book record comes back READY_CLEAN.
-    book.addFiniteObserver('status',this,this.generateSetRelationsFunction(title),this);
-
-    return book;
   },
 
-  // See comments in other controllers about the use of these variables.
   _tmpRecordCache: {},
-  _tmpRecordCacheCount: {}
+  _tmpRecordCount: 0
 
 });
 
