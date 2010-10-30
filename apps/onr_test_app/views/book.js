@@ -71,6 +71,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
   versionView: SC.FormView.design({
     layout: { top: 10, height: 500, left: 170, width: 300 },
+    contentBinding: ".parentView.content",
     //rowPadding: 5,
     childViews: "publisherHeader publisherTitle publicationDate spacer1 detailsHeader format language rank height width depth spacer2 isbn10 isbn13".w(),
 
