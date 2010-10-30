@@ -15,6 +15,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
   contentBinding: "ONRTestApp.authorsController.effectiveSelection",
   selection: null,
+  effectiveSelection: null,
   canAddContent: YES,
   canReorderContent: NO,
   canRemoveContent: YES,
@@ -24,6 +25,23 @@ ONRTestApp.booksController = SC.ArrayController.create(
   // removing books from authors is handled by the authorController.
   inAll: YES, // can be NO or YES. If YES, the parent controller is called to remove items.
   inAllBinding: "ONRTestApp.authorsController.allIsSelected",
+
+  selectionDidChange: function() {
+	  this.recalculateFromBooks();
+	}.observes("selection"),
+
+	recalculateFromBooks: function() {
+	  if (this.get("selection") && this.get("selection").get("length") > 0) {
+	    var result = SC.Set.create();
+	    this.get("selection").forEach(function(book){
+	      book.get("versions").forEach(function(version) {
+          result.add(version);
+        });
+	    });
+
+      this.set("effectiveSelection", result.toArray());
+    }
+	},
 
   collectionViewDeleteContent: function(view, content, indexes) {
     // get records first for safety :)

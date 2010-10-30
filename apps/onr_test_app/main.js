@@ -18,14 +18,14 @@ ONRTestApp.main = function main() {
 
 	var authors = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Author));
   var books = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Book));
-  var versions = ONRTestApp.store.find(ONRTestApp.Version);
-  var isbns = ONRTestApp.store.find(ONRTestApp.ISBN);
+  //var versions = ONRTestApp.store.find(ONRTestApp.Version);
+  //var isbns = ONRTestApp.store.find(ONRTestApp.ISBN);
 
   ONRTestApp.authorsController.set('all', books);
   ONRTestApp.authorsController.set('content', authors);
-  ONRTestApp.booksController.set('content', books);
-  ONRTestApp.versionsController.set('content', versions);
-  ONRTestApp.isbnsController.set('content', isbns);
+  //ONRTestApp.booksController.set('content', books);
+  //ONRTestApp.versionsController.set('content', versions);
+  //ONRTestApp.isbnsController.set('content', isbns);
 
 } ;
 

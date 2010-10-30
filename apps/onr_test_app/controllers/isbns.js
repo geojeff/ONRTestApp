@@ -14,6 +14,9 @@ This controller manages the creation of isbn data.
 ONRTestApp.isbnsController = SC.ArrayController.create(
 /** @scope ONRTestApp.isbnsController.prototype */ {
 
+  contentBinding: "ONRTestApp.versionsController.effectiveSelection",
+  selection: null,
+
   getISBN: function(fixturesKey) {
     return this._tmpRecordCache[fixturesKey];
   },

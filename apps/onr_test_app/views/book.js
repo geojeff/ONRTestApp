@@ -129,9 +129,9 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       flowSize: { widthPercentage: 1 }
     }),
 
-    isbnsView: SC.FormView.row(SC.ScrollView.design({
+    isbnsView: SC.ScrollView.design({
       hasHorizontalScroller: NO,
-      layout: { left: 0, width: 150, height: 64, centerY: 0},
+      layout: { left: 0, width: 150, height: 104, centerY: 0},
       backgroundColor: 'white',
       contentView: SC.ListView.design({
         contentBinding: 'ONRTestApp.isbnsController.arrangedObjects',
@@ -143,7 +143,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
         destroyOnRemoval: YES,
         rowHeight: 21
       })
-    }))
+    })
   }),
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */

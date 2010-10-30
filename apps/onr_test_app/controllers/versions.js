@@ -13,6 +13,27 @@ This controller manages the creation of version data.
 ONRTestApp.versionsController = SC.ArrayController.create(
 /** @scope ONRTestApp.versionsController.prototype */ {
 
+  contentBinding: "ONRTestApp.booksController.effectiveSelection",
+  effectiveSelection: null,
+  selection: null,
+
+  selectionDidChange: function() {
+    this.recalculateFromVersions();
+  }.observes("selection"),
+
+  recalculateFromVersions: function() {
+    if (this.get("selection") && this.get("selection").get("length") > 0) {
+      var result = SC.Set.create();
+      this.get("selection").forEach(function(version){
+        version.get("isbns").forEach(function(isbn) {
+          result.add(isbn);
+        });
+      });
+
+      this.set("effectiveSelection", result.toArray());
+    }
+  },
+
   getVersion: function(fixturesKey) {
      return this._tmpRecordCache[fixturesKey];
    },
