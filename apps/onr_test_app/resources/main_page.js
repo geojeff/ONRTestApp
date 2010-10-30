@@ -29,7 +29,7 @@ ONRTestApp.mainPage = SC.Page.design({
 
       recordCount: SC.LabelView.design({
         layout: { right: 10, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ONRTestApp.recordCount",
+        valueBinding: "ONRTestApp.recordCount"
       })
     }), // toolbar
 
@@ -238,7 +238,7 @@ ONRTestApp.mainPage = SC.Page.design({
             layout: { left: 15, right: 15, bottom: 47, top: 15 },
             borderStyle: SC.BORDER_NONE,
               contentView: ONRTestApp.BookView.design({
-              contentBinding: "ONRTestApp.bookController"
+              contentBinding: "ONRTestApp.versionController"
             }),
 
             shouldDisplayBinding: "ONRTestApp.bookController.shouldDisplay",

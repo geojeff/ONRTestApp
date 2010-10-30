@@ -39,7 +39,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
   versionsView: SC.ScrollView.design({
     hasHorizontalScroller: NO,
-    layout: { top: 136, height: 400, left: 240, width: 200 },
+    layout: { top: 10, height: 100, left: 10, width: 150 },
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
@@ -55,7 +55,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
   reviewsView: SC.ScrollView.design({
     hasHorizontalScroller: NO,
-    layout: { left: 0, width: 150, height: 104, centerY: 0},
+    layout: { left: 10, width: 150, height: 100, top: 120 },
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
@@ -70,7 +70,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   }),
 
   versionView: SC.FormView.design({
-    layout: { top: 136, height: 500, left: 460, width: 200 },
+    layout: { top: 10, height: 500, left: 170, width: 300 },
     //rowPadding: 5,
     childViews: "publisherHeader publisherTitle publicationDate spacer1 detailsHeader format language rank height width depth spacer2 isbn10 isbn13".w(),
 
@@ -82,13 +82,15 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     publisherTitle: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Publisher",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     publicationDate: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Date",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     spacer1: SC.View.design({
@@ -106,37 +108,43 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     format: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Format",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     language: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Language",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     rank: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Rank",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     height: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Height",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     width: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Width",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     depth: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Depth",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     spacer2: SC.View.design({
@@ -148,13 +156,15 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     isbn10: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "ISBN (10)",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     })),
 
     isbn13: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "ISBN (13)",
-      isSpacer: YES
+      isSpacer: YES,
+      autoHide: YES
     }))
 
   }),
