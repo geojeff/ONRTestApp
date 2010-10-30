@@ -25,8 +25,8 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     if (this.get("selection") && this.get("selection").get("length") > 0) {
       var result = SC.Set.create();
       this.get("selection").forEach(function(version){
-        version.get("isbns").forEach(function(isbn) {
-          result.add(isbn);
+        version.get("reviews").forEach(function(review) {
+          result.add(review);
         });
       });
 
@@ -54,19 +54,19 @@ ONRTestApp.versionsController = SC.ArrayController.create(
           // In this loop we will use the key mapping from the isbnController
           // to set the relations into versions, while at the same time, preparing
           // key mappings for this controller, readying for the call to createBooks.
-          var fixturesKeysToRiakKeysForISBNs = ONRTestApp.isbnsController.get('fixturesKeysToRiakKeys');
+          var fixturesKeysToRiakKeysForReviews = ONRTestApp.reviewsController.get('fixturesKeysToRiakKeys');
           var fixturesKeysToRiakKeysForVersions = {};
           var versionRecord;
           for (fixturesKey in me._tmpRecordCache) {
             versionRecord = me._tmpRecordCache[fixturesKey];
             fixturesKeysToRiakKeysForVersions[fixturesKey] = versionRecord.get('key');
 
-            var isbnsInVersion = versionRecord.get('isbns');
+            var reviewsInVersion = versionRecord.get('reviews');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
-            ONRTestApp.Version.FIXTURES[fixturesKey-1].isbns.forEach(function(isbnFixturesKey) {
-              //var isbnRiakKey = fixturesKeysToRiakKeysForISBNs[isbnFixturesKey];
-              //isbnsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.ISBN, isbnRiakKey)));
-              isbnsInVersion.pushObject(ONRTestApp.isbnsController.getISBN(isbnFixturesKey));
+            ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.forEach(function(isbnFixturesKey) {
+              //var isbnRiakKey = fixturesKeysToRiakKeysForReviews[isbnFixturesKey];
+              //reviewsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Review, isbnRiakKey)));
+              reviewsInVersion.pushObject(ONRTestApp.reviewsController.getReview(isbnFixturesKey));
             });
           }
 

@@ -1,27 +1,27 @@
 
 // ==========================================================================                                                                                                                                                                                            
-// ONRTestApp.isbnsController
+// ONRTestApp.reviewsController
 // ==========================================================================
 /*globals ONRTestApp*/
 
 /** 
 
-This controller manages the creation of isbn data.
+This controller manages the creation of review data.
 
    @extends SC.ArrayController
    @author Jeff Pittman
 */
-ONRTestApp.isbnsController = SC.ArrayController.create(
-/** @scope ONRTestApp.isbnsController.prototype */ {
+ONRTestApp.reviewsController = SC.ArrayController.create(
+/** @scope ONRTestApp.reviewsController.prototype */ {
 
   contentBinding: "ONRTestApp.versionsController.effectiveSelection",
   selection: null,
 
-  getISBN: function(fixturesKey) {
+  getReview: function(fixturesKey) {
     return this._tmpRecordCache[fixturesKey];
   },
 
-  generateCheckISBNsFunction: function(isbn){
+  generateCheckReviewsFunction: function(review){
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
@@ -31,14 +31,14 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
 
           // In this loop we will set the key mapping for this controller,
           // readying for the call to createVersions.
-          var fixturesKeysToRiakKeysForISBNs = {};
+          var fixturesKeysToRiakKeysForReviews = {};
           var isbnRecord;
           for (fixturesKey in me._tmpRecordCache) {
             isbnRecord = me._tmpRecordCache[fixturesKey];
-            fixturesKeysToRiakKeysForISBNs[fixturesKey] = isbnRecord.get('key');
+            fixturesKeysToRiakKeysForReviews[fixturesKey] = isbnRecord.get('key');
           }
 
-          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForISBNs);
+          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForReviews);
 
           //delete me._tmpRecordCache;
 
@@ -50,20 +50,20 @@ ONRTestApp.isbnsController = SC.ArrayController.create(
     };
   },
  
-  createISBNs: function(){
-    this._tmpRecordCount = ONRTestApp.ISBN.FIXTURES.get('length');
+  createReviews: function(){
+    this._tmpRecordCount = ONRTestApp.Review.FIXTURES.get('length');
         
-    for (var i=0,len=ONRTestApp.ISBN.FIXTURES.get('length'); i<len; i++){
-      var isbn;
-      isbn = ONRTestApp.store.createRecord(ONRTestApp.ISBN, {
-        "key":  ONRTestApp.ISBN.FIXTURES[i].key,
-        "type": ONRTestApp.ISBN.FIXTURES[i].type,
-        "text": ONRTestApp.ISBN.FIXTURES[i].text
+    for (var i=0,len=ONRTestApp.Review.FIXTURES.get('length'); i<len; i++){
+      var review;
+      review = ONRTestApp.store.createRecord(ONRTestApp.Review, {
+        "key":  ONRTestApp.Review.FIXTURES[i].key,
+        "type": ONRTestApp.Review.FIXTURES[i].type,
+        "text": ONRTestApp.Review.FIXTURES[i].text
       });
 
-      this._tmpRecordCache[ONRTestApp.ISBN.FIXTURES[i].key] = isbn;
+      this._tmpRecordCache[ONRTestApp.Review.FIXTURES[i].key] = review;
 
-      isbn.addFiniteObserver('status',this,this.generateCheckISBNsFunction(isbn), this);
+      review.addFiniteObserver('status',this,this.generateCheckReviewsFunction(review), this);
     }
     ONRTestApp.store.commitRecords();
   },

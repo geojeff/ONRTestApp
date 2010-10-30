@@ -16,7 +16,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   /** @scope ONRTestApp.BookView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["book-view"],
-  childViews: "versionsView versionView".w(),
+  childViews: "versionsView versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
 
@@ -53,10 +53,26 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     })
   }),
 
+  reviewsView: SC.ScrollView.design({
+    hasHorizontalScroller: NO,
+    layout: { left: 0, width: 150, height: 104, centerY: 0},
+    backgroundColor: 'white',
+    contentView: SC.ListView.design({
+      contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
+      selectionBinding: 'ONRTestApp.reviewsController.selection',
+      contentValueKey: "text",
+      canEditContent: YES,
+      canReorderContent: YES,
+      canDeleteContent: YES,
+      destroyOnRemoval: YES,
+      rowHeight: 21
+    })
+  }),
+
   versionView: SC.FormView.design({
     layout: { top: 136, height: 500, left: 460, width: 200 },
     //rowPadding: 5,
-    childViews: "publisherHeader publisherTitle publicationDate spacer1 detailsHeader format language rank height width depth spacer2 isbnsView".w(),
+    childViews: "publisherHeader publisherTitle publicationDate spacer1 detailsHeader format language rank height width depth spacer2 isbn10 isbn13".w(),
 
     publisherHeader: SC.LabelView.design({
       layout: { width: 200, height: 21 },
@@ -129,21 +145,18 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       flowSize: { widthPercentage: 1 }
     }),
 
-    isbnsView: SC.ScrollView.design({
-      hasHorizontalScroller: NO,
-      layout: { left: 0, width: 150, height: 104, centerY: 0},
-      backgroundColor: 'white',
-      contentView: SC.ListView.design({
-        contentBinding: 'ONRTestApp.isbnsController.arrangedObjects',
-        selectionBinding: 'ONRTestApp.isbnsController.selection',
-        contentValueKey: "text",
-        canEditContent: YES,
-        canReorderContent: YES,
-        canDeleteContent: YES,
-        destroyOnRemoval: YES,
-        rowHeight: 21
-      })
-    })
+    isbn10: SC.FormView.row(SC.TextFieldView.design({
+      layout: { left: 0, width: 150, height: 21, centerY: 0},
+      value: "ISBN (10)",
+      isSpacer: YES
+    })),
+
+    isbn13: SC.FormView.row(SC.TextFieldView.design({
+      layout: { left: 0, width: 150, height: 21, centerY: 0},
+      value: "ISBN (13)",
+      isSpacer: YES
+    }))
+
   }),
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */

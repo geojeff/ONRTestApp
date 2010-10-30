@@ -176,7 +176,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
       this._tmpRecordCache[ONRTestApp.Book.FIXTURES[i].key] = book;
       
-      // The book record has been created, and its versions and the isbns of those versions.
+      // The book record has been created, and its versions and the reviews of those versions.
       // Once the book records come back READY_CLEAN, create authors in the final step.
       book.addFiniteObserver('status',this,this.checkBooksFunction(book),this);
     }
