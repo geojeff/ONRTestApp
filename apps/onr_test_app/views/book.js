@@ -55,7 +55,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
   reviewsView: SC.ScrollView.design({
     hasHorizontalScroller: NO,
-    layout: { left: 10, width: 150, height: 100, top: 120 },
+    layout: { left: 10, bottom: 10, height: 400, right: 10 },
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
@@ -103,6 +103,13 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     format: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Format"
+      //isSpacer: YES,
+      //autoHide: YES
+    })),
+
+    pages: SC.FormView.row(SC.TextFieldView.design({
+      layout: { left: 0, width: 150, height: 21, centerY: 0},
+      value: "Pages"
       //isSpacer: YES,
       //autoHide: YES
     })),

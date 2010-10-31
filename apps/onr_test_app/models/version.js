@@ -15,6 +15,7 @@ ONRTestApp.Version = SC.Record.extend(
   publisher:       SC.Record.attr(String),
   publicationDate: SC.Record.attr(String),
   format:          SC.Record.attr(String),
+  pages:           SC.Record.attr(Number),
   language:        SC.Record.attr(String),
   rank:            SC.Record.attr(Number),
   height:          SC.Record.attr(Number),

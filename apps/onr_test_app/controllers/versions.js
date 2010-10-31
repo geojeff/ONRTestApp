@@ -96,6 +96,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
         "publisher":       ONRTestApp.Version.FIXTURES[i].publisher,
         "publicationDate": ONRTestApp.Version.FIXTURES[i].publicationDate,
         "format":          ONRTestApp.Version.FIXTURES[i].format,
+        "pages":           ONRTestApp.Version.FIXTURES[i].pages,
         "language":        ONRTestApp.Version.FIXTURES[i].language,
         "rank":            ONRTestApp.Version.FIXTURES[i].rank,
         "height":          ONRTestApp.Version.FIXTURES[i].height,
