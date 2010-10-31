@@ -132,6 +132,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     return function(val){
       if (val & SC.Record.READY_CLEAN){
         me._tmpRecordCount--;
+        ONRTestApp.bumpAuthorCount();
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 

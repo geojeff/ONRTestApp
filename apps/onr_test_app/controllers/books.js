@@ -128,6 +128,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
     return function(val){
       if (val & SC.Record.READY_CLEAN){
         me._tmpRecordCount--;
+        ONRTestApp.bumpBookCount();
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 

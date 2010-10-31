@@ -73,7 +73,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     layout: { top: 10, height: 500, left: 170, width: 300 },
     contentBinding: ".parentView.content",
     //rowPadding: 5,
-    childViews: "publisher date format language rank height width depth isbn10 isbn13".w(),
+    childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
 
 //    publisherHeader: SC.LabelView.design({
 //      layout: { width: 200, height: 21 },
@@ -87,7 +87,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       //autoHide: YES
     })),
 
-    date: SC.FormView.row(SC.TextFieldView.design({
+    publicationDate: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Date"
       //isSpacer: YES,

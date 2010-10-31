@@ -18,7 +18,7 @@ ONRTestApp.mainPage = SC.Page.design({
     toolbar: SC.ToolbarView.design({
       classNames: ["hback", "toolbar"],
       layout: { left: 0, top: 0, right: 0, height: 32 },
-      childViews: "appLabel recordCount".w(),
+      childViews: "appLabel countsLabel authorCount bookCount versionCount reviewCount".w(),
 
       appLabel: SC.LabelView.design({
         layout: { left: 10, width: 200, height: 20, centerY: 0 },
@@ -27,10 +27,31 @@ ONRTestApp.mainPage = SC.Page.design({
         value: "Welcome to ONRTestApp!"
       }),
 
-      recordCount: SC.LabelView.design({
+      countsLabel: SC.LabelView.design({
+        layout: { right: 180, width: 280, height: 20, centerY: 0 },
+        value: "Loaded Authors, Books, Versions, Reviews:"
+      }),
+
+      authorCount: SC.LabelView.design({
+        layout: { right: 130, width: 30, height: 20, centerY: 0 },
+        valueBinding: "ONRTestApp.loadedAuthorCount"
+      }),
+
+      bookCount: SC.LabelView.design({
+        layout: { right: 90, width: 30, height: 20, centerY: 0 },
+        valueBinding: "ONRTestApp.loadedBookCount"
+      }),
+
+      versionCount: SC.LabelView.design({
+        layout: { right: 50, width: 30, height: 20, centerY: 0 },
+        valueBinding: "ONRTestApp.loadedVersionCount"
+      }),
+
+      reviewCount: SC.LabelView.design({
         layout: { right: 10, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ONRTestApp.recordCount"
+        valueBinding: "ONRTestApp.loadedReviewCount"
       })
+
     }), // toolbar
 
     // splitter, with authors list on the left, and books list and view on the right.

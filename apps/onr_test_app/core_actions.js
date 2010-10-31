@@ -22,7 +22,34 @@ ONRTestApp.mixin({
   // 25 total records
   recordCount: 25,
 
-  loadedRecordCount: 0,
+  loadedAuthorCount:  0,
+  loadedBookCount:    0,
+  loadedVersionCount: 0,
+  loadedReviewCount:  0,
+
+  bumpAuthorCount: function() {
+    var count = this.get('loadedAuthorCount');
+    count++;
+    this.set('loadedAuthorCount', count);
+  },
+
+  bumpBookCount: function() {
+    var count = this.get('loadedBookCount');
+    count++;
+    this.set('loadedBookCount', count);
+  },
+
+  bumpVersionCount: function() {
+    var count = this.get('loadedVersionCount');
+    count++;
+    this.set('loadedVersionCount', count);
+  },
+
+  bumpReviewCount: function() {
+    var count = this.get('loadedReviewCount');
+    count++;
+    this.set('loadedReviewCount', count);
+  },
 
   initiateDataCreation: function() {
     ONRTestApp.reviewsController.createReviews();
