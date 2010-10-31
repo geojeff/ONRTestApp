@@ -32,8 +32,8 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
   layoutDidChangeFor: function(what) {
     sc_super();
-    if (this.get("form") && !this.get("form").isClass) {
-      this.adjust("minHeight", this.getPath("form.layout").minHeight + 40);
+    if (this.get("versionView") && !this.get("versionView").isClass) {
+      this.adjust("minHeight", this.getPath("versionView.layout").minHeight + 40);
     }
   },
 
@@ -73,99 +73,99 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     layout: { top: 10, height: 500, left: 170, width: 300 },
     contentBinding: ".parentView.content",
     //rowPadding: 5,
-    childViews: "publisherHeader publisherTitle publicationDate spacer1 detailsHeader format language rank height width depth spacer2 isbn10 isbn13".w(),
+    childViews: "publisher date format language rank height width depth isbn10 isbn13".w(),
 
-    publisherHeader: SC.LabelView.design({
-      layout: { width: 200, height: 21 },
+//    publisherHeader: SC.LabelView.design({
+//      layout: { width: 200, height: 21 },
+//      value: "Publisher"
+//    }),
+
+    publisher: SC.FormView.row(SC.TextFieldView.design({
+      layout: { left: 0, width: 150, height: 21, centerY: 0},
       value: "Publisher"
-    }),
-
-    publisherTitle: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Publisher",
-      isSpacer: YES,
-      autoHide: YES
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
-    publicationDate: SC.FormView.row(SC.TextFieldView.design({
+    date: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Date",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Date"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
-    spacer1: SC.View.design({
-      layout: { left: 0, width: 150, height: 14, centerY: 0},
-      value: "",
-      flowSize: { widthPercentage: 1 }
-    }),
-
-    detailsHeader: SC.LabelView.design({
-      layout: { width: 200, height: 21 },
-      classNames: "header".w(),
-      value: "Details for this version"
-    }),
+//    detailsHeader: SC.LabelView.design({
+//      layout: { width: 200, height: 21 },
+//      classNames: "header".w(),
+//      value: "Details for this version"
+//    }),
 
     format: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Format",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Format"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
     language: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Language",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Language"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
+
+//    spacer1: SC.View.design({
+//      layout: { left: 0, width: 150, height: 14, centerY: 0},
+//      value: "",
+//      flowSize: { widthPercentage: 1 }
+//    }),
 
     rank: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Rank",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Rank"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
     height: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Height",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Height"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
     width: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Width",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Width"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
     depth: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Depth",
-      isSpacer: YES,
-      autoHide: YES
+      value: "Depth"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
-    spacer2: SC.View.design({
-      layout: { left: 0, width: 150, height: 14, centerY: 0},
-      value: "",
-      flowSize: { widthPercentage: 1 }
-    }),
+//    spacer2: SC.View.design({
+//      layout: { left: 0, width: 150, height: 14, centerY: 0},
+//      value: "",
+//      flowSize: { widthPercentage: 1 }
+//    }),
 
     isbn10: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "ISBN (10)",
-      isSpacer: YES,
-      autoHide: YES
+      value: "ISBN (10)"
+      //isSpacer: YES,
+      //autoHide: YES
     })),
 
     isbn13: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "ISBN (13)",
-      isSpacer: YES,
-      autoHide: YES
+      value: "ISBN (13)"
+      //isSpacer: YES,
+      //autoHide: YES
     }))
 
   }),

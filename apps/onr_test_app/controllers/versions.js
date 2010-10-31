@@ -91,13 +91,17 @@ ONRTestApp.versionsController = SC.ArrayController.create(
       var fixturesKey = ONRTestApp.Version.FIXTURES[i].key;
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "key":      ONRTestApp.Version.FIXTURES[i].key,
-        "format":   ONRTestApp.Version.FIXTURES[i].format,
-        "language": ONRTestApp.Version.FIXTURES[i].language,
-        "rank":     ONRTestApp.Version.FIXTURES[i].rank,
-        "height":   ONRTestApp.Version.FIXTURES[i].height,
-        "width":    ONRTestApp.Version.FIXTURES[i].width,
-        "depth":    ONRTestApp.Version.FIXTURES[i].depth
+        "key":       ONRTestApp.Version.FIXTURES[i].key,
+        "publisher": ONRTestApp.Version.FIXTURES[i].publisher,
+        "date":      ONRTestApp.Version.FIXTURES[i].date,
+        "format":    ONRTestApp.Version.FIXTURES[i].format,
+        "language":  ONRTestApp.Version.FIXTURES[i].language,
+        "rank":      ONRTestApp.Version.FIXTURES[i].rank,
+        "height":    ONRTestApp.Version.FIXTURES[i].height,
+        "width":     ONRTestApp.Version.FIXTURES[i].width,
+        "depth":     ONRTestApp.Version.FIXTURES[i].depth,
+        "isbn10":    ONRTestApp.Version.FIXTURES[i].isbn10,
+        "isbn13":    ONRTestApp.Version.FIXTURES[i].isbn13,
       });
 
       this._tmpRecordCache[fixturesKey] = version;
