@@ -136,31 +136,16 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 
-          // In this loop we will use the key mapping from the bookController
-          // to set the relations into authors, while at the same time, preparing
-          // key mappings for this controller, for symmetry with the other controllers,
-          // (in case there is a need in the future).
-          var fixturesKeysToRiakKeysForBooks = ONRTestApp.booksController.get('fixturesKeysToRiakKeys');
-          var fixturesKeysToRiakKeysForAuthors = {};
           var authorRecord;
           for (fixturesKey in me._tmpRecordCache) {
             authorRecord = me._tmpRecordCache[fixturesKey];
-            fixturesKeysToRiakKeysForAuthors[fixturesKey] = authorRecord.get('key');
 
             var booksInAuthor = authorRecord.get('books');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Author.FIXTURES[fixturesKey-1].books.forEach(function(bookFixturesKey) {
-              //var bookRiakKey = fixturesKeysToRiakKeysForBooks[bookFixturesKey];
-              //console.log('riakKey: ' + bookRiakKey);
-              //console.log('storeKey: ' + ONRTestApp.store.storeKeyFor(ONRTestApp.Book, bookRiakKey));
-              //booksInAuthor.pushObject(ONRTestApp.store.find(ONRTestApp.Book, bookRiakKey));
               booksInAuthor.pushObject(ONRTestApp.booksController.getBook(bookFixturesKey));
             });
           }
-
-          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForAuthors);
-
-          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
         }

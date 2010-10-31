@@ -32,16 +32,10 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
 
           // In this loop we will set the key mapping for this controller,
           // readying for the call to createVersions.
-          var fixturesKeysToRiakKeysForReviews = {};
           var isbnRecord;
           for (fixturesKey in me._tmpRecordCache) {
             isbnRecord = me._tmpRecordCache[fixturesKey];
-            fixturesKeysToRiakKeysForReviews[fixturesKey] = isbnRecord.get('key');
           }
-
-          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForReviews);
-
-          //delete me._tmpRecordCache;
 
           ONRTestApp.versionsController.createVersions();
         }

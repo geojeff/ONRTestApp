@@ -55,25 +55,16 @@ ONRTestApp.versionsController = SC.ArrayController.create(
           // In this loop we will use the key mapping from the isbnController
           // to set the relations into versions, while at the same time, preparing
           // key mappings for this controller, readying for the call to createBooks.
-          var fixturesKeysToRiakKeysForReviews = ONRTestApp.reviewsController.get('fixturesKeysToRiakKeys');
-          var fixturesKeysToRiakKeysForVersions = {};
           var versionRecord;
           for (fixturesKey in me._tmpRecordCache) {
             versionRecord = me._tmpRecordCache[fixturesKey];
-            fixturesKeysToRiakKeysForVersions[fixturesKey] = versionRecord.get('key');
 
             var reviewsInVersion = versionRecord.get('reviews');
-            // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
+            // fixturesKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.forEach(function(isbnFixturesKey) {
-              //var isbnRiakKey = fixturesKeysToRiakKeysForReviews[isbnFixturesKey];
-              //reviewsInVersion.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Review, isbnRiakKey)));
               reviewsInVersion.pushObject(ONRTestApp.reviewsController.getReview(isbnFixturesKey));
             });
           }
-
-          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForVersions);
-
-          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
 

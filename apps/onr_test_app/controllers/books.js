@@ -121,6 +121,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
   getBook: function(fixturesKey) {
      return this._tmpRecordCache[fixturesKey];
+    // how to call this when all done? delete me._tmpRecordCache;
    },
 
   checkBooksFunction: function(book){
@@ -135,25 +136,16 @@ ONRTestApp.booksController = SC.ArrayController.create(
           // In this loop we will use the key mapping from the versionController
           // to set the relations into books, while at the same time, preparing
           // key mappings for this controller, readying for the call to createAuthors.
-          var fixturesKeysToRiakKeysForVersions = ONRTestApp.versionsController.get('fixturesKeysToRiakKeys');
-          var fixturesKeysToRiakKeysForBooks = {};
           var bookRecord;
           for (fixturesKey in me._tmpRecordCache) {
             bookRecord = me._tmpRecordCache[fixturesKey];
-            fixturesKeysToRiakKeysForBooks[fixturesKey] = bookRecord.get('key');
 
             var versionsInBook = bookRecord.get('versions');
             // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
             ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.forEach(function(versionFixturesKey) {
-              //var versionRiakKey = fixturesKeysToRiakKeysForVersions[versionFixturesKey];
-              //versionsInBook.pushObject(ONRTestApp.store.find(SC.Query.local(ONRTestApp.Version, versionRiakKey)));
               versionsInBook.pushObject(ONRTestApp.versionsController.getVersion(versionFixturesKey));
             });
           }
-
-          me.set('fixturesKeysToRiakKeys', fixturesKeysToRiakKeysForBooks);
-
-          //delete me._tmpRecordCache;
 
           ONRTestApp.store.commitRecords();
 
