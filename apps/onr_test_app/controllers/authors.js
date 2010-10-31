@@ -137,16 +137,25 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
           delete me._tmpRecordCount;
 
           var authorRecords = ONRTestApp.store.find(ONRTestApp.Author);
+          var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
           authorRecords.forEach(function(authorRecord) {
             var idFixtures = authorRecord.readAttribute('idFixtures');
 
-            var bookRecords = ONRTestApp.store.find(SC.Query.local({
-              recordType: ONRTestApp.Book,
-              conditions: "idFixtures ANY {id_fixtures_array}",
-              parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[idFixtures-1].books }
-            }));
+            // this causes bucket prototype error in ONR:
+            //var bookRecords = ONRTestApp.store.find(SC.Query.local({
+              //recordType: ONRTestApp.Book,
+              //conditions: "idFixtures ANY {id_fixtures_array}",
+              //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[idFixtures-1].books }
+            //}));
 
-            authorRecord.get('books').pushObjects(bookRecords);
+            var bookRecordsForAuthor = [];
+            bookRecords.forEach(function(bookRecord) {
+              if (ONRTestApp.Author.FIXTURES[idFixtures-1].books.indexOf(bookRecord.readAttribute('idFixtures')) !== -1) {
+                bookRecordsForAuthor.pushObject(bookRecord);
+              }
+            });
+
+            authorRecord.get('books').pushObjects(bookRecordsForAuthor);
           });
 
           ONRTestApp.store.commitRecords();
