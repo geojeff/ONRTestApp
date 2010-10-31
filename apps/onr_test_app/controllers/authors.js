@@ -139,18 +139,18 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
           var authorRecords = ONRTestApp.store.find(ONRTestApp.Author);
           var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
           authorRecords.forEach(function(authorRecord) {
-            var idFixtures = authorRecord.readAttribute('idFixtures');
+            var fixturesKey = authorRecord.readAttribute('fixturesKey');
 
             // this causes bucket prototype error in ONR:
             //var bookRecords = ONRTestApp.store.find(SC.Query.local({
               //recordType: ONRTestApp.Book,
-              //conditions: "idFixtures ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[idFixtures-1].books }
+              //conditions: "fixturesKey ANY {id_fixtures_array}",
+              //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
             //}));
 
             var bookRecordsForAuthor = [];
             bookRecords.forEach(function(bookRecord) {
-              if (ONRTestApp.Author.FIXTURES[idFixtures-1].books.indexOf(bookRecord.readAttribute('idFixtures')) !== -1) {
+              if (ONRTestApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
                 bookRecordsForAuthor.pushObject(bookRecord);
               }
             });
@@ -171,9 +171,10 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
       var author;
       author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
-        "idFixtures": ONRTestApp.Author.FIXTURES[i].id,
-        "firstName":  ONRTestApp.Author.FIXTURES[i].firstName,
-        "lastName":   ONRTestApp.Author.FIXTURES[i].lastName
+        "key":         ONRTestApp.Author.FIXTURES[i].key,
+        "fixturesKey": ONRTestApp.Author.FIXTURES[i].key,
+        "firstName":   ONRTestApp.Author.FIXTURES[i].firstName,
+        "lastName":    ONRTestApp.Author.FIXTURES[i].lastName
       });
 
       author.addFiniteObserver('status',this,this.checkAuthorsFunction(author),this);

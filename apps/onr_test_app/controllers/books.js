@@ -136,17 +136,17 @@ ONRTestApp.booksController = SC.ArrayController.create(
           var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
           var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
           bookRecords.forEach(function(bookRecord) {
-            var idFixtures = bookRecord.readAttribute('idFixtures');
+            var fixturesKey = bookRecord.readAttribute('fixturesKey');
 
             //var versionRecords = ONRTestApp.store.find(SC.Query.local({
               //recordType: ONRTestApp.Version,
-              //conditions: "idFixtures ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Book.FIXTURES[idFixtures-1].versions }
+              //conditions: "fixturesKey ANY {id_fixtures_array}",
+              //parameters: { id_fixtures_array: ONRTestApp.Book.FIXTURES[fixturesKey-1].versions }
             //}));
 
             var versionRecordsForBook = [];
             versionRecords.forEach(function(versionRecord) {
-              if (ONRTestApp.Book.FIXTURES[idFixtures-1].versions.indexOf(versionRecord.readAttribute('idFixtures')) !== -1) {
+              if (ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.indexOf(versionRecord.readAttribute('fixturesKey')) !== -1) {
                 versionRecordsForBook.pushObject(versionRecord);
               }
             });
@@ -170,8 +170,9 @@ ONRTestApp.booksController = SC.ArrayController.create(
     for (var i=0,len=ONRTestApp.Book.FIXTURES.get('length'); i<len; i++){
       var book;
       book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-        "idFixtures": ONRTestApp.Book.FIXTURES[i].id,
-        "title":      ONRTestApp.Book.FIXTURES[i].title
+        "key":         ONRTestApp.Book.FIXTURES[i].key,
+        "fixturesKey": ONRTestApp.Book.FIXTURES[i].key,
+        "title":       ONRTestApp.Book.FIXTURES[i].title
       });
 
       this._tmpRecordCache.push(ONRTestApp.Book.FIXTURES[i].id);

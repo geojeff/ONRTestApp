@@ -6,7 +6,8 @@
 sc_require('models/version');
 
 ONRTestApp.Version.FIXTURES = [
-  { id: 1,
+  {
+    key: 1,
     format: "paperback",
     pages: 210,
     publisher: "CreateSpace",
@@ -20,7 +21,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "1440477035",
     isbn13: "978-1440477034",
     reviews: [1,2] },
-  { id: 2,
+  {
+    key: 2,
     format: "paperback",
     pages: 320,
     publisher: "Bantam Classics; Reprint edition",
@@ -34,7 +36,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "0553210793",
     isbn13: "978-0553210798",
     reviews: [3,4] },
-  { id: 3,
+  {
+    key: 3,
     format: "hardcover",
     pages: 360,
     publisher: "Collector's Library",
@@ -48,7 +51,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "1904633463",
     isbn13: "978-1904633464",
     reviews: [5,6] },
-  { id: 4,
+  {
+    key: 4,
     format: "paperback",
     pages: 124,
     publisher: "CreateSpace",
@@ -62,7 +66,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "145373211X",
     isbn13: "978-1453732113",
     reviews: [7,8] },
-  { id: 5,
+  {
+    key: 5,
     format: "paperback",
     pages: 560,
     publisher: "Harper Perennial Modern Classics",
@@ -76,7 +81,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "0060955422",
     isbn13: "978-0060955427",
     reviews: [9,10] },
-  { id: 6,
+  {
+    key: 6,
     format: "paperback",
     pages: 262,
     publisher: "General Versions LLC",
@@ -90,7 +96,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "1770457135",
     isbn13: "978-1770457133",
     reviews: [11,12] },
-  { id: 7,
+  {
+    key: 7,
     format: "hardback",
     pages: 367,
     publisher: "IndyPublish",
@@ -104,7 +111,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "1404314067",
     isbn13: "978-1404314061",
     reviews: [13] },
-  { id: 8,
+  {
+    key: 8,
     format: "paperback",
     pages: 240,
     publisher: "Puffin",
@@ -118,7 +126,8 @@ ONRTestApp.Version.FIXTURES = [
     isbn10: "0141325291",
     isbn13: "978-0141325293",
     reviews: [14,15] },
-  { id: 9,
+  {
+    key: 9,
     format: "paperback",
     pages: 209,
     publisher: "Townsend Press",

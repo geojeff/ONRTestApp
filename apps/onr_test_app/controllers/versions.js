@@ -51,21 +51,24 @@ ONRTestApp.versionsController = SC.ArrayController.create(
           var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
           var reviewRecords = ONRTestApp.store.find(ONRTestApp.Review);
           versionRecords.forEach(function(versionRecord) {
-            var idFixtures = versionRecord.readAttribute('idFixtures');
+            var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
-            console.log('idFixtures ' + idFixtures);
+            console.log('fixturesKey ' + fixturesKey);
             //var reviewRecords = ONRTestApp.store.find(SC.Query.local({
               //recordType: ONRTestApp.Review,
-              //conditions: "idFixtures ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[idFixtures-1].reviews }
+              //conditions: "fixturesKey ANY {id_fixtures_array}",
+              //parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews }
             //}));
             var reviewRecordsForVersion = [];
             reviewRecords.forEach(function(reviewRecord) {
-              if (ONRTestApp.Version.FIXTURES[idFixtures-1].reviews.indexOf(reviewRecord.readAttribute('idFixtures')) !== -1) {
+              if (ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.indexOf(reviewRecord.readAttribute('fixturesKey')) !== -1) {
                 reviewRecordsForVersion.pushObject(reviewRecord);
               }
             });
 
+            reviewRecordsForVersion.forEach(function(reviewRecord) {
+              console.log('rr = ' + SC.inspect(reviewRecord));
+            });
             console.log('reviewRecords set ' + reviewRecordsForVersion.get('length'));
             versionRecord.get('reviews').pushObjects(reviewRecordsForVersion);
           });
@@ -84,10 +87,11 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     this._tmpRecordCount = ONRTestApp.Version.FIXTURES.get('length');
 
     for (var i=0,len=ONRTestApp.Version.FIXTURES.get('length'); i<len; i++){
-      var idFixtures = ONRTestApp.Version.FIXTURES[i].id;
+      var fixturesKey = ONRTestApp.Version.FIXTURES[i].key;
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "idFixtures":      idFixtures,
+        "key":             fixturesKey,
+        "fixturesKey":     fixturesKey,
         "publisher":       ONRTestApp.Version.FIXTURES[i].publisher,
         "publicationDate": ONRTestApp.Version.FIXTURES[i].publicationDate,
         "format":          ONRTestApp.Version.FIXTURES[i].format,

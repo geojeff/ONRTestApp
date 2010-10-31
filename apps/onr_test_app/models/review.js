@@ -12,7 +12,6 @@ ONRTestApp.Review = SC.Record.extend(
 /** @scope ONRTestApp.Review.prototype */ {
   primaryKey:  'key',
   bucket:      'review',
-  id:          SC.Record.attr(Number),
   idFixtures:  null,
   text:        SC.Record.attr(String),
 

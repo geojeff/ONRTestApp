@@ -12,7 +12,6 @@ ONRTestApp.Book = SC.Record.extend(
 /** @scope ONRTestApp.Book.prototype */ {
   primaryKey:  'key',
   bucket:      'book',
-  id:          SC.Record.attr(Number),
   idFixtures:  null,
   title:       SC.Record.attr(String),
 
