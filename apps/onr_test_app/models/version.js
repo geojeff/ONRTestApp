@@ -10,8 +10,10 @@
 
 ONRTestApp.Version = SC.Record.extend(
 /** @scope ONRTestApp.Version.prototype */ {
-  primaryKey:  'key',
-  bucket:      'version',
+  primaryKey:      'key',
+  bucket:          'version',
+  id:              SC.Record.attr(Number),
+  idFixtures:      null,
   publisher:       SC.Record.attr(String),
   publicationDate: SC.Record.attr(String),
   format:          SC.Record.attr(String),

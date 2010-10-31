@@ -136,16 +136,18 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 
-          var authorRecord;
-          for (fixturesKey in me._tmpRecordCache) {
-            authorRecord = me._tmpRecordCache[fixturesKey];
+          var authorRecords = ONRTestApp.store.find(ONRTestApp.Author);
+          authorRecords.forEach(function(authorRecord) {
+            var idFixtures = authorRecord.readAttribute('idFixtures');
 
-            var booksInAuthor = authorRecord.get('books');
-            // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
-            ONRTestApp.Author.FIXTURES[fixturesKey-1].books.forEach(function(bookFixturesKey) {
-              booksInAuthor.pushObject(ONRTestApp.booksController.getBook(bookFixturesKey));
-            });
-          }
+            var bookRecords = ONRTestApp.store.find(SC.Query.local({
+              recordType: ONRTestApp.Book,
+              conditions: "idFixtures ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[idFixtures-1].books }
+            }));
+
+            authorRecord.get('books').pushObjects(bookRecords);
+          });
 
           ONRTestApp.store.commitRecords();
         }
@@ -160,19 +162,16 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
       var author;
       author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
-        "key":       ONRTestApp.Author.FIXTURES[i].key,
-        "firstName": ONRTestApp.Author.FIXTURES[i].firstName,
-        "lastName":  ONRTestApp.Author.FIXTURES[i].lastName,
+        "idFixtures": ONRTestApp.Author.FIXTURES[i].id,
+        "firstName":  ONRTestApp.Author.FIXTURES[i].firstName,
+        "lastName":   ONRTestApp.Author.FIXTURES[i].lastName
       });
-
-      this._tmpRecordCache[ONRTestApp.Author.FIXTURES[i].key] = author;
 
       author.addFiniteObserver('status',this,this.checkAuthorsFunction(author),this);
     }
     ONRTestApp.store.commitRecords();
   },
 
-  _tmpRecordCache: {},
   _tmpRecordCount: 0
 
 }) ;

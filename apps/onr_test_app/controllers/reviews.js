@@ -17,10 +17,6 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
   contentBinding: "ONRTestApp.versionsController.effectiveSelection",
   selection: null,
 
-  getReview: function(fixturesKey) {
-    return this._tmpRecordCache[fixturesKey];
-  },
-
   generateCheckReviewsFunction: function(review){
     var me = this;
     return function(val){
@@ -29,13 +25,6 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
         ONRTestApp.bumpReviewCount();
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
-
-          // In this loop we will set the key mapping for this controller,
-          // readying for the call to createVersions.
-          var isbnRecord;
-          for (fixturesKey in me._tmpRecordCache) {
-            isbnRecord = me._tmpRecordCache[fixturesKey];
-          }
 
           ONRTestApp.versionsController.createVersions();
         }
@@ -51,19 +40,16 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
     for (var i=0,len=ONRTestApp.Review.FIXTURES.get('length'); i<len; i++){
       var review;
       review = ONRTestApp.store.createRecord(ONRTestApp.Review, {
-        "key":  ONRTestApp.Review.FIXTURES[i].key,
-        "type": ONRTestApp.Review.FIXTURES[i].type,
-        "text": ONRTestApp.Review.FIXTURES[i].text
+        "idFixtures":   ONRTestApp.Review.FIXTURES[i].id,
+        "type":         ONRTestApp.Review.FIXTURES[i].type,
+        "text":         ONRTestApp.Review.FIXTURES[i].text
       });
-
-      this._tmpRecordCache[ONRTestApp.Review.FIXTURES[i].key] = review;
 
       review.addFiniteObserver('status',this,this.generateCheckReviewsFunction(review), this);
     }
     ONRTestApp.store.commitRecords();
   },
 
-  _tmpRecordCache: {},
   _tmpRecordCount: 0
 
 });

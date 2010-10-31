@@ -34,10 +34,6 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     }
   },
 
-  getVersion: function(fixturesKey) {
-     return this._tmpRecordCache[fixturesKey];
-   },
-
   // This is a closure, that will create an unnamed function, for checking
   // for completion of versions records. The generator function has version
   // as a passed-in argument, in scope for the generated function. The
@@ -52,19 +48,19 @@ ONRTestApp.versionsController = SC.ArrayController.create(
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 
-          // In this loop we will use the key mapping from the isbnController
-          // to set the relations into versions, while at the same time, preparing
-          // key mappings for this controller, readying for the call to createBooks.
-          var versionRecord;
-          for (fixturesKey in me._tmpRecordCache) {
-            versionRecord = me._tmpRecordCache[fixturesKey];
+          var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
+          versionRecords.forEach(function(versionRecord) {
+            var idFixtures = versionRecord.readAttribute('idFixtures');
 
-            var reviewsInVersion = versionRecord.get('reviews');
-            // fixturesKeys are integers, and we can use them as indices to into FIXTURES arrays.
-            ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.forEach(function(isbnFixturesKey) {
-              reviewsInVersion.pushObject(ONRTestApp.reviewsController.getReview(isbnFixturesKey));
-            });
-          }
+            console.log('idFixtures ' + idFixtures);
+            var reviewRecords = ONRTestApp.store.find(SC.Query.local({
+              recordType: ONRTestApp.Review,
+              conditions: "idFixtures ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[idFixtures-1].reviews }
+            }));
+
+            versionRecord.get('reviews').pushObjects(reviewRecords);
+          });
 
           ONRTestApp.store.commitRecords();
 
@@ -80,10 +76,10 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     this._tmpRecordCount = ONRTestApp.Version.FIXTURES.get('length');
 
     for (var i=0,len=ONRTestApp.Version.FIXTURES.get('length'); i<len; i++){
-      var fixturesKey = ONRTestApp.Version.FIXTURES[i].key;
+      var idFixtures = ONRTestApp.Version.FIXTURES[i].id;
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "key":             ONRTestApp.Version.FIXTURES[i].key,
+        "idFixtures":      idFixtures,
         "publisher":       ONRTestApp.Version.FIXTURES[i].publisher,
         "publicationDate": ONRTestApp.Version.FIXTURES[i].publicationDate,
         "format":          ONRTestApp.Version.FIXTURES[i].format,
@@ -97,8 +93,6 @@ ONRTestApp.versionsController = SC.ArrayController.create(
         "isbn13":          ONRTestApp.Version.FIXTURES[i].isbn13
       });
 
-      this._tmpRecordCache[fixturesKey] = version;
-
       // this.generateCheckVersionsFunction is provided to create the function that
       // checks for READY_CLEAN for all versions for a given book. When all such 
       // versions are READY_CLEAN, in turn, createBook(), the last step in 
@@ -108,7 +102,6 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     ONRTestApp.store.commitRecords();
   },
 
-  _tmpRecordCache: {},
   _tmpRecordCount: 0
 
 });

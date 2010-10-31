@@ -133,19 +133,18 @@ ONRTestApp.booksController = SC.ArrayController.create(
         if (me._tmpRecordCount === 0){
           delete me._tmpRecordCount;
 
-          // In this loop we will use the key mapping from the versionController
-          // to set the relations into books, while at the same time, preparing
-          // key mappings for this controller, readying for the call to createAuthors.
-          var bookRecord;
-          for (fixturesKey in me._tmpRecordCache) {
-            bookRecord = me._tmpRecordCache[fixturesKey];
+          var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
+          bookRecords.forEach(function(bookRecord) {
+            var idFixtures = bookRecord.readAttribute('idFixtures');
 
-            var versionsInBook = bookRecord.get('versions');
-            // fixturedKeys are integers, and we can use them as indices to into FIXTURES arrays.
-            ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.forEach(function(versionFixturesKey) {
-              versionsInBook.pushObject(ONRTestApp.versionsController.getVersion(versionFixturesKey));
-            });
-          }
+            var versionRecords = ONRTestApp.store.find(SC.Query.local({
+              recordType: ONRTestApp.Version,
+              conditions: "idFixtures ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Book.FIXTURES[idFixtures-1].versions }
+            }));
+
+            bookRecord.get('versions').pushObjects(versionRecords);
+          });
 
           ONRTestApp.store.commitRecords();
 
@@ -163,11 +162,11 @@ ONRTestApp.booksController = SC.ArrayController.create(
     for (var i=0,len=ONRTestApp.Book.FIXTURES.get('length'); i<len; i++){
       var book;
       book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-        "key":      ONRTestApp.Book.FIXTURES[i].key,
-        "title":    ONRTestApp.Book.FIXTURES[i].title,
+        "idFixtures": ONRTestApp.Book.FIXTURES[i].id,
+        "title":      ONRTestApp.Book.FIXTURES[i].title
       });
 
-      this._tmpRecordCache[ONRTestApp.Book.FIXTURES[i].key] = book;
+      this._tmpRecordCache.push(ONRTestApp.Book.FIXTURES[i].id);
       
       // The book record has been created, and its versions and the reviews of those versions.
       // Once the book records come back READY_CLEAN, create authors in the final step.
@@ -176,7 +175,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
     ONRTestApp.store.commitRecords();
   },
 
-  _tmpRecordCache: {},
+  _tmpRecordCache: [],
   _tmpRecordCount: 0
 
 });
