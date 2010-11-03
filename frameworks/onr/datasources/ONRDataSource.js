@@ -895,6 +895,8 @@ ONR.ONRDataSource = SC.DataSource.extend({
                var reverse = curItem.reverse;
                // check whether the reverse is a toMany
                if(reverse && oppositeRecType[reverse].kindOf(SC.ManyAttribute)){
+                  console.log('reverse ' + revserse);
+                  console.log('oppositeRecType[revserse]' + oppositeRecType[revserse]);
                   ret.push({ type: 'toOne', bucket: oppositeRecType.bucket, propertyName: i}); 
                }
             } 

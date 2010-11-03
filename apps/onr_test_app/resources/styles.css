@@ -38,6 +38,19 @@
   text-align:center;
 }
 
+.sc-theme .sc-view.sc-label-view.list-item {
+	font-size: 32px;
+	font-weight: bold;
+	border-bottom: 1px solid #999;
+}
+
+.sc-label-view.header {
+  font-size: 24px;
+  color:#555;
+  text-shadow:0px 1px 1px white;
+  padding-bottom:10px;
+}
+
 /* Toolbars */
 .toolbar {
 	z-index:500;

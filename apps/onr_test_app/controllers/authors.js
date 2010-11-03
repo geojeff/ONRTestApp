@@ -176,7 +176,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         "firstName":   ONRTestApp.Author.FIXTURES[i].firstName,
         "lastName":    ONRTestApp.Author.FIXTURES[i].lastName
       });
-
       author.addFiniteObserver('status',this,this.checkAuthorsFunction(author),this);
     }
     ONRTestApp.store.commitRecords();

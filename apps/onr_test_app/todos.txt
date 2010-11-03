@@ -1,0 +1,42 @@
+- Investigate createRecord calls sans the key property (relations don't get set if not provided)
+
+- Test and fix basic ops, for adding, deleting, etc.
+
+- Add info to README about installation and running ONR, Riak.
+
+- Get label dividers to work in the book form. They show up as blank intervals if added as is now.
+
+- Fix editing of form items. Code from Contacts app, in book.js, to set beginEditing() on the form fails with error
+  about beginEditing not being in SC.FormView. Do you only have to set isEditing? And what about the default setting?
+
+- Make the versions and reviews list have the first item selected on load.
+
+- Add all editable book data to the book view (title, author, etc.).
+
+- Add delete for a book, in the bottom toolbar with a - icon? or, with a dedicated button when Edit activated?
+
+- Style long reviews... For text wrapping, with css?  by putting \ns in the text?
+
+- Style lists, period. The Contacts app has code for odd/even, which is in here, but not working.
+
+- Add hints to text fields. Are labels needed?
+
+- Add introduction panel on what to watch, and what reports to expect, when running.
+
+- Add feedback for actions happening with ONR, for initial load (partially done), and for principal actions, such as
+  add, delete, etc. Somewhere add feedback on relation-setting, perhaps when a new record is added.
+
+- Fix label cutting off in books list. Make wider, but handle long titles with... ellipsis?
+
+- Rename versions to editions?
+
+- Add ops buttons to add reviews. Reviews are now attached to versions. Should they be attached to books?
+
+- Add more book data. Add media versions... How to handle missing fields in that case, e.g., no page numbers.
+
+- Review theming, which is now some combination of that from the Contacts app and a few things from test_controls app.
+  Redo everything with the Ace theme, ala test_controls?
+
+- Handle case of small window size and overlap of reviews list and main properties panel.
+
+- Add torture test data, perhaps with python program that emits fake data.
