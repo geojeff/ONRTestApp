@@ -6,6 +6,12 @@
 
 - Get label dividers to work in the book form. They show up as blank intervals if added as is now.
 
+- Evaluate the layout of the book form. Labels are needed for the lists, for the form. If design with version list
+  left, form on right, reviews list on bottom, kept, handle case of small window size and overlap of reviews list and
+  main  properties panel.
+
+- Add all editable book data to the book view (title, author, etc.).
+
 - Fix editing of form items. Code from Contacts app, in book.js, to set beginEditing() on the form fails with error
   about beginEditing not being in SC.FormView. Do you only have to set isEditing? And what about the default setting?
 
@@ -15,8 +21,6 @@
   about a setting for turning animation on and off?
 
 - Make the versions and reviews list have the first item selected on load.
-
-- Add all editable book data to the book view (title, author, etc.).
 
 - Add delete for a book, in the bottom toolbar with a - icon? or, with a dedicated button when Edit activated?
 
@@ -41,7 +45,5 @@
 
 - Review theming, which is now some combination of that from the Contacts app and a few things from test_controls app.
   Redo everything with the Ace theme, ala test_controls?
-
-- Handle case of small window size and overlap of reviews list and main properties panel.
 
 - Add torture test data, perhaps with python program that emits fake data.
