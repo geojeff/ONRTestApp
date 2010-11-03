@@ -53,27 +53,11 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     })
   }),
 
-  reviewsView: SC.ScrollView.design({
-    hasHorizontalScroller: NO,
-    layout: { left: 10, bottom: 10, height: 400, right: 10 },
-    backgroundColor: 'white',
-    contentView: SC.ListView.design({
-      contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
-      selectionBinding: 'ONRTestApp.reviewsController.selection',
-      contentValueKey: "text",
-      canEditContent: YES,
-      canReorderContent: YES,
-      canDeleteContent: YES,
-      destroyOnRemoval: YES,
-      rowHeight: 21
-    })
-  }),
-
   versionView: SC.FormView.design({
-    layout: { top: 10, height: 500, left: 170, width: 300 },
+    layout: { top: 10, height: 300, left: 170, width: 300 },
     contentBinding: ".parentView.content",
     //rowPadding: 5,
-    childViews: "publisher publicationDate detailsHeader format language rank height width depth isbn10 isbn13".w(),
+    childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
 
 //    publisherHeader: SC.LabelView.design({
 //      layout: { width: 200, height: 21 },
@@ -94,11 +78,11 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       //autoHide: YES
     })),
 
-    detailsHeader: SC.LabelView.design({
-      layout: { width: 200, height: 21 },
-      classNames: "header".w(),
-      value: "Details for this version"
-    }),
+//    detailsHeader: SC.LabelView.design({
+//      layout: { width: 200, height: 21 },
+//      //classNames: "header".w(),
+//      value: "Details for this version"
+//    }),
 
     format: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
@@ -175,6 +159,22 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       //autoHide: YES
     }))
 
+  }),
+
+  reviewsView: SC.ScrollView.design({
+    hasHorizontalScroller: NO,
+    layout: { left: 10, top: 320, height: 320, right: 10 },
+    backgroundColor: 'white',
+    contentView: SC.ListView.design({
+      contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
+      selectionBinding: 'ONRTestApp.reviewsController.selection',
+      contentValueKey: "text",
+      canEditContent: YES,
+      canReorderContent: YES,
+      canDeleteContent: YES,
+      destroyOnRemoval: YES,
+      rowHeight: 21
+    })
   }),
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */
