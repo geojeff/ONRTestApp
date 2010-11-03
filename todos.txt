@@ -47,3 +47,7 @@
   Redo everything with the Ace theme, ala test_controls?
 
 - Add torture test data, perhaps with python program that emits fake data.
+
+- Add responder-based app control (aka, statecharts). Use test_controls as a model? Use Ki?
+
+- Add tests. Use Lebowski?
