@@ -15,6 +15,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	all: null,
 	selection: null,
 	_observingAuthors: [],
+  
 	allDidChange: function(){
 	  if (!this.get("selection")) {
       this.set("effectiveSelection", this.get("all"));
@@ -91,18 +92,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  }
 	},
 
-	addAuthor: function() {
-	  var author;
-	  author = ONRTestApp.store.createRecord(ONRTestApp.Author, { "firstName": "New", "lastName": "Author" });
-	  this.selectObject(author);
-	  this.invokeLater(function(){
-	    var contentIndex = this.indexOf(author);
-	    var list = ONRTestApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
-	    var listItem = list.itemViewForContentIndex(contentIndex);
-	    listItem.beginEditing();
-	  });
-	},
-
 	removeBooks: function(books) {
 	  var sel = this.get("selection");
 	  if (!sel) return;
@@ -127,7 +116,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
      return this._tmpRecordCache[fixturesKey];
    },
 
-  checkAuthorsFunction: function(book){
+  generateCheckAuthorsFunction: function(){
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
@@ -143,9 +132,9 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 
             // this causes bucket prototype error in ONR:
             //var bookRecords = ONRTestApp.store.find(SC.Query.local({
-              //recordType: ONRTestApp.Book,
-              //conditions: "fixturesKey ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
+            //recordType: ONRTestApp.Book,
+            //conditions: "fixturesKey ANY {id_fixtures_array}",
+            //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
             //}));
 
             var bookRecordsForAuthor = [];
@@ -166,6 +155,50 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     };
   },
 
+  generateCheckAuthorFunction: function(authorRecord){
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        ONRTestApp.bumpAuthorCount();
+
+        var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
+        var fixturesKey = authorRecord.readAttribute('fixturesKey');
+
+        var bookRecordsForAuthor = [];
+        bookRecords.forEach(function(bookRecord) {
+          if (ONRTestApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
+            bookRecordsForAuthor.pushObject(bookRecord);
+          }
+        });
+
+        authorRecord.get('books').pushObjects(bookRecordsForAuthor);
+        ONRTestApp.store.commitRecords();
+        return YES;
+      }
+      else return NO;
+    };
+  },
+
+  // Where to get key for new record? from global counter here? from core_actions.js?
+  //    -- hard-coded 1001 now
+  addAuthor: function(){
+    var author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
+      "key":         1001,
+      "fixturesKey": 1001,
+      "firstName":   "First",
+      "lastName":    "Last"
+    });
+
+    this.selectObject(author);
+    this.invokeLater(function(){
+      var contentIndex = this.indexOf(author);
+      var list = ONRTestApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
+      var listItem = list.itemViewForContentIndex(contentIndex);
+      listItem.beginEditing();
+    });
+  },
+
+  // This function could be called loadAuthors, because it is only done on load
   createAuthors: function(){
     this._tmpRecordCount = ONRTestApp.Author.FIXTURES.get('length');
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
@@ -176,7 +209,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         "firstName":   ONRTestApp.Author.FIXTURES[i].firstName,
         "lastName":    ONRTestApp.Author.FIXTURES[i].lastName
       });
-      author.addFiniteObserver('status',this,this.checkAuthorsFunction(author),this);
+      author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(),this);
     }
     ONRTestApp.store.commitRecords();
   },
