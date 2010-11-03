@@ -1,5 +1,13 @@
 - Investigate createRecord calls sans the key property (relations don't get set if not provided)
 
+- After a batch of records has been created, in the next phase of record creation, there is a search
+  for READY records within the batch that are to be set in toMany relations for the next record type
+  (After reviews have been created, and a given version is created next, reviews pertaining to the
+  version are found and set in the version's toMany for reviews). The record search was attempted by
+  using a store query, but this caused a bucket prototype error, so there is a manual loop and insertion
+  into a local array. Reconsider the store query way. See authors controller for current way and for
+  commented-out code.
+
 - Test and fix basic ops, for adding, deleting, etc.
 
 - Add info to README about installation and running ONR, Riak.
