@@ -54,6 +54,8 @@
 - Review theming, which is now some combination of that from the Contacts app and a few things from test_controls app.
   Redo everything with the Ace theme, ala test_controls?
 
+- Add a view for picking favorites using a linkit-demo type panel (SCUI), for testing and showing relations-setting.
+
 - Add torture test data, perhaps with python program that emits fake data.
 
 - Add responder-based app control (aka, statecharts). Use test_controls as a model? Use Ki?
