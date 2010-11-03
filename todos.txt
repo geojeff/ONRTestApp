@@ -9,6 +9,11 @@
 - Fix editing of form items. Code from Contacts app, in book.js, to set beginEditing() on the form fails with error
   about beginEditing not being in SC.FormView. Do you only have to set isEditing? And what about the default setting?
 
+- Animation in the Contacts app works for forms, but doesn't in here yet. I saw someone in IRC remark about the live
+  Contacts app, "Too much motion." Evaluate the use of animation here. Doesn't it make forms less boring? But is it
+  too much for use on a regular basis (Even if a user liked it in the beginning, wouldn't they get tired of it?). What
+  about a setting for turning animation on and off?
+
 - Make the versions and reviews list have the first item selected on load.
 
 - Add all editable book data to the book view (title, author, etc.).
