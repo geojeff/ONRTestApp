@@ -21,8 +21,18 @@ ONRTestApp.Author = SC.Record.extend(
   fullName: function(key, value) {
     if (value !== undefined) {
       var parts = value.split(' '); // parse full name
-      this.set('firstName', parts[0]);
-      this.set('lastName', parts[1]);
+      if (parts.get('length') === 2) {
+        this.set('firstName', parts[0]);
+        this.set('lastName', parts[1]);
+      } else {
+        if (parts.get('length') === 1) {
+          this.set('firstName', "");
+          this.set('lastName', parts[0]);
+        } else {
+          this.set('firstName', parts[0]);
+          this.set('lastName', parts.slice(1).join(' '));
+        }
+      }
     }
 
     return this.get('firstName') + ' ' + this.get('lastName');
