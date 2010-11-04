@@ -114,7 +114,6 @@ ONRTestApp.mainPage = SC.Page.design({
                 fontWeight: SC.FONT_WEIGHT_BOLD,
                 inlineEditorDidEndEditing: function(){
                   sc_super();
-                  console.log('Ending inline editing of author');
                   ONRTestApp.store.commitRecords();
                 }
               }),

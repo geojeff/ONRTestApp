@@ -16,9 +16,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	selection: null,
 	_observingAuthors: [],
 
-  // Start this at a value higher than initial fixtures count for authors
-  authorCount: 1000,
-  
 	allDidChange: function(){
 	  if (!this.get("selection")) {
       this.set("effectiveSelection", this.get("all"));
@@ -108,11 +105,8 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	addNewBook: function(book) {
 	  var sel = this.get("selection");
 	  if (!sel) return;
-	  var pa = [];
-	  sel.forEach(function(item) {
-	    pa.push(item);
-	  });
-	  book.set("pendingAuthors", pa);
+    if (sel.get('length') > 1) return; // although multiselect authors allowed, not for adding book
+	  book.set("author", sel.firstObject());
 	},
 
   generateCheckAuthorsFunction: function(){
@@ -178,17 +172,12 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     };
   },
 
-  nextAuthorKey: function() {
-    this.set('authorCount', this.get('authorCount')+1);
-    return this.get('authorCount');
-  },
-
   // Where to get key for new record? from global counter here? from core_actions.js?
   //    -- hard-coded 1001 now
   addAuthor: function(){
     var author;
 
-    var authorKey = this.nextAuthorKey();
+    var authorKey = ONRTestApp.nextRecordKey();
 
     author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
       "key":         authorKey,

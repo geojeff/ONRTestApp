@@ -14,18 +14,18 @@ sc_require('controllers/authors');
 
 ONRTestApp.mixin({
 
-  //  2 authors
-  //  5 books
-  //  6 versions
-  // 12 reviews
-  // ------------
-  // 25 total records
-  recordCount: 25,
+  // Set this to a value greater than the sum of all FIXTURES records
+  recordCount: 1000,
 
   loadedAuthorCount:  0,
   loadedBookCount:    0,
   loadedVersionCount: 0,
   loadedReviewCount:  0,
+
+  nextRecordKey: function() {
+    this.set('recordCount', this.get('recordCount')+1);
+    return this.get('recordCount');
+  },
 
   bumpAuthorCount: function() {
     var count = this.get('loadedAuthorCount');

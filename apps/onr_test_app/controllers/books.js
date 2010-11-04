@@ -105,26 +105,39 @@ ONRTestApp.booksController = SC.ArrayController.create(
   },
 
   addBook: function() {
-    var book;
-    book = ONRTestApp.store.createRecord(ONRTestApp.Book, { title: "" });
+    var book, bookKey = ONRTestApp.nextRecordKey();
 
-    // add book to current author if needed
-    if (!this.get("inAll")) ONRTestApp.authorsController.addNewBook(book);
-
-    this.selectObject(book);
-    this.invokeLater(function(){
-      ONRTestApp.bookController.beginEditing();
+    book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
+      "key":         bookKey,
+      "fixturesKey": bookKey,
+      "title":       'title'
     });
 
-    book.commitRecord();
+    ONRTestApp.store.commitRecords();
+    
+    // Once the book records come back READY_CLEAN, add book to current author.
+    book.addFiniteObserver('status',this,this.generateCheckBookFunction(book),this);
   },
 
-  getBook: function(fixturesKey) {
-     return this._tmpRecordCache[fixturesKey];
-    // how to call this when all done? delete me._tmpRecordCache;
-   },
+  generateCheckBookFunction: function(book) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        if (!me.get("inAll")) ONRTestApp.authorsController.addNewBook(book);
 
-  checkBooksFunction: function(book){
+        me.selectObject(book);
+
+        me.invokeLater(function(){
+          // Editing of a book title is not done in the book list, but in the panel on the right.
+          ONRTestApp.bookController.beginEditing();
+        });
+
+        book.commitRecord();
+      }
+    }
+  },
+
+  generateCheckBooksFunction: function(book){
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
@@ -179,7 +192,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
       
       // The book record has been created, and its versions and the reviews of those versions.
       // Once the book records come back READY_CLEAN, create authors in the final step.
-      book.addFiniteObserver('status',this,this.checkBooksFunction(book),this);
+      book.addFiniteObserver('status',this,this.generateCheckBooksFunction(book),this);
     }
     ONRTestApp.store.commitRecords();
   },
