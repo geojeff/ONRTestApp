@@ -18,9 +18,14 @@ ONRTestApp.Author = SC.Record.extend(
   firstName:   SC.Record.attr(String),
   lastName:    SC.Record.attr(String),
 
-  fullName: function() {
-    var val = (this.get("firstName") || "") + " " + (this.get("lastName") || "");
-    return val;
+  fullName: function(key, value) {
+    if (value !== undefined) {
+      var parts = value.split(' '); // parse full name
+      this.set('firstName', parts[0]);
+      this.set('lastName', parts[1]);
+    }
+
+    return this.get('firstName') + ' ' + this.get('lastName');
   }.property('firstName', 'lastName').cacheable(),
 
   books: SC.Record.toMany("ONRTestApp.Book", { inverse: "author", isMaster: YES })
