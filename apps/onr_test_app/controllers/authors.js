@@ -102,11 +102,21 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  ONRTestApp.store.commitRecords();
 	},
 
+  isSingleSelection: function(){
+    var sel = this.get("selection");
+    if (!sel) return NO;
+    if (sel.get('length') > 1) return NO;
+    return YES;
+  },
+
 	addNewBook: function(book) {
 	  var sel = this.get("selection");
 	  if (!sel) return;
     if (sel.get('length') > 1) return; // although multiselect authors allowed, not for adding book
 	  book.set("author", sel.firstObject());
+    sel.firstObject().get('books').pushObject(book);
+
+    this.recalculateFromAuthors();
 	},
 
   generateCheckAuthorsFunction: function(){

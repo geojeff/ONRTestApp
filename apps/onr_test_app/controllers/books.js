@@ -105,6 +105,8 @@ ONRTestApp.booksController = SC.ArrayController.create(
   },
 
   addBook: function() {
+    if (this.get("inAll") || !ONRTestApp.authorsController.isSingleSelection()) return;
+
     var book, bookKey = ONRTestApp.nextRecordKey();
 
     book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
@@ -123,7 +125,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
-        if (!me.get("inAll")) ONRTestApp.authorsController.addNewBook(book);
+        ONRTestApp.authorsController.addNewBook(book);
 
         me.selectObject(book);
 
@@ -132,7 +134,8 @@ ONRTestApp.booksController = SC.ArrayController.create(
           ONRTestApp.bookController.beginEditing();
         });
 
-        book.commitRecord();
+        // this has already been done, eh?
+        //book.commitRecord();
       }
     }
   },
