@@ -90,7 +90,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
       var fixturesKey = ONRTestApp.Version.FIXTURES[i].key;
       var version;
       version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
-        "key":             fixturesKey,
+        //"key":             fixturesKey,
         "fixturesKey":     fixturesKey,
         "publisher":       ONRTestApp.Version.FIXTURES[i].publisher,
         "publicationDate": ONRTestApp.Version.FIXTURES[i].publicationDate,

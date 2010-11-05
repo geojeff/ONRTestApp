@@ -110,7 +110,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
     var book, bookKey = ONRTestApp.nextRecordKey();
 
     book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-      "key":         bookKey,
+      //"key":         bookKey,
       "fixturesKey": bookKey,
       "title":       'title'
     });
@@ -186,7 +186,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
     for (var i=0,len=ONRTestApp.Book.FIXTURES.get('length'); i<len; i++){
       var book;
       book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-        "key":         ONRTestApp.Book.FIXTURES[i].key,
+        //"key":         ONRTestApp.Book.FIXTURES[i].key,
         "fixturesKey": ONRTestApp.Book.FIXTURES[i].key,
         "title":       ONRTestApp.Book.FIXTURES[i].title
       });

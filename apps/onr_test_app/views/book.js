@@ -16,7 +16,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   /** @scope ONRTestApp.BookView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["book-view"],
-  childViews: "versionsView versionView reviewsView".w(),
+  childViews: "versionsView firstName lastName bookTitle versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
 
@@ -51,6 +51,52 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       destroyOnRemoval: YES,
       rowHeight: 21
     })
+  }),
+
+  firstName: SC.View.design({
+    layout: { left: 490, top: 0, width: 150, centerY: 0},
+    childViews: "label name".w(),
+    label: SC.LabelView.design({
+      layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
+      value: "First Name"
+    }),
+    name: SC.TextFieldView.design({
+      layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
+      contentBinding: "ONRTestApp.versionsController.selection.book.author.firstName",
+      value: ""
+    })
+  }),
+
+  lastName: SC.View.design({
+    layout: { left: 490, top: 40, width: 150, height: 21, centerY: 0},
+    childViews: "label name".w(),
+    label: SC.LabelView.design({
+      layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
+      value: "Last Name"
+    }),
+    name: SC.TextFieldView.design({
+      layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
+      contentBinding: "ONRTestApp.versionsController.selection.book.author.lastName",
+      value: ""
+    })
+  }),
+
+  bookTitle: SC.View.design({
+    layout: { left: 490, top: 80, width: 150, height: 21, centerY: 0},
+    childViews: "title".w(),
+
+    title: SC.View.design({
+      childViews: "label name".w(),
+      label: SC.LabelView.design({
+        layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
+        value: "Title"
+      }),
+      name: SC.TextFieldView.design({
+        layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
+        contentBinding: "ONRTestApp.booksController.selection.book.title",
+        value: ""
+      })
+    }),
   }),
 
   versionView: SC.FormView.design({

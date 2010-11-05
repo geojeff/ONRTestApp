@@ -14,6 +14,7 @@ ONRTestApp.Author = SC.Record.extend(
 /** @scope ONRTestApp.Author.prototype */ {
   primaryKey:  'key',
   bucket:      'author',
+  id:          SC.Record.attr(String),
   idFixtures:  null,
   firstName:   SC.Record.attr(String),
   lastName:    SC.Record.attr(String),

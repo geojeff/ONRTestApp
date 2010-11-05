@@ -190,7 +190,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     var authorKey = ONRTestApp.nextRecordKey();
 
     author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
-      "key":         authorKey,
+      //"key":         authorKey,
       "fixturesKey": authorKey,
       "firstName":   "First",
       "lastName":    "Last"
@@ -211,7 +211,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
       var author;
       author = ONRTestApp.store.createRecord(ONRTestApp.Author, {
-        "key":         ONRTestApp.Author.FIXTURES[i].key,
+        //"key":         ONRTestApp.Author.FIXTURES[i].key,
         "fixturesKey": ONRTestApp.Author.FIXTURES[i].key,
         "firstName":   ONRTestApp.Author.FIXTURES[i].firstName,
         "lastName":    ONRTestApp.Author.FIXTURES[i].lastName
