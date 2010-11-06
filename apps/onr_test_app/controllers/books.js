@@ -49,7 +49,9 @@ ONRTestApp.booksController = SC.ArrayController.create(
     var me = this;
     return function(val){
       if (val & SC.Record.READY_CLEAN){
-        ONRTestApp.versionsController.selectObject(version);
+        if (!ONRTestApp.versionsController.hasSelection()) {
+          ONRTestApp.versionsController.selectObject(version);
+        }
       }
     };
   },
