@@ -17,24 +17,6 @@ ONRTestApp.versionsController = SC.ArrayController.create(
   effectiveSelection: null,
   selection: null,
 
-  contentDidChange: function() {
-    if (SC.none(this.get('selection'))) {
-      console.log('not selected');
-      var fo = this.get('firstObject');
-      if (!SC.none(fo)) {
-        console.log('fo is not none');
-        console.log('fo status is ' + fo.get('status'));
-        console.log('fo format is ' + fo.readAttribute('format'));
-        if (fo.get('status') & SC.Record.READY_CLEAN) {
-          console.log('and, fo is ready -- selecting')
-          this.selectObject(fo);
-        } else {
-          console.log('but, fo is not ready')
-        }
-      }
-    }
-  }.observes('[]'),
-
   selectionDidChange: function() {
     this.recalculateFromVersions();
   }.observes("selection"),

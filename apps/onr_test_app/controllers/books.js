@@ -40,8 +40,19 @@ ONRTestApp.booksController = SC.ArrayController.create(
 	    });
 
       this.set("effectiveSelection", result.toArray());
+      var fo = result.firstObject();
+      fo.addFiniteObserver('status',this,this.generateSelectVersionFunction(fo),this);
     }
 	},
+
+  generateSelectVersionFunction: function(version) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        ONRTestApp.versionsController.selectObject(version);
+      }
+    };
+  },
 
   collectionViewDeleteContent: function(view, content, indexes) {
     // get records first for safety :)
