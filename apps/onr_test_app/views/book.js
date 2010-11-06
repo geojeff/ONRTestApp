@@ -60,7 +60,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     firstName: SC.FormView.row(SC.TextFieldView.design({
       layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'first name'
+      hint: 'First Name'
       //value: "First Name"
       //isSpacer: YES,
       //autoHide: YES
@@ -68,7 +68,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     lastName: SC.FormView.row(SC.TextFieldView.design({
       layout: { top: 30, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'last name'
+      hint: 'Last Name'
       //value: "Last Name"
       //isSpacer: YES,
       //autoHide: YES
@@ -82,7 +82,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     title: SC.FormView.row(SC.TextFieldView.design({
       layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'title'
+      hint: 'New Title'
       //value: "Title"
       //isSpacer: YES,
       //autoHide: YES
@@ -102,14 +102,16 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     publisher: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Publisher"
+      hint: "Bantam, etc."
+      //value: "Publisher"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     publicationDate: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Date"
+      hint: "yyyy-m-d"
+      //value: "Date"
       //isSpacer: YES,
       //autoHide: YES
     })),
@@ -122,21 +124,24 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     format: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Format"
+      hint: "Paperback, DVD, etc."
+      //value: "Format"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     pages: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Pages"
+      hint: "Integer value"
+      //value: "Pages"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     language: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Language"
+      hint: "For book text"
+      //value: "Language"
       //isSpacer: YES,
       //autoHide: YES
     })),
@@ -149,28 +154,32 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     rank: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Rank"
+      hint: "Integer value"
+      //value: "Rank"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     height: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Height"
+      hint: "In inches"
+      //value: "Height"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     width: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Width"
+      hint: "In inches"
+      //value: "Width"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     depth: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "Depth"
+      hint: "In inches"
+      //value: "Depth"
       //isSpacer: YES,
       //autoHide: YES
     })),
@@ -183,14 +192,16 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
 
     isbn10: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "ISBN (10)"
+      hint: "10 character ISBN"
+      //value: "ISBN (10)"
       //isSpacer: YES,
       //autoHide: YES
     })),
 
     isbn13: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      value: "ISBN (13)"
+      hint: "13 character ISBN"
+      //value: "ISBN (13)"
       //isSpacer: YES,
       //autoHide: YES
     }))
