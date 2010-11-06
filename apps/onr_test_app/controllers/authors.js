@@ -14,28 +14,29 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	allowMultipleSelection: YES,
 	all: null,
 	selection: null,
+  gatheredBooks: null,
 	_observingAuthors: [],
 
 	allDidChange: function(){
 	  if (!this.get("selection")) {
-      this.set("effectiveSelection", this.get("all"));
+      this.set("gatheredBooks", this.get("all"));
       this.set("allIsSelected", YES);
     } else {
-      this.recalculateFromAuthors();
+      this.gatherBooks();
     }
 	}.observes("all", "[]"),
 
 	selectAllAuthorsItem: function(){
 	  this.set("selection", null);
-	  this.set("effectiveSelection", this.get("all"));
+	  this.set("gatheredBooks", this.get("all"));
 	  this.set("allIsSelected", YES);
 	},
 
 	selectionDidChange: function() {
-	  this.recalculateFromAuthors();
+	  this.gatherBooks();
 	}.observes("selection"),
 
-	recalculateFromAuthors: function() {
+	gatherBooks: function() {
 	  if (this.get("selection") && this.get("selection").get("length") > 0) {
 	    var result = SC.Set.create();
 	    this.get("selection").forEach(function(author){
@@ -44,7 +45,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         });
 	    });
 
-      this.set("effectiveSelection", result.toArray());
+      this.set("gatheredBooks", result.toArray());
 	    this.set("allIsSelected", NO);
     }
 	},
@@ -113,7 +114,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  book.set("author", sel.firstObject());
     sel.firstObject().get('books').pushObject(book);
 
-    this.recalculateFromAuthors();
+    this.gatherBooks();
 	},
 
   generateCheckAuthorsFunction: function(){

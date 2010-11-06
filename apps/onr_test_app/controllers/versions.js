@@ -13,15 +13,15 @@ This controller manages the creation of version data.
 ONRTestApp.versionsController = SC.ArrayController.create(
 /** @scope ONRTestApp.versionsController.prototype */ {
 
-  contentBinding: "ONRTestApp.booksController.effectiveSelection",
-  effectiveSelection: null,
+  contentBinding: "ONRTestApp.booksController.gathereredReviews",
+  gathereredReviews: null,
   selection: null,
 
   selectionDidChange: function() {
-    this.recalculateFromVersions();
+    this.gatherReviews();
   }.observes("selection"),
 
-  recalculateFromVersions: function() {
+  gatherReviews: function() {
     if (this.get("selection") && this.get("selection").get("length") > 0) {
       var result = SC.Set.create();
       this.get("selection").forEach(function(version){
@@ -30,7 +30,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
         });
       });
 
-      this.set("effectiveSelection", result.toArray());
+      this.set("gathereredReviews", result.toArray());
     }
   },
 
