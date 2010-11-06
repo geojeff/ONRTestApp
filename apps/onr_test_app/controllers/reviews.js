@@ -14,7 +14,7 @@ This controller manages the creation of review data.
 ONRTestApp.reviewsController = SC.ArrayController.create(
 /** @scope ONRTestApp.reviewsController.prototype */ {
 
-  contentBinding: "ONRTestApp.versionsController.effectiveSelection",
+  contentBinding: "ONRTestApp.versionsController.gatheredReviews",
   selection: null,
 
   generateCheckReviewsFunction: function(review){

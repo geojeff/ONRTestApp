@@ -13,7 +13,7 @@ This controller manages book data.
 ONRTestApp.booksController = SC.ArrayController.create(
 /** @scope ONRTestApp.booksController.prototype */ {
 
-  contentBinding: "ONRTestApp.authorsController.gatheredVersions",
+  contentBinding: "ONRTestApp.authorsController.gatheredBooks",
   selection: null,
   gatheredVersions: null,
   canAddContent: YES,
@@ -31,16 +31,19 @@ ONRTestApp.booksController = SC.ArrayController.create(
 	}.observes("selection"),
 
 	gatherVersions: function() {
-	  if (this.get("selection") && this.get("selection").get("length") > 0) {
-	    var result = SC.Set.create();
-	    this.get("selection").forEach(function(book){
+    var books, versions;
+
+    books= this.get("selection");
+	  if (!SC.none(books)) {
+	    versions = SC.Set.create();
+	    books.forEach(function(book){
 	      book.get("versions").forEach(function(version) {
-          result.add(version);
+          versions.add(version);
         });
 	    });
 
-      this.set("gatheredVersions", result.toArray());
-      var fo = result.firstObject();
+      this.set("gatheredVersions", versions.toArray());
+      var fo = versions.firstObject();
       fo.addFiniteObserver('status',this,this.generateSelectVersionFunction(fo),this);
     }
 	},

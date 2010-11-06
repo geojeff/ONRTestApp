@@ -37,16 +37,35 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	}.observes("selection"),
 
 	gatherBooks: function() {
-	  if (this.get("selection") && this.get("selection").get("length") > 0) {
-	    var result = SC.Set.create();
-	    this.get("selection").forEach(function(author){
+    var authors, books;
+    authors = this.get("selection"); // multiselect allowed
+	  if (!SC.none(authors)) {
+	    books = SC.Set.create();
+	    authors.forEach(function(author){
 	      author.get("books").forEach(function(book) {
-          result.add(book);
+          books.add(book);
         });
 	    });
 
-      this.set("gatheredBooks", result.toArray());
+      this.set("gatheredBooks", books.toArray());
 	    this.set("allIsSelected", NO);
+    }
+	},
+
+	gatherVersions: function() {
+	  var authors, versions;
+    authors = this.get("selection"); // multiselect allowed
+    if (!SC.none(authors)) {
+	    versions = SC.Set.create();
+	    authors.forEach(function(author){
+	      author.get("books").forEach(function(book) {
+          book.get("versions").forEach(function(version) {
+            versions.add(version);
+          });
+        });
+	    });
+
+      this.set("gatheredVersions", versions.toArray());
     }
 	},
 
