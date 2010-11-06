@@ -44,7 +44,9 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
       this.set("gatheredVersions", versions.toArray());
       var fo = versions.firstObject();
-      fo.addFiniteObserver('status',this,this.generateSelectVersionFunction(fo),this);
+      if (!SC.none(fo)) {
+        fo.addFiniteObserver('status',this,this.generateSelectVersionFunction(fo),this);
+      }
     }
 	},
 
