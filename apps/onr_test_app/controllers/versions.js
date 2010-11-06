@@ -66,10 +66,10 @@ ONRTestApp.versionsController = SC.ArrayController.create(
               }
             });
 
-            reviewRecordsForVersion.forEach(function(reviewRecord) {
-              console.log('rr = ' + SC.inspect(reviewRecord));
-            });
-            console.log('reviewRecords set ' + reviewRecordsForVersion.get('length'));
+//            reviewRecordsForVersion.forEach(function(reviewRecord) {
+//              console.log('rr = ' + SC.inspect(reviewRecord));
+//            });
+//            console.log('reviewRecords set ' + reviewRecordsForVersion.get('length'));
             versionRecord.get('reviews').pushObjects(reviewRecordsForVersion);
           });
 
