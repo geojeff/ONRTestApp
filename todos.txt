@@ -1,5 +1,9 @@
 - Investigate createRecord calls sans the key property (relations don't get set if not provided)
 
+  [DONE] Maurits found that SC does not handle custom setting of primaryKey, while not providing a
+  declaration in the model for id: SC.Record.attr(String);, so this is now provided, and the key is also
+  now removed from all createRecord calls.
+
 - After a batch of records has been created, in the next phase of record creation, there is a search
   for READY records within the batch that are to be set in toMany relations for the next record type
   (After reviews have been created, and a given version is created next, reviews pertaining to the
@@ -9,6 +13,8 @@
   commented-out code.
 
 - Test and fix basic ops, for adding, deleting, etc.
+
+  [DONE] Forms and proper findings were added to book view, and fixes made to fields in the forms.
 
 - Add info to README about installation and running ONR, Riak.
 
@@ -20,8 +26,12 @@
 
 - Add all editable book data to the book view (title, author, etc.).
 
+  [DONE]
+
 - Fix editing of form items. Code from Contacts app, in book.js, to set beginEditing() on the form fails with error
   about beginEditing not being in SC.FormView. Do you only have to set isEditing? And what about the default setting?
+
+  [DONE]
 
 - Animation in the Contacts app works for forms, but doesn't in here yet. I saw someone in IRC remark about the live
   Contacts app, "Too much motion." Evaluate the use of animation here. Doesn't it make forms less boring? But is it
@@ -30,6 +40,8 @@
 
 - Make the versions and reviews list have the first item selected on load.
 
+  [DONE]
+
 - Add delete for a book, in the bottom toolbar with a - icon? or, with a dedicated button when Edit activated?
 
 - Style long reviews... For text wrapping, with css?  by putting \ns in the text?
@@ -37,6 +49,8 @@
 - Style lists, period. The Contacts app has code for odd/even, which is in here, but not working.
 
 - Add hints to text fields. Are labels needed?
+
+  [DONE] Labels were kept (they are automatic when using autoload through bindings).
 
 - Add introduction panel on what to watch, and what reports to expect, when running.
 
