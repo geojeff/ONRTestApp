@@ -108,9 +108,10 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
       //autoHide: YES
     })),
 
-    publicationDate: SC.FormView.row(SC.TextFieldView.design({
+    publicationDate: SC.FormView.row(SC.DateFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "yyyy-m-d"
+      formatDate: '%Y %m %d',
+      hint: "yyyy m d"
       //value: "Date"
       //isSpacer: YES,
       //autoHide: YES

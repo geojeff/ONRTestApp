@@ -15,7 +15,7 @@ ONRTestApp.Version = SC.Record.extend(
   id:              SC.Record.attr(String),
   idFixtures:      null,
   publisher:       SC.Record.attr(String),
-  publicationDate: SC.Record.attr(String),
+  publicationDate: SC.Record.attr(SC.DateTime, { format: '%Y %m %d' }),
   format:          SC.Record.attr(String),
   pages:           SC.Record.attr(Number),
   language:        SC.Record.attr(String),
