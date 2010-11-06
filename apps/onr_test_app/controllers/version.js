@@ -14,7 +14,7 @@ ONRTestApp.versionController = SC.ObjectController.create(
 	contentBinding: "ONRTestApp.versionsController.selection",
 	contentBindingDefault: SC.Binding.single(),
 
-	isEditing: NO,
+  isEditing: NO,
 
 	contentDidChange: function() {
 	  if (this.get("content")) this.set("shouldDisplay", YES);

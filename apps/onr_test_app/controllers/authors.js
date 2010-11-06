@@ -39,14 +39,11 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	  if (this.get("selection") && this.get("selection").get("length") > 0) {
 	    var result = SC.Set.create();
 	    this.get("selection").forEach(function(author){
-        console.log('author: ' + author.get('lastName') + ' books.length: ' + author.get('books').get('length'));
 	      author.get("books").forEach(function(book) {
-          console.log('adding: ' + book.get('title'));
           result.add(book);
         });
 	    });
 
-      console.log('set length = ' + result.get('length'));
       this.set("effectiveSelection", result.toArray());
 	    this.set("allIsSelected", NO);
     }

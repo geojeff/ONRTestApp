@@ -16,7 +16,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   /** @scope ONRTestApp.BookView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["book-view"],
-  childViews: "versionsView firstName lastName bookTitle versionView reviewsView".w(),
+  childViews: "versionsView authorForm bookTitleForm versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
 
@@ -53,50 +53,40 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     })
   }),
 
-  firstName: SC.View.design({
-    layout: { left: 490, top: 0, width: 150, centerY: 0},
-    childViews: "label name".w(),
-    label: SC.LabelView.design({
-      layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
-      value: "First Name"
-    }),
-    name: SC.TextFieldView.design({
-      layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
-      contentBinding: "ONRTestApp.versionsController.selection.book.author.firstName",
-      value: ""
-    })
+  authorForm:  SC.FormView.design({
+    layout: { top: 10, left: 490, width: 300, height: 60, centerY: 0 },
+    contentBinding: "ONRTestApp.authorController",
+    childViews: 'firstName lastName'.w(),
+
+    firstName: SC.FormView.row(SC.TextFieldView.design({
+      layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
+      hint: 'first name'
+      //value: "First Name"
+      //isSpacer: YES,
+      //autoHide: YES
+    })),
+
+    lastName: SC.FormView.row(SC.TextFieldView.design({
+      layout: { top: 30, left: 0, width: 150, height: 21, centerY: 0},
+      hint: 'last name'
+      //value: "Last Name"
+      //isSpacer: YES,
+      //autoHide: YES
+    }))
   }),
 
-  lastName: SC.View.design({
-    layout: { left: 490, top: 40, width: 150, height: 21, centerY: 0},
-    childViews: "label name".w(),
-    label: SC.LabelView.design({
-      layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
-      value: "Last Name"
-    }),
-    name: SC.TextFieldView.design({
-      layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
-      contentBinding: "ONRTestApp.versionsController.selection.book.author.lastName",
-      value: ""
-    })
-  }),
+  bookTitleForm: SC.FormView.design({
+    layout: { left: 490, top: 80, width: 300, height: 30, centerY: 0},
+    contentBinding: "ONRTestApp.bookController",
+    childViews: 'title'.w(),
 
-  bookTitle: SC.View.design({
-    layout: { left: 490, top: 80, width: 150, height: 21, centerY: 0},
-    childViews: "title".w(),
-
-    title: SC.View.design({
-      childViews: "label name".w(),
-      label: SC.LabelView.design({
-        layout: { left: 0, top: 0, width: 70, height: 21, centerY: 0},
-        value: "Title"
-      }),
-      name: SC.TextFieldView.design({
-        layout: { left: 75, top: 0, width: 70, height: 21, centerY: 0},
-        contentBinding: "ONRTestApp.booksController.selection.book.title",
-        value: ""
-      })
-    }),
+    title: SC.FormView.row(SC.TextFieldView.design({
+      layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
+      hint: 'title'
+      //value: "Title"
+      //isSpacer: YES,
+      //autoHide: YES
+    }))
   }),
 
   versionView: SC.FormView.design({
