@@ -165,7 +165,7 @@ ONRTestApp.mainPage = SC.Page.design({
 
         noAuthorView: SC.LabelView.design({
           layout: { centerX: 0, centerY: 0, height: 18, width: 200 },
-          value: "Loading..."
+          value: "No author selected..."
         }),
 
         authorView: SC.ScrollView.design(SC.Animatable, {
@@ -185,10 +185,13 @@ ONRTestApp.mainPage = SC.Page.design({
             contentBinding: "ONRTestApp.versionController"
           }),
 
-          shouldDisplayBinding: "ONRTestApp.authorController.shouldDisplay",
+          shouldDisplayBinding: "ONRTestApp.authorsController.hasContent",
           shouldDisplayDidChange: function(){
-            if (this.get("shouldDisplay")) this.adjust({"opacity": 1.0, display: "block"});
-            else this.adjust({"opacity": 0, display: "none"});
+            if (this.get("shouldDisplay")) {
+              this.adjust({"opacity": 1.0, display: "block"});
+            } else {
+              this.adjust({"opacity": 0, display: "none"});
+            }
           }.observes("shouldDisplay")
         }), // bookView
 

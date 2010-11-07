@@ -15,7 +15,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	all: null,
 	selection: null,
   gatheredBooks: null,
-	_observingAuthors: [],
 
 	allDidChange: function(){
 	  if (!this.get("selection")) {

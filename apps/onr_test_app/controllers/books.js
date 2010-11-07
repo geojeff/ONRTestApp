@@ -27,7 +27,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
   inAllBinding: "ONRTestApp.authorsController.allIsSelected",
 
   selectionDidChange: function() {
-	  this.gatherVersions();
+    this.gatherVersions();
 	}.observes("selection"),
 
 	gatherVersions: function() {
