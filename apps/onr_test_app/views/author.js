@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   ONRTestApp.BookView
+// Project:   ONRTestApp.AuthorView
 // ==========================================================================
 /*globals ONRTestApp Forms */
 
@@ -12,11 +12,11 @@
 
 //SC.Animatable.defaultTimingFunction = SC.Animatable.TRANSITION_EASE_IN_OUT;
 
-ONRTestApp.BookView = SC.View.extend(SC.Animatable,
-  /** @scope ONRTestApp.BookView.prototype */ {
+ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
+  /** @scope ONRTestApp.AuthorView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["book-view"],
-  childViews: "versionsView authorForm bookTitleForm versionView reviewsView".w(),
+  childViews: "authorForm booksView versionsView bookTitleForm versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
 
@@ -37,9 +37,136 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     }
   },
 
+  authorForm:  SC.FormView.design({
+    layout: { left: 10, top: 10, width: 500, height: 31 },
+    contentBinding: "ONRTestApp.authorController",
+    childViews: 'name'.w(),
+
+    name: SC.FormView.row("Author", SC.View.extend(SC.Animatable, SC.FlowedLayout, SC.AutoMixin, {
+      isSpacer: YES,
+//
+//      init: function() {
+//        sc_super();
+//        this.style.overflow = "visible";
+//        SC.Timer.schedule({
+//          target: this,
+//          action: "hideOne",
+//          interval: 2000,
+//          repeats: YES
+//        });
+//      },
+//
+//      hideOne: function() {
+//        if (this._hasHidden) this.firstName.set("isVisible", YES);
+//        else this.firstName.set("isVisible", NO);
+//        this._hasHidden = !this._hasHidden;
+//      },
+
+      autoMixins: [SC.Animatable, {
+        transitions: { left: 0.25, top: 0.25, width: 0.25 }
+      }],
+
+      childViews: "firstName lastName".w(),
+//      layout: { width: 500 },
+//      align: SC.ALIGN_RIGHT,
+      layoutDirection: SC.LAYOUT_HORIZONTAL,
+      defaultFlowSpacing: {
+        left: 10, top: 0, right: 10, bottom: 0
+      },
+      firstName: SC.TextFieldView.design({
+        layout: { width: 150, height: 21 },
+        hint: 'First Name'
+        //value: "First Name"
+        //isSpacer: YES,
+        //autoHide: YES
+      }),
+
+      lastName: SC.TextFieldView.design({
+        layout: { width: 150, height: 21 },
+        hint: 'Last Name'
+        //value: "Last Name"
+        //isSpacer: YES,
+        //autoHide: YES
+      })
+    }))
+  }),
+
+  booksView: SC.View.design({
+    layout: { left: 10, top: 40, width: 400, height: 200 },
+    childViews: "toolbar bookList".w(),
+    toolbar: SC.ToolbarView.design({
+      classNames: "hback toolbar".w(),
+      layout: { left: 0, bottom: 0, right: 0, height: 32 },
+      childViews: "add".w(),
+      add: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        target: "ONRTestApp.booksController",
+        action: "addBook",
+        icon: "icons plus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      })
+    }), // toolbar
+
+    bookList: SC.ScrollView.design({
+      classNames: ["books-list"],
+      layout: { left:0, right:0, top:0, bottom:32},
+      borderStyle: SC.BORDER_NONE,
+      contentView: SC.ListView.design({
+        contentBinding: "ONRTestApp.booksController.arrangedObjects",
+        selectionBinding: "ONRTestApp.booksController.selection",
+        contentValueKey: "title",
+
+        delegate: ONRTestApp.bookController,
+        canReorderContent: YES,
+        canDeleteContent: YES,
+        rowHeight: 22,
+
+        exampleView: SC.View.design({
+          childViews: "label".w(),
+          classNames: ["book-item"],
+
+          label: SC.LabelView.design({
+            escapeHTML: NO,
+            layout: {left:5, right:5, height:18,centerY:0},
+            contentBinding: ".parentView.content",
+            contentValueKey: "title",
+            inlineEditorDidEndEditing: function(){
+              sc_super();
+              ONRTestApp.store.commitRecords();
+            }
+          }),
+
+          isSelected: NO,
+          isSelectedDidChange: function() {
+            this.displayDidChange();
+          }.observes("isSelected"),
+
+          render: function(context) {
+            sc_super();
+
+            // even/odd
+            if (this.contentIndex % 2 === 0) {
+              context.addClass("even");
+            } else {
+              context.addClass("odd");
+            }
+
+            // is selected
+            if (this.get("isSelected")) {
+              context.addClass("list-selection").addClass("hback").addClass("selected");
+            }
+          }
+        })
+      })
+    }) // bookList
+  }), // booksView
+
   versionsView: SC.ScrollView.design({
     hasHorizontalScroller: NO,
-    layout: { top: 10, height: 100, left: 10, width: 150 },
+    layout: { left: 420, top: 40, width: 100, height: 200 },
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
@@ -53,36 +180,14 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
     })
   }),
 
-  authorForm:  SC.FormView.design({
-    layout: { top: 10, left: 490, width: 300, height: 60, centerY: 0 },
-    contentBinding: "ONRTestApp.authorController",
-    childViews: 'firstName lastName'.w(),
-
-    firstName: SC.FormView.row(SC.TextFieldView.design({
-      layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'First Name'
-      //value: "First Name"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
-
-    lastName: SC.FormView.row(SC.TextFieldView.design({
-      layout: { top: 30, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'Last Name'
-      //value: "Last Name"
-      //isSpacer: YES,
-      //autoHide: YES
-    }))
-  }),
-
   bookTitleForm: SC.FormView.design({
-    layout: { left: 490, top: 80, width: 300, height: 30, centerY: 0},
+    layout: { left: 10, top: 250, width: 500, height: 30 },
     contentBinding: "ONRTestApp.bookController",
     childViews: 'title'.w(),
 
     title: SC.FormView.row(SC.TextFieldView.design({
-      layout: { top: 0, left: 0, width: 150, height: 21, centerY: 0},
-      hint: 'New Title'
+      layout: { left: 0, width: 250, height: 21, centerY: 0 },
+      hint: 'Title of Book'
       //value: "Title"
       //isSpacer: YES,
       //autoHide: YES
@@ -90,7 +195,7 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   }),
 
   versionView: SC.FormView.design({
-    layout: { top: 10, height: 300, left: 170, width: 300 },
+    layout: { left: 10, top: 280, width: 500, height: 300 },
     contentBinding: ".parentView.content",
     //rowPadding: 5,
     childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
@@ -210,8 +315,8 @@ ONRTestApp.BookView = SC.View.extend(SC.Animatable,
   }),
 
   reviewsView: SC.ScrollView.design({
-    hasHorizontalScroller: NO,
-    layout: { left: 10, top: 320, height: 320, right: 10 },
+    layout: { left: 10, bottom: 0, width: 500, height: 60 },
+    hasHorizontalScroller: YES,
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',

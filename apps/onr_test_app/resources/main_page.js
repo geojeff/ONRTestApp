@@ -4,7 +4,7 @@
 //                http://github.com/ialexi/Contacts
 // ==========================================================================
 /*globals ONRTestApp Forms Animation */
-require("views/book");
+require("views/author");
 
 // This page describes the main user interface for your application.  
 ONRTestApp.mainPage = SC.Page.design({
@@ -158,171 +158,93 @@ ONRTestApp.mainPage = SC.Page.design({
         }) // toolbar
       }), // topLeftView
 
-      // splitter, containing the bookList on the left and the bookView on the right.
-      bottomRightView: SC.SplitView.design({
-        defaultThickness: 200,
-        dividerThickness: 1,
+      // book view
+      bottomRightView: SC.View.design({
+        backgroundColor: "#555",
+        childViews: 'noAuthorView authorView toolbar'.w(),
 
-        topLeftView: SC.View.design({
-          childViews: "toolbar bookList".w(),
-          toolbar: SC.ToolbarView.design({
-            classNames: "hback toolbar".w(),
-            layout: { left: 0, bottom: 0, right: 0, height: 32 },
-            childViews: "add".w(),
-            add: SC.ButtonView.design({
-              layout: { left: 0, top: 0, bottom: 0, width:32 },
-              target: "ONRTestApp.booksController",
-              action: "addBook",
-              icon: "icons plus button-icon",
-              titleMinWidth: 16,
-              isActiveDidChange: function() {
-                this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
-              }.observes("isActive")
-            })
-          }), // toolbar
+        noAuthorView: SC.LabelView.design({
+          layout: { centerX: 0, centerY: 0, height: 18, width: 200 },
+          value: "Loading..."
+        }),
 
-          bookList: SC.ScrollView.design({
-            classNames: ["books-list"],
-            layout: { left:0, right:0, top:0, bottom:32},
-            borderStyle: SC.BORDER_NONE,
-            contentView: SC.ListView.design({
-              contentBinding: "ONRTestApp.booksController.arrangedObjects",
-              selectionBinding: "ONRTestApp.booksController.selection",
-              contentValueKey: "title",
+        authorView: SC.ScrollView.design(SC.Animatable, {
+          style: {
+            opacity: 0,
+            display: "none"
+          },
+          transitions: {
+            opacity: 0.15,
+            display: 0.5
+          },
 
-              delegate: ONRTestApp.bookController,
-              canReorderContent: YES,
-              canDeleteContent: YES,
-              rowHeight: 22,
-
-              exampleView: SC.View.design({
-                childViews: "label".w(),
-                classNames: ["book-item"],
-
-                label: SC.LabelView.design({
-                  escapeHTML: NO,
-                  layout: {left:5, right:5, height:18,centerY:0},
-                  contentBinding: ".parentView.content",
-                  contentValueKey: "title",
-                  inlineEditorDidEndEditing: function(){
-                    sc_super();
-                    ONRTestApp.store.commitRecords();
-                  }
-                }),
-
-                isSelected: NO,
-                isSelectedDidChange: function() {
-                  this.displayDidChange();
-                }.observes("isSelected"),
-
-                render: function(context) {
-                  sc_super();
-
-                  // even/odd
-                  if (this.contentIndex % 2 === 0) {
-                    context.addClass("even");
-                  } else {
-                    context.addClass("odd");
-                  }
-
-                  // is selected
-                  if (this.get("isSelected")) {
-                    context.addClass("list-selection").addClass("hback").addClass("selected");
-                  }
-                }
-              })
-            })
-          }) // bookList
-        }), // booksView
-
-        // book view
-        bottomRightView: SC.View.design({
-          backgroundColor: "#555",
-          childViews: 'noBookView bookView toolbar'.w(),
-
-          noBookView: SC.LabelView.design({
-            layout: { centerX: 0, centerY: 0, height: 18, width: 200 },
-            value: "No Book Selected"
+          classNames: ["book-panel"],
+          layout: { left: 15, right: 15, bottom: 47, top: 15 },
+          borderStyle: SC.BORDER_NONE,
+            contentView: ONRTestApp.AuthorView.design({
+            contentBinding: "ONRTestApp.versionController"
           }),
 
-          bookView: SC.ScrollView.design(SC.Animatable, {
-            style: {
-              opacity: 0,
-              display: "none"
-            },
+          shouldDisplayBinding: "ONRTestApp.authorController.shouldDisplay",
+          shouldDisplayDidChange: function(){
+            if (this.get("shouldDisplay")) this.adjust({"opacity": 1.0, display: "block"});
+            else this.adjust({"opacity": 0, display: "none"});
+          }.observes("shouldDisplay")
+        }), // bookView
+
+        toolbar: SC.ToolbarView.design({
+          layout: { left:0, right:0, bottom:0, height:32 },
+          classNames: "hback toolbar".w(),
+          childViews: "edit save".w(),
+          edit: SC.ButtonView.design(SC.Animatable, {
             transitions: {
-              opacity: 0.15,
-              display: 0.5
+              opacity: 0.25
             },
+            title: "Edit",
+            layout: { left: 0, top: 0, bottom: 0, width: 90 },
+            target: ONRTestApp.bookController,
+            action: "beginEditing",
+            style: { opacity: 1 }
+          }),
 
-            classNames: ["book-panel"],
-            layout: { left: 15, right: 15, bottom: 47, top: 15 },
-            borderStyle: SC.BORDER_NONE,
-              contentView: ONRTestApp.BookView.design({
-              contentBinding: "ONRTestApp.versionController"
-            }),
+          save: SC.ButtonView.design(SC.Animatable, {
+            transitions: { opacity: 0.25 },
+            title: "Save",
+            layout: { left: 0, top:0, bottom: 0, width: 90 },
+            target: ONRTestApp.bookController,
+            action: "endEditing",
+            style: {
+              opacity: 0, display: "none"
+            }
+          }),
 
-            shouldDisplayBinding: "ONRTestApp.bookController.shouldDisplay",
-            shouldDisplayDidChange: function(){
-              if (this.get("shouldDisplay")) this.adjust({"opacity": 1.0, display: "block"});
-              else this.adjust({"opacity": 0, display: "none"});
-            }.observes("shouldDisplay")
-          }), // bookView
+          controllerIsEditing: NO,
+          controllerIsEditingBinding: "ONRTestApp.bookController.isEditing",
+          controllerIsEditingDidChange: function() {
+            var save = this.get("save");
+            var edit = this.get("edit");
 
-          toolbar: SC.ToolbarView.design({
-            layout: { left:0, right:0, bottom:0, height:32 },
-            classNames: "hback toolbar".w(),
-            childViews: "edit save".w(),
-            edit: SC.ButtonView.design(SC.Animatable, {
-              transitions: {
-                opacity: 0.25
-              },
-              title: "Edit",
-              layout: { left: 0, top: 0, bottom: 0, width: 90 },
-              target: ONRTestApp.bookController,
-              action: "beginEditing",
-              style: { opacity: 1 }
-            }),
+            if (save.isClass) return;
 
-            save: SC.ButtonView.design(SC.Animatable, {
-              transitions: { opacity: 0.25 },
-              title: "Save",
-              layout: { left: 0, top:0, bottom: 0, width: 90 },
-              target: ONRTestApp.bookController,
-              action: "endEditing",
-              style: {
-                opacity: 0, display: "none"
-              }
-            }),
+            if (this.get("controllerIsEditing")) {
+              save.adjust({
+                opacity: 1, display: "block"
+              }).updateLayout();
+              edit.adjust({
+                opacity: 1, display: "none"
+              }).updateLayout();
+            } else {
+              edit.adjust({
+                opacity: 1, display: "block"
+              }).updateLayout();
+              save.adjust({
+                opacity: 1, display: "none"
+              }).updateLayout();
+            }
+          }.observes("controllerIsEditing")
 
-            controllerIsEditing: NO,
-            controllerIsEditingBinding: "ONRTestApp.bookController.isEditing",
-            controllerIsEditingDidChange: function() {
-              var save = this.get("save");
-              var edit = this.get("edit");
-
-              if (save.isClass) return;
-
-              if (this.get("controllerIsEditing")) {
-                save.adjust({
-                  opacity: 1, display: "block"
-                }).updateLayout();
-                edit.adjust({
-                  opacity: 1, display: "none"
-                }).updateLayout();
-              } else {
-                edit.adjust({
-                  opacity: 1, display: "block"
-                }).updateLayout();
-                save.adjust({
-                  opacity: 1, display: "none"
-                }).updateLayout();
-              }
-            }.observes("controllerIsEditing")
-
-          }) // toolbar
-        }) // bottomRightView (bookView)
-      }) // bottomRightView (booksView)
+        }) // toolbar
+      }) // bottomRightView (bookView)
     }) // splitter
   }) // mainPane
 }); // mainPage

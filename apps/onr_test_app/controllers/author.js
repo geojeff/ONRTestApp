@@ -18,6 +18,11 @@ ONRTestApp.authorController = SC.ObjectController.create(
   bookBinding: "ONRTestApp.booksController.selection.firstObject",
   book: null,
 
+  contentDidChange: function() {
+    if (this.get("content")) this.set("shouldDisplay", YES);
+    else this.set("shouldDisplay", NO);
+  }.observes("content"),
+
   update: function() {
     if (!SC.none(this.get('book'))) {
       console.log('setting ' + this.get('book'));

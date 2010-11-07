@@ -28,7 +28,7 @@
 
   [DONE]
 
-- Fix editing of form items. Code from Contacts app, in book.js, to set beginEditing() on the form fails with error
+- Fix editing of form items. Code from Contacts app, in author.js, to set beginEditing() on the form fails with error
   about beginEditing not being in SC.FormView. Do you only have to set isEditing? And what about the default setting?
 
   [DONE]
