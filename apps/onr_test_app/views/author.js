@@ -40,54 +40,20 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   authorForm:  SC.FormView.design({
     layout: { left: 10, top: 10, width: 500, height: 31 },
     contentBinding: "ONRTestApp.authorController",
-    childViews: 'name'.w(),
+    childViews: 'fullName'.w(),
 
-    name: SC.FormView.row("Author", SC.View.extend(SC.Animatable, SC.FlowedLayout, SC.AutoMixin, {
+    fullName: SC.FormView.row("Author", SC.TextFieldView.extend(SC.Animatable, SC.FlowedLayout, SC.AutoMixin, {
       isSpacer: YES,
-//
-//      init: function() {
-//        sc_super();
-//        this.style.overflow = "visible";
-//        SC.Timer.schedule({
-//          target: this,
-//          action: "hideOne",
-//          interval: 2000,
-//          repeats: YES
-//        });
-//      },
-//
-//      hideOne: function() {
-//        if (this._hasHidden) this.firstName.set("isVisible", YES);
-//        else this.firstName.set("isVisible", NO);
-//        this._hasHidden = !this._hasHidden;
-//      },
 
       autoMixins: [SC.Animatable, {
         transitions: { left: 0.25, top: 0.25, width: 0.25 }
       }],
 
-      childViews: "firstName lastName".w(),
-//      layout: { width: 500 },
-//      align: SC.ALIGN_RIGHT,
-      layoutDirection: SC.LAYOUT_HORIZONTAL,
-      defaultFlowSpacing: {
-        left: 10, top: 0, right: 10, bottom: 0
-      },
-      firstName: SC.TextFieldView.design({
-        layout: { width: 150, height: 21 },
-        hint: 'First Name'
-        //value: "First Name"
-        //isSpacer: YES,
-        //autoHide: YES
-      }),
-
-      lastName: SC.TextFieldView.design({
-        layout: { width: 150, height: 21 },
-        hint: 'Last Name'
-        //value: "Last Name"
-        //isSpacer: YES,
-        //autoHide: YES
-      })
+      layout: { width: 150, height: 21 },
+      hint: 'First Last'
+      //value: "Last Name"
+      //isSpacer: YES,
+      //autoHide: YES
     }))
   }),
 
