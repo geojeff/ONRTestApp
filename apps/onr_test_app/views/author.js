@@ -42,14 +42,8 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
     contentBinding: "ONRTestApp.authorController",
     childViews: 'fullName'.w(),
 
-    fullName: SC.FormView.row("Author", SC.TextFieldView.extend(SC.Animatable, SC.FlowedLayout, SC.AutoMixin, {
-      isSpacer: YES,
-
-      autoMixins: [SC.Animatable, {
-        transitions: { left: 0.25, top: 0.25, width: 0.25 }
-      }],
-
-      layout: { width: 150, height: 21 },
+    fullName: SC.FormView.row("Author", SC.TextFieldView.design({
+      layout: { left: 0, width: 250, height: 21, centerY: 0 },
       hint: 'First Last'
       //value: "Last Name"
       //isSpacer: YES,
