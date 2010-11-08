@@ -220,9 +220,9 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }),
 
   versionView: SC.FormView.design({
-    layout: { left: 0, top: 270, width: 500, height: 300 },
+    layout: { left: 0, top: 270, width: 500 },
+    formFlowSpacing: { left: 2, top: 2, bottom: 2, right: 2 },
     contentBinding: ".parentView.content",
-    //rowPadding: 5,
     childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
 
 //    publisherHeader: SC.LabelView.design({
@@ -339,21 +339,82 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
 
   }),
 
-  reviewsView: SC.ScrollView.design({
-    layout: { left: 0, bottom: 0, width: 500, height: 80 },
-    hasHorizontalScroller: YES,
-    backgroundColor: 'white',
-    contentView: SC.ListView.design({
-      contentBinding: 'ONRTestApp.reviewsController.arrangedObjects',
-      selectionBinding: 'ONRTestApp.reviewsController.selection',
-      contentValueKey: "text",
-      canEditContent: YES,
-      canReorderContent: YES,
-      canDeleteContent: YES,
-      destroyOnRemoval: YES,
-      rowHeight: 21
-    })
-  }),
+  reviewsView: SC.View.design({
+    layout: { left: 0, bottom: 0, width: 500, height: 140 },
+    classNames: ["reviews-view"],
+    childViews: "reviewList toolbar".w(),
+
+    reviewList: SC.ScrollView.design({
+      classNames: ["reviews-list"],
+      layout: { left:0, right:0, top:0, bottom:32},
+      borderStyle: SC.BORDER_NONE,
+
+      contentView: SC.ListView.design({
+        contentBinding: "ONRTestApp.reviewsController.arrangedObjects",
+        selectionBinding: "ONRTestApp.reviewsController.selection",
+        contentValueKey: "text",
+
+        delegate: ONRTestApp.reviewController,
+        canReorderContent: YES,
+        canDeleteContent: YES,
+        rowHeight: 22,
+
+        exampleView: SC.View.design({
+          childViews: "label".w(),
+          classNames: ["review-item"],
+
+          label: SC.LabelView.design({
+            escapeHTML: NO,
+            layout: {left:5, right:5, height:18,centerY:0},
+            contentBinding: ".parentView.content",
+            contentValueKey: "text",
+            inlineEditorDidEndEditing: function(){
+              sc_super();
+              ONRTestApp.store.commitRecords();
+            }
+          }),
+
+          isSelected: NO,
+          isSelectedDidChange: function() {
+            this.displayDidChange();
+          }.observes("isSelected"),
+
+          render: function(context) {
+            sc_super();
+
+            // even/odd
+            if (this.contentIndex % 2 === 0) {
+              context.addClass("even");
+            } else {
+              context.addClass("odd");
+            }
+
+            // is selected
+            if (this.get("isSelected")) {
+              context.addClass("list-selection").addClass("hback").addClass("selected");
+            }
+          }
+        })
+      })
+    }), // reviewList
+
+    toolbar: SC.ToolbarView.design({
+      classNames: "hback toolbar".w(),
+      layout: { left: 0, bottom: 0, right: 0, height: 32 },
+      childViews: "add".w(),
+      add: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        target: "ONRTestApp.reviewsController",
+        action: "addReview",
+        icon: "icons plus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      })
+    }) // toolbar
+
+  }), // reviewsView
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */
   append: function() {

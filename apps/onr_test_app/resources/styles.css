@@ -255,4 +255,67 @@
 
 .versions-list em { color:gray; }
 
+/* Reviews */
+.reviews-view {
+    background-color: #cad0dd;
+    color:#444455;
+    font-weight:bold;
+    text-shadow: 0px 1px 1px white;
+}
+
+.reviews-view .sc-separator-view span {
+    border-color: #999;
+    left: 5px;
+    right: 5px;
+}
+
+.reviews-view .sc-list-view {
+    background-color:transparent;
+}
+
+.reviews-view .selected, .reviews-view .sc-list-view .drag-potential {
+    text-shadow:0px 1px 1px black;
+    color:white;
+}
+
+.reviews-list .review-item { overflow:visible; }
+.reviews-list .review-item .sc-label-view { overflow:visible; white-space:nowrap; }
+
+.reviews-list .review-item {
+  /* Add a background image */
+}
+
+.reviews-list .selected {
+	color:white;
+}
+
+/* Search */
+.reviews-list strong {
+  background: -moz-gradient(linear, 0% 0%, 0% 100%, from(#888), to(#333));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#888), to(#333));
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px solid #999;
+  padding:2px;
+  position:relative;
+  z-index:10000;
+  color:white;
+}
+
+.reviews-list .selected strong {
+  background: -moz-gradient(linear, 0% 0%, 0% 100%, from(#FFE645), to(#FF9F0F));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFE645), to(#FF9F0F));
+  -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,.7);
+  -moz-box-shadow: 1px 1px 4px rgba(0,0,0,.7);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border: 1px solid #FFE645;
+  padding:2px;
+  position:relative;
+  z-index:10000;
+  color:black;
+}
+
+.reviews-list em { color:gray; }
+
 

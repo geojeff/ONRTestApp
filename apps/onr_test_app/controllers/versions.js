@@ -91,6 +91,15 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     }
   },
 
+  addNewReview: function(review) {
+    var sel = this.get("selection");
+    if (!sel) return;
+    review.set("version", sel.firstObject());
+    sel.firstObject().get('reviews').pushObject(review);
+
+    this.gatherReviews();
+  },
+
   // This is a closure, that will create an unnamed function, for checking
   // for completion of versions records. The generator function has version
   // as a passed-in argument, in scope for the generated function. The
