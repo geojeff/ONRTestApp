@@ -158,6 +158,15 @@ ONRTestApp.booksController = SC.ArrayController.create(
     }
   },
 
+  addNewVersion: function(version) {
+    var sel = this.get("selection");
+    if (!sel) return;
+    version.set("book", sel.firstObject());
+    sel.firstObject().get('versions').pushObject(version);
+
+    this.gatherVersions();
+  },
+
   generateCheckBooksFunction: function(book){
     var me = this;
     return function(val){

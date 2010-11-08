@@ -39,27 +39,13 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
 
   booksView: SC.View.design({
     layout: { left: 10, top: 10, width: 400, height: 200 },
-    childViews: "toolbar bookList".w(),
-    toolbar: SC.ToolbarView.design({
-      classNames: "hback toolbar".w(),
-      layout: { left: 0, bottom: 0, right: 0, height: 32 },
-      childViews: "add".w(),
-      add: SC.ButtonView.design({
-        layout: { left: 0, top: 0, bottom: 0, width:32 },
-        target: "ONRTestApp.booksController",
-        action: "addBook",
-        icon: "icons plus button-icon",
-        titleMinWidth: 16,
-        isActiveDidChange: function() {
-          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
-        }.observes("isActive")
-      })
-    }), // toolbar
+    childViews: "bookList toolbar".w(),
 
     bookList: SC.ScrollView.design({
       classNames: ["books-list"],
       layout: { left:0, right:0, top:0, bottom:32},
       borderStyle: SC.BORDER_NONE,
+
       contentView: SC.ListView.design({
         contentBinding: "ONRTestApp.booksController.arrangedObjects",
         selectionBinding: "ONRTestApp.booksController.selection",
@@ -107,25 +93,64 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
           }
         })
       })
-    }) // bookList
+    }), // bookList
+
+    toolbar: SC.ToolbarView.design({
+      classNames: "hback toolbar".w(),
+      layout: { left: 0, bottom: 0, right: 0, height: 32 },
+      childViews: "add".w(),
+      add: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        target: "ONRTestApp.booksController",
+        action: "addBook",
+        icon: "icons plus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      })
+    }) // toolbar
+
   }), // booksView
 
-  versionsView: SC.ScrollView.design({
-    hasHorizontalScroller: NO,
-    layout: { left: 420, top: 10, width: 100, height: 200 },
-    backgroundColor: 'white',
-    contentView: SC.ListView.design({
-      contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
-      selectionBinding: 'ONRTestApp.versionsController.selection',
-      contentValueKey: "format",
-      canEditContent: YES,
-      canReorderContent: YES,
-      canDeleteContent: YES,
-      destroyOnRemoval: YES,
-      rowHeight: 21
-    })
-  }),
+  versionsView: SC.View.design({
+    layout: { left: 410, top: 10, width: 100, height: 200 },
+    childViews: "versionList toolbar".w(),
 
+    versionList: SC.ScrollView.design({
+      classNames: ["versions-list"],
+      layout: { left:0, right:0, top:0, bottom:32},
+      borderStyle: SC.BORDER_NONE,
+
+      contentView: SC.ListView.design({
+        contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
+        selectionBinding: 'ONRTestApp.versionsController.selection',
+        contentValueKey: "format",
+        canEditContent: YES,
+        canReorderContent: YES,
+        canDeleteContent: YES,
+        destroyOnRemoval: YES,
+        rowHeight: 21
+      })
+    }), // versionList
+
+    toolbar: SC.ToolbarView.design({
+      classNames: "hback toolbar".w(),
+      layout: { left: 0, bottom: 0, right: 0, height: 32 },
+      childViews: "add".w(),
+      add: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        target: "ONRTestApp.versionsController",
+        action: "addVersion",
+        icon: "icons plus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      })
+    }) // toolbar
+
+  }), // versionsView
 
   authorForm:  SC.FormView.design({
     layout: { left: 10, top: 220, width: 500, height: 30 },

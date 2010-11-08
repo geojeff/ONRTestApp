@@ -37,6 +37,60 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     }
   },
 
+  deleteVersions: function(op) {
+    var records = op.records, indexes = op.indexes;
+    records.invoke('destroy');
+
+    var selIndex = indexes.get('min') - 1;
+    if (selIndex < 0) selIndex = 0;
+    this.selectObject(this.objectAt(selIndex));
+
+    ONRTestApp.store.commitRecords();
+  },
+
+  alertPaneDidDismiss: function(pane, status) {
+    if (!this._pendingOperation) return;
+    switch (status) {
+      case SC.BUTTON2_STATUS:
+        this[this._pendingOperation.action].call(this, this._pendingOperation);
+        this._pendingOperation = null;
+        break;
+      case SC.BUTTON1_STATUS:
+        break;
+    }
+  },
+
+  addVersion: function() {
+    var version;
+
+    version = ONRTestApp.store.createRecord(ONRTestApp.Version, {
+      "title":       'title'
+    });
+
+    ONRTestApp.store.commitRecords();
+
+    // Once the book records come back READY_CLEAN, add book to current book.
+    version.addFiniteObserver('status',this,this.generateCheckVersionFunction(book),this);
+  },
+
+  generateCheckVersionFunction: function(version) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        ONRTestApp.booksController.addNewVersion(version);
+
+        me.selectObject(version);
+
+        me.invokeLater(function(){
+          ONRTestApp.versionController.beginEditing();
+        });
+
+        // this has already been done, eh?
+        //version.commitRecord();
+      }
+    }
+  },
+
   // This is a closure, that will create an unnamed function, for checking
   // for completion of versions records. The generator function has version
   // as a passed-in argument, in scope for the generated function. The
