@@ -16,7 +16,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   /** @scope ONRTestApp.AuthorView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["book-view"],
-  childViews: "authorForm booksView versionsView bookTitleForm versionView reviewsView".w(),
+  childViews: "booksView versionsView authorForm bookTitleForm versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
 
@@ -37,22 +37,8 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
     }
   },
 
-  authorForm:  SC.FormView.design({
-    layout: { left: 10, top: 10, width: 500, height: 31 },
-    contentBinding: "ONRTestApp.authorController",
-    childViews: 'fullName'.w(),
-
-    fullName: SC.FormView.row("Author", SC.TextFieldView.design({
-      layout: { left: 0, width: 250, height: 21, centerY: 0 },
-      hint: 'First Last'
-      //value: "Last Name"
-      //isSpacer: YES,
-      //autoHide: YES
-    }))
-  }),
-
   booksView: SC.View.design({
-    layout: { left: 10, top: 40, width: 400, height: 200 },
+    layout: { left: 10, top: 10, width: 400, height: 200 },
     childViews: "toolbar bookList".w(),
     toolbar: SC.ToolbarView.design({
       classNames: "hback toolbar".w(),
@@ -126,7 +112,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
 
   versionsView: SC.ScrollView.design({
     hasHorizontalScroller: NO,
-    layout: { left: 420, top: 40, width: 100, height: 200 },
+    layout: { left: 420, top: 10, width: 100, height: 200 },
     backgroundColor: 'white',
     contentView: SC.ListView.design({
       contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
@@ -138,6 +124,21 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
       destroyOnRemoval: YES,
       rowHeight: 21
     })
+  }),
+
+
+  authorForm:  SC.FormView.design({
+    layout: { left: 10, top: 220, width: 500, height: 30 },
+    contentBinding: "ONRTestApp.authorController",
+    childViews: 'fullName'.w(),
+
+    fullName: SC.FormView.row("Author", SC.TextFieldView.design({
+      layout: { left: 0, width: 250, height: 21, centerY: 0 },
+      hint: 'First Last'
+      //value: "Last Name"
+      //isSpacer: YES,
+      //autoHide: YES
+    }))
   }),
 
   bookTitleForm: SC.FormView.design({
@@ -275,7 +276,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }),
 
   reviewsView: SC.ScrollView.design({
-    layout: { left: 10, bottom: 0, width: 500, height: 60 },
+    layout: { left: 10, bottom: 10, width: 500, height: 60 },
     hasHorizontalScroller: YES,
     backgroundColor: 'white',
     contentView: SC.ListView.design({
