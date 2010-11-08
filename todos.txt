@@ -20,6 +20,8 @@
 
 - Get label dividers to work in the book form. They show up as blank intervals if added as is now.
 
+  [NOTE: not needed if a concise form is preferred, but this needs to be understood for testing Forms]
+
 - Evaluate the layout of the book form. Labels are needed for the lists, for the form. If design with version list
   left, form on right, reviews list on bottom, kept, handle case of small window size and overlap of reviews list and
   main  properties panel.
@@ -58,6 +60,8 @@
   add, delete, etc. Somewhere add feedback on relation-setting, perhaps when a new record is added.
 
 - Fix label cutting off in books list. Make wider, but handle long titles with... ellipsis?
+
+  [DONE] Made wider. This doesn't really fix it though. Should this be considered a bug in SC?
 
 - Rename versions to editions?
 
