@@ -15,7 +15,7 @@
 ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   /** @scope ONRTestApp.AuthorView.prototype */ {
   layout: {left:0, right:0},
-  classNames: ["book-view"],
+  classNames: ["author-view"],
   childViews: "booksView versionsView authorForm bookTitleForm versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
@@ -38,7 +38,8 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   },
 
   booksView: SC.View.design({
-    layout: { left: 10, top: 10, width: 400, height: 200 },
+    layout: { left: 0, top: 0, width: 400, height: 200 },
+    classNames: ["books-view"],
     childViews: "bookList toolbar".w(),
 
     bookList: SC.ScrollView.design({
@@ -114,7 +115,8 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }), // booksView
 
   versionsView: SC.View.design({
-    layout: { left: 410, top: 10, width: 100, height: 200 },
+    layout: { left: 401, top: 0, width: 100, height: 200 }, // 1 pixel over for a vertical divider
+    classNames: ["versions-view"],
     childViews: "versionList toolbar".w(),
 
     versionList: SC.ScrollView.design({
@@ -190,7 +192,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }), // versionsView
 
   authorForm:  SC.FormView.design({
-    layout: { left: 10, top: 220, width: 500, height: 30 },
+    layout: { left: 0, top: 210, width: 500, height: 30 },
     contentBinding: "ONRTestApp.authorController",
     childViews: 'fullName'.w(),
 
@@ -204,7 +206,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }),
 
   bookTitleForm: SC.FormView.design({
-    layout: { left: 10, top: 250, width: 500, height: 30 },
+    layout: { left: 0, top: 240, width: 500, height: 30 },
     contentBinding: "ONRTestApp.bookController",
     childViews: 'title'.w(),
 
@@ -218,7 +220,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }),
 
   versionView: SC.FormView.design({
-    layout: { left: 10, top: 280, width: 500, height: 300 },
+    layout: { left: 0, top: 270, width: 500, height: 300 },
     contentBinding: ".parentView.content",
     //rowPadding: 5,
     childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
@@ -338,7 +340,7 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
   }),
 
   reviewsView: SC.ScrollView.design({
-    layout: { left: 10, bottom: 10, width: 500, height: 60 },
+    layout: { left: 0, bottom: 0, width: 500, height: 80 },
     hasHorizontalScroller: YES,
     backgroundColor: 'white',
     contentView: SC.ListView.design({

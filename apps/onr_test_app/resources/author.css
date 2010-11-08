@@ -2,26 +2,26 @@
 .sc-form-row-view { overflow:visible; } /* for editing shadows */
 
 /* Text Field View */
-.book-view .sc-text-field-view .border {
+.author-view .sc-text-field-view .border {
 	-webkit-appearance: none;
 	border: 0px none;
 }
 
-.book-view .sc-text-field-view input { background:transparent; }
-.book-view .sc-text-field-view textarea { background:transparent; }
+.author-view .sc-text-field-view input { background:transparent; }
+.author-view .sc-text-field-view textarea { background:transparent; }
 
-.msie .book-view .sc-text-field-view { border: 0px solid transparent; outline: 0px none }
-.msie .book-view .sc-text-field-view.focus { border: 0px solid gray; outline: 0px none; }
-.msie .book-view .sc-text-field-view .padding { border: 1px solid transparent; outline: 0px none; left: 0px; right:0px;}
-.msie .book-view .sc-text-field-view.focus .padding { background-color:white; border: 1px solid gray; outline: 0px none; }
+.msie .author-view .sc-text-field-view { border: 0px solid transparent; outline: 0px none }
+.msie .author-view .sc-text-field-view.focus { border: 0px solid gray; outline: 0px none; }
+.msie .author-view .sc-text-field-view .padding { border: 1px solid transparent; outline: 0px none; left: 0px; right:0px;}
+.msie .author-view .sc-text-field-view.focus .padding { background-color:white; border: 1px solid gray; outline: 0px none; }
 
-.book-view .sc-text-field-view.focus { border: 0px none; outline: 0px none; z-index:5000;}
+.author-view .sc-text-field-view.focus { border: 0px none; outline: 0px none; z-index:5000;}
 
 .sc-view .sc-text-field-view .border, 
-.msie .book-view .sc-text-field-view .border { border: 1px solid transparent; }
+.msie .author-view .sc-text-field-view .border { border: 1px solid transparent; }
 
-.book-view .sc-view .sc-text-field-view.focus .border,
-.book-view .msie .sc-view .sc-text-field-view.focus .border {
+.author-view .sc-view .sc-text-field-view.focus .border,
+.author-view .msie .sc-view .sc-text-field-view.focus .border {
 	outline:0px none; 
 	border: 1px solid #888;
 	-moz-box-shadow: 3px 3px 5px gray; 
@@ -39,8 +39,8 @@
 	progid:DXImageTransform.Microsoft.Blur(pixelradius=2);
 }
 
-.safari .book-view .sc-view .sc-text-field-view.focus {outline:0px none;}
-.mozilla .book-view .sc-view .sc-text-field-view.focus {outline:0px none;}
+.safari .author-view .sc-view .sc-text-field-view.focus {outline:0px none;}
+.mozilla .author-view .sc-view .sc-text-field-view.focus {outline:0px none;}
 
 
 /* Set font size */
@@ -102,5 +102,5 @@
 }
 
 /* And, make hints keep showing, because the first field focuses automatically */
-.book-view .sc-text-field-view.focus .sc-hint { display: block; }
-.book-view .sc-text-field-view.not-empty .sc-hint { display: none; }
+.author-view .sc-text-field-view.focus .sc-hint { display: block; }
+.author-view .sc-text-field-view.not-empty .sc-hint { display: none; }

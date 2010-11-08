@@ -98,7 +98,52 @@
 .toolbar. .searchBox input { background-color:transparent; }
 .toolbar .searchBox { background-color:transparent; }
 
+/* Authors */
+.authors {
+    background-color: #cad0dd;
+    color:#444455;
+    font-weight:bold;
+    text-shadow: 0px 1px 1px white;
+}
+
+.authors .sc-separator-view span {
+    border-color: #999;
+    left: 5px;
+    right: 5px;
+}
+
+.authors .sc-list-view {
+    background-color:transparent;
+}
+
+.authors .selected, .authors .sc-list-view .drag-potential {
+    text-shadow:0px 1px 1px black;
+    color:white;
+}
+
 /* Books */
+.books-view {
+    background-color: #cad0dd;
+    color:#444455;
+    font-weight:bold;
+    text-shadow: 0px 1px 1px white;
+}
+
+.books-view .sc-separator-view span {
+    border-color: #999;
+    left: 5px;
+    right: 5px;
+}
+
+.books-view .sc-list-view {
+    background-color:transparent;
+}
+
+.books-view .selected, .books-view .sc-list-view .drag-potential {
+    text-shadow:0px 1px 1px black;
+    color:white;
+}
+
 .book-panel {
 	-webkit-box-shadow: 0px 0px 10px black;
 	color:black;
@@ -147,6 +192,29 @@
 
 .books-list em { color:gray; }
 
+/* Versions */
+.versions-view {
+    background-color: #cad0dd;
+    color:#444455;
+    font-weight:bold;
+    text-shadow: 0px 1px 1px white;
+}
+
+.versions-view .sc-separator-view span {
+    border-color: #999;
+    left: 5px;
+    right: 5px;
+}
+
+.versions-view .sc-list-view {
+    background-color:transparent;
+}
+
+.versions-view .selected, .versions-view .sc-list-view .drag-potential {
+    text-shadow:0px 1px 1px black;
+    color:white;
+}
+
 .versions-list .version-item { overflow:visible; }
 .versions-list .version-item .sc-label-view { overflow:visible; white-space:nowrap; }
 
@@ -187,26 +255,4 @@
 
 .versions-list em { color:gray; }
 
-/* Authors */
-.authors {
-  background-color: #cad0dd;
-  color:#444455;
-	font-weight:bold;
-	text-shadow: 0px 1px 1px white;
-}
-
-.authors .sc-separator-view span {
-  border-color: #999;
-  left: 5px;
-  right: 5px;
-}
-
-.authors .sc-list-view {
-	background-color:transparent;
-}
-
-.authors .selected, .authors .sc-list-view .drag-potential {
-	text-shadow:0px 1px 1px black;
-	color:white;
-}
 
