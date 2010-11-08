@@ -147,6 +147,46 @@
 
 .books-list em { color:gray; }
 
+.versions-list .version-item { overflow:visible; }
+.versions-list .version-item .sc-label-view { overflow:visible; white-space:nowrap; }
+
+.versions-list .version-item {
+  /* Add a background image */
+}
+
+.versions-list .selected {
+	color:white;
+}
+
+/* Search */
+.versions-list strong {
+  background: -moz-gradient(linear, 0% 0%, 0% 100%, from(#888), to(#333));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#888), to(#333));
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px solid #999;
+  padding:2px;
+  position:relative;
+  z-index:10000;
+  color:white;
+}
+
+.versions-list .selected strong {
+  background: -moz-gradient(linear, 0% 0%, 0% 100%, from(#FFE645), to(#FF9F0F));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFE645), to(#FF9F0F));
+  -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,.7);
+  -moz-box-shadow: 1px 1px 4px rgba(0,0,0,.7);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border: 1px solid #FFE645;
+  padding:2px;
+  position:relative;
+  z-index:10000;
+  color:black;
+}
+
+.versions-list em { color:gray; }
+
 /* Authors */
 .authors {
   background-color: #cad0dd;
