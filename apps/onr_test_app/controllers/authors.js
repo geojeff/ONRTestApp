@@ -48,6 +48,10 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 
       this.set("gatheredBooks", books.toArray());
 	    this.set("allIsSelected", NO);
+      var fo = books.firstObject();
+      if (!SC.none(fo)) {
+        fo.addFiniteObserver('status',this,this.generateSelectBookFunction(fo),this);
+      }
     }
 	},
 
@@ -67,6 +71,17 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
       this.set("gatheredVersions", versions.toArray());
     }
 	},
+
+  generateSelectBookFunction: function(book) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        if (!ONRTestApp.booksController.hasSelection()) {
+          ONRTestApp.booksController.selectObject(book);
+        }
+      }
+    };
+  },
 
 	collectionViewDeleteContent: function(view, content, indexes) {
 	  this._pendingOperation = { action: "deleteAuthors", indexes: indexes  };
