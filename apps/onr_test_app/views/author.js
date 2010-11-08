@@ -126,11 +126,48 @@ ONRTestApp.AuthorView = SC.View.extend(SC.Animatable,
         contentBinding: 'ONRTestApp.versionsController.arrangedObjects',
         selectionBinding: 'ONRTestApp.versionsController.selection',
         contentValueKey: "format",
-        canEditContent: YES,
+
+        delegate: ONRTestApp.versionController,
         canReorderContent: YES,
         canDeleteContent: YES,
-        destroyOnRemoval: YES,
-        rowHeight: 21
+        rowHeight: 22,
+
+        exampleView: SC.View.design({
+          childViews: "label".w(),
+          classNames: ["version-item"],
+
+          label: SC.LabelView.design({
+            escapeHTML: NO,
+            layout: {left:5, right:5, height:18,centerY:0},
+            contentBinding: ".parentView.content",
+            contentValueKey: "format",
+            inlineEditorDidEndEditing: function(){
+              sc_super();
+              ONRTestApp.store.commitRecords();
+            }
+          }),
+
+          isSelected: NO,
+          isSelectedDidChange: function() {
+            this.displayDidChange();
+          }.observes("isSelected"),
+
+          render: function(context) {
+            sc_super();
+
+            // even/odd
+            if (this.contentIndex % 2 === 0) {
+              context.addClass("even");
+            } else {
+              context.addClass("odd");
+            }
+
+            // is selected
+            if (this.get("isSelected")) {
+              context.addClass("list-selection").addClass("hback").addClass("selected");
+            }
+          }
+        })
       })
     }), // versionList
 
