@@ -70,7 +70,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     ONRTestApp.store.commitRecords();
 
     // Once the book records come back READY_CLEAN, add book to current book.
-    version.addFiniteObserver('status',this,this.generateCheckVersionFunction(book),this);
+    version.addFiniteObserver('status',this,this.generateCheckVersionFunction(version),this);
   },
 
   generateCheckVersionFunction: function(version) {
@@ -115,28 +115,28 @@ ONRTestApp.versionsController = SC.ArrayController.create(
           delete me._tmpRecordCount;
 
           var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
-          var reviewRecords = ONRTestApp.store.find(ONRTestApp.Review);
+          //var reviewRecords = ONRTestApp.store.find(ONRTestApp.Review);
           versionRecords.forEach(function(versionRecord) {
             var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
-            console.log('fixturesKey ' + fixturesKey);
-            //var reviewRecords = ONRTestApp.store.find(SC.Query.local({
-              //recordType: ONRTestApp.Review,
-              //conditions: "fixturesKey ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews }
-            //}));
-            var reviewRecordsForVersion = [];
-            reviewRecords.forEach(function(reviewRecord) {
-              if (ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.indexOf(reviewRecord.readAttribute('fixturesKey')) !== -1) {
-                reviewRecordsForVersion.pushObject(reviewRecord);
-              }
-            });
+            //console.log('fixturesKey ' + fixturesKey);
+            var reviewRecords = ONRTestApp.store.find(SC.Query.create({
+              recordType: ONRTestApp.Review,
+              conditions: "fixturesKey ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews }
+            }));
+            //var reviewRecordsForVersion = [];
+            //reviewRecords.forEach(function(reviewRecord) {
+              //if (ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews.indexOf(reviewRecord.readAttribute('fixturesKey')) !== -1) {
+                //reviewRecordsForVersion.pushObject(reviewRecord);
+              //}
+            //});
 
 //            reviewRecordsForVersion.forEach(function(reviewRecord) {
 //              console.log('rr = ' + SC.inspect(reviewRecord));
 //            });
 //            console.log('reviewRecords set ' + reviewRecordsForVersion.get('length'));
-            versionRecord.get('reviews').pushObjects(reviewRecordsForVersion);
+            versionRecord.get('reviews').pushObjects(reviewRecords);
           });
 
           ONRTestApp.store.commitRecords();

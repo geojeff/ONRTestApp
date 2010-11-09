@@ -38,6 +38,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	gatherBooks: function() {
     var authors, books;
     authors = this.get("selection"); // multiselect allowed
+    console.log('authors in gatherBooks ' + SC.inspect(authors));
 	  if (!SC.none(authors)) {
 	    books = SC.Set.create();
 	    authors.forEach(function(author){
@@ -160,25 +161,24 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
           delete me._tmpRecordCount;
 
           var authorRecords = ONRTestApp.store.find(ONRTestApp.Author);
-          var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
+          //var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
           authorRecords.forEach(function(authorRecord) {
             var fixturesKey = authorRecord.readAttribute('fixturesKey');
 
-            // this causes bucket prototype error in ONR:
-            //var bookRecords = ONRTestApp.store.find(SC.Query.local({
-            //recordType: ONRTestApp.Book,
-            //conditions: "fixturesKey ANY {id_fixtures_array}",
-            //parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
-            //}));
+            var bookRecords = ONRTestApp.store.find(SC.Query.create({
+              recordType: ONRTestApp.Book,
+              conditions: "fixturesKey ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
+            }));
 
-            var bookRecordsForAuthor = [];
-            bookRecords.forEach(function(bookRecord) {
-              if (ONRTestApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
-                bookRecordsForAuthor.pushObject(bookRecord);
-              }
-            });
+            //var bookRecordsForAuthor = [];
+            //bookRecords.forEach(function(bookRecord) {
+              //if (ONRTestApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
+                //bookRecordsForAuthor.pushObject(bookRecord);
+              //}
+            //});
 
-            authorRecord.get('books').pushObjects(bookRecordsForAuthor);
+            authorRecord.get('books').pushObjects(bookRecords);
           });
 
           ONRTestApp.store.commitRecords();

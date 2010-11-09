@@ -125,11 +125,9 @@ ONRTestApp.booksController = SC.ArrayController.create(
   addBook: function() {
     if (this.get("inAll") || !ONRTestApp.authorsController.isSingleSelection()) return;
 
-    var book, bookKey = ONRTestApp.nextRecordKey();
+    var book;
 
     book = ONRTestApp.store.createRecord(ONRTestApp.Book, {
-      //"key":         bookKey,
-      "fixturesKey": bookKey,
       "title":       'title'
     });
 
@@ -177,24 +175,24 @@ ONRTestApp.booksController = SC.ArrayController.create(
           delete me._tmpRecordCount;
 
           var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
-          var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
+          //var versionRecords = ONRTestApp.store.find(ONRTestApp.Version);
           bookRecords.forEach(function(bookRecord) {
             var fixturesKey = bookRecord.readAttribute('fixturesKey');
 
-            //var versionRecords = ONRTestApp.store.find(SC.Query.local({
-              //recordType: ONRTestApp.Version,
-              //conditions: "fixturesKey ANY {id_fixtures_array}",
-              //parameters: { id_fixtures_array: ONRTestApp.Book.FIXTURES[fixturesKey-1].versions }
-            //}));
+            var versionRecords = ONRTestApp.store.find(SC.Query.create({
+              recordType: ONRTestApp.Version,
+              conditions: "fixturesKey ANY {id_fixtures_array}",
+              parameters: { id_fixtures_array: ONRTestApp.Book.FIXTURES[fixturesKey-1].versions }
+            }));
 
-            var versionRecordsForBook = [];
-            versionRecords.forEach(function(versionRecord) {
-              if (ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.indexOf(versionRecord.readAttribute('fixturesKey')) !== -1) {
-                versionRecordsForBook.pushObject(versionRecord);
-              }
-            });
+            //var versionRecordsForBook = [];
+            //versionRecords.forEach(function(versionRecord) {
+              //if (ONRTestApp.Book.FIXTURES[fixturesKey-1].versions.indexOf(versionRecord.readAttribute('fixturesKey')) !== -1) {
+                //versionRecordsForBook.pushObject(versionRecord);
+              //}
+            //});
 
-            bookRecord.get('versions').pushObjects(versionRecordsForBook);
+            bookRecord.get('versions').pushObjects(versionRecords);
           });
 
           ONRTestApp.store.commitRecords();

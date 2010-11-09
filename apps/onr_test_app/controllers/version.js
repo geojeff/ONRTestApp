@@ -23,12 +23,12 @@ ONRTestApp.versionController = SC.ObjectController.create(
 
 	beginEditing: function() {
 		this.set("isEditing", YES);
-		ONRTestApp.mainPage.getPath("mainPane.splitter.bottomRightView.bottomRightView.bookView.contentView.versionView").beginEditing();
+		//ONRTestApp.mainPage.getPath("mainPane.splitter.bottomRightView.bottomRightView.bookView.contentView.versionView").beginEditing();
 	},
 
 	endEditing: function() {
 		this.set("isEditing", NO);
-		ONRTestApp.mainPage.getPath("mainPane.splitter.bottomRightView.bottomRightView.bookView.contentView.versionView").commitEditing();
+		//ONRTestApp.mainPage.getPath("mainPane.splitter.bottomRightView.bottomRightView.bookView.contentView.versionView").commitEditing();
 		ONRTestApp.store.commitRecords();
 	}
 
