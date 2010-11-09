@@ -161,22 +161,14 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
           delete me._tmpRecordCount;
 
           var authorRecords = ONRTestApp.store.find(ONRTestApp.Author);
-          //var bookRecords = ONRTestApp.store.find(ONRTestApp.Book);
           authorRecords.forEach(function(authorRecord) {
             var fixturesKey = authorRecord.readAttribute('fixturesKey');
 
-            var bookRecords = ONRTestApp.store.find(SC.Query.create({
-              recordType: ONRTestApp.Book,
-              conditions: "fixturesKey ANY {id_fixtures_array}",
-              parameters: { id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }
-            }));
-
-            //var bookRecordsForAuthor = [];
-            //bookRecords.forEach(function(bookRecord) {
-              //if (ONRTestApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
-                //bookRecordsForAuthor.pushObject(bookRecord);
-              //}
-            //});
+            var bookRecords = ONRTestApp.store.find(SC.Query.local(
+              ONRTestApp.Book,
+              { conditions: "fixturesKey ANY {id_fixtures_array}",
+                parameters: {id_fixtures_array: ONRTestApp.Author.FIXTURES[fixturesKey-1].books }}
+            ));
 
             authorRecord.get('books').pushObjects(bookRecords);
           });

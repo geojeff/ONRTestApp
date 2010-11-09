@@ -68,7 +68,7 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
         // this has already been done, eh?
         //version.commitRecord();
       }
-    }
+    };
   },
 
   generateCheckReviewsFunction: function(review){
@@ -94,7 +94,6 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
     for (var i=0,len=ONRTestApp.Review.FIXTURES.get('length'); i<len; i++){
       var review;
       review = ONRTestApp.store.createRecord(ONRTestApp.Review, {
-        //"key":          ONRTestApp.Review.FIXTURES[i].key,
         "fixturesKey":  ONRTestApp.Review.FIXTURES[i].key,
         "type":         ONRTestApp.Review.FIXTURES[i].type,
         "text":         ONRTestApp.Review.FIXTURES[i].text
