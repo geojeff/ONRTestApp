@@ -13,9 +13,13 @@ This controller manages the creation of data.
 
 sc_require('onr/datasources/ONRWebsocketDataSource');
 
-ONRTestApp.DataSource =  ONR.ONRWebsocketDataSource.extend({
+ONRTestApp.DataSource = ONR.ONRWebsocketDataSource.extend({
   authSuccessCallback: function(){
-    ONRTestApp.initiateDataCreation();
+    ONRTestApp.statechart.sendEvent('authSuccess');
+  },
+
+  authFailureCallback: function(){
+    ONRTestApp.statechart.sendEvent('authFailure');
   }
 });
 

@@ -129,7 +129,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
 
           ONRTestApp.store.commitRecords();
 
-          ONRTestApp.booksController.createBooks();
+          ONRTestApp.statechart.sendEvent('versionsLoaded');
         }
         return YES;
       }
@@ -137,7 +137,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
     };
   },
  
-  createVersions: function(){
+  loadVersions: function(){
     this._tmpRecordCount = ONRTestApp.Version.FIXTURES.get('length');
 
     for (var i=0,len=ONRTestApp.Version.FIXTURES.get('length'); i<len; i++){

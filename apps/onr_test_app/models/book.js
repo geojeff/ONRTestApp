@@ -18,7 +18,7 @@ ONRTestApp.Book = SC.Record.extend(
 
   // relations:
   author:   SC.Record.toOne("ONRTestApp.Author", { inverse: "book", isMaster: NO }),
-  versions: SC.Record.toMany("ONRTestApp.Version", { inverse: "book", isMaster: YES }),
+  versions: SC.Record.toMany("ONRTestApp.Version", { inverse: "book", isMaster: YES })
 
 //	searchRelevance: 0, // a property that others may use
 //	searchTitle: "", // has things like <strong>The</strong> Search Term.

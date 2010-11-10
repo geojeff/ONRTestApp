@@ -52,7 +52,7 @@ ONRTestApp.mixin({
   },
 
   initiateDataCreation: function() {
-    ONRTestApp.reviewsController.createReviews();
+    ONRTestApp.reviewsController.loadReviewsSetup();
   }
 
 });

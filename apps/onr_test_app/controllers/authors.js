@@ -174,6 +174,8 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
           });
 
           ONRTestApp.store.commitRecords();
+
+          ONRTestApp.statechart.sendEvent('authorsLoaded');
         }
         return YES;
       }
@@ -198,7 +200,11 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
         });
 
         authorRecord.get('books').pushObjects(bookRecordsForAuthor);
+
         ONRTestApp.store.commitRecords();
+
+        ONRTestApp.statechart.authorsLoaded();
+
         return YES;
       }
       else return NO;
@@ -229,7 +235,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
   },
 
   // This function could be called loadAuthors, because it is only done on load
-  createAuthors: function(){
+  loadAuthors: function(){
     this._tmpRecordCount = ONRTestApp.Author.FIXTURES.get('length');
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
       var author;

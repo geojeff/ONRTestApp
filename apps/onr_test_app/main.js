@@ -7,26 +7,9 @@ ONRTestApp.main = function main() {
 
   // Create the data source if it doesn't exist already. (FORCE)
   var initDS = ONRTestApp.store._getDataSource();
-  
-  // Call auth. The data source contains a callback to the test() function.
-  // test() will initiate data creation steps. 
-  ONRTestApp.store.dataSource.connect(ONRTestApp.store,function(){
-    ONRTestApp.store.dataSource.authRequest("test","test");
-  });
 
-  ONRTestApp.getPath('mainPage.mainPane').append();
+  ONRTestApp.statechart.initStatechart();
 
-	var authors = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Author));
-  var books = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Book));
-  //var versions = ONRTestApp.store.find(ONRTestApp.Version);
-  //var reviews = ONRTestApp.store.find(ONRTestApp.Review);
-
-  ONRTestApp.authorsController.set('all', books);
-  ONRTestApp.authorsController.set('content', authors);
-  //ONRTestApp.booksController.set('content', books);
-  //ONRTestApp.versionsController.set('content', versions);
-  //ONRTestApp.reviewsController.set('content', reviews);
-
-} ;
+};
 
 function main() { ONRTestApp.main(); }
