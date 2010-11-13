@@ -12,7 +12,7 @@ ONRTestApp.mainPage = SC.Page.design({
   // The main panel is made visible on screen as soon as your app is loaded.
   // Add childViews to this pane for views to display immediately on page 
   // load.
-  panel: SC.MainPane.design({
+  mainPanel: SC.MainPane.design({
     childViews: 'toolbar splitter'.w(),
 
     toolbar: SC.ToolbarView.design({

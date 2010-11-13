@@ -189,7 +189,7 @@ ONRTestApp.booksController = SC.ArrayController.create(
 
           ONRTestApp.store.commitRecords();
 
-          ONRTestApp.statechart.sendEvent('booksLoaded');
+          ONRTestApp.statechart.sendEvent('booksDidLoad');
         }
         return YES;
       }

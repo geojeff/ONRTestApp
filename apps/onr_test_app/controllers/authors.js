@@ -175,7 +175,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 
           ONRTestApp.store.commitRecords();
 
-          ONRTestApp.statechart.sendEvent('authorsLoaded');
+          ONRTestApp.statechart.sendEvent('authorsDidLoad');
         }
         return YES;
       }
@@ -211,8 +211,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     };
   },
 
-  // Where to get key for new record? from global counter here? from core_actions.js?
-  //    -- hard-coded 1001 now
   addAuthor: function(){
     var author;
 
@@ -234,7 +232,6 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
     });
   },
 
-  // This function could be called loadAuthors, because it is only done on load
   loadAuthors: function(){
     this._tmpRecordCount = ONRTestApp.Author.FIXTURES.get('length');
     for (var i=0,len=ONRTestApp.Author.FIXTURES.get('length'); i<len; i++){
