@@ -1,5 +1,5 @@
 // ==========================================================================
-// ONRTestApp.loadVersionsPane
+// ONRTestApp.loadBooksPane
 // ==========================================================================
 /*globals ONRTestApp*/
 
@@ -16,22 +16,21 @@ ONRTestApp.loadVersionsPage = SC.Page.create({
 
     contentView: SC.View.design({
 
-      layout: { centerX: 0, centerY: 0, width: 400, height: 280 },
+      layout: { centerX: 0, centerY: 0, width: 400, height: 400 },
 
-      childViews: 'explanation loadVersionsButton'.w(),
+      childViews: 'explanation loadBooksButton'.w(),
 
       explanation: SC.LabelView.design({
-        layout: { left: 0, top: 0, width: 400, height: 200 },
-        textAlign: SC.ALIGN_CENTER,
-        value:  "%@ review records have been loaded (They have status === READY_CLEAN). Next, we load book versions.".fmt(ONRTestApp.get('loadedReviewCount'))
+        layout: { left: 60, top: 60, right: 60, height: 200 },
+        value:  "%@ version records have been loaded (They have status === READY_CLEAN). Next, we load book versions.".fmt(ONRTestApp.get('loadedVersionCount'))
       }),
 
-      loadVersionsButton: SC.ButtonView.design({
-        layout: { right: 10, bottom: 10, width: 80, height: 32 },
+      loadBooksButton: SC.ButtonView.design({
+        layout: { right: 60, bottom: 60, width: 120, height: 32 },
         titleMinWidth: 0,
         isDefault: YES,
-        title: 'Load Versions',
-        action: 'loadVersions'
+        title: 'Load Books',
+        action: 'loadBooks'
       })
     })
   })

@@ -27,7 +27,7 @@ ONRTestApp.loadAuthorsPage = SC.Page.create({
       }),
 
       loadAuthorsButton: SC.ButtonView.design({
-        layout: { right: 10, bottom: 10, width: 80, height: 32 },
+        layout: { right: 60, bottom: 60, width: 120, height: 32 },
         titleMinWidth: 0,
         isDefault: YES,
         title: 'Load Authors',

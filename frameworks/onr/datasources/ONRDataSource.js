@@ -669,7 +669,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
       // function to process the fetch data returned from a fetch call
       // the first thing we need to do is to get the requestCacheKey, so we can have access to the data we need
       // we need to include runloop stuff, as otherwise SC cannot know this happened
-      //SC.RunLoop.begin();
+      SC.RunLoop.begin();
       var fetchinfo = data.fetchResult;
       var recordsToAdd = null;
       if(fetchinfo){ // don't do anything if no proper fetch result
@@ -735,7 +735,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
             }
          }
       }
-     // SC.RunLoop.end();
+      SC.RunLoop.end();
    },
    
    _processRelationSet: function(records,relationSet) {
@@ -973,6 +973,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    },
    
    onRefreshRecordResult: function(data){
+      SC.RunLoop.begin();
       // NORMAL REPORTING: console.log("Received update: " + JSON.stringify(data));
       // function to process the data from the server when a refreshRecord call has been made to the server
       // we have a few cases here that are similar too the fetch request
@@ -1026,6 +1027,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
          // we don't need to call dataSourceDidComplete, as the loadRecord function already does the same.
          delete this._requestCache[requestCacheKey];
       }
+      SC.RunLoop.end();
    },
    
    createRecord: function(store,storeKey,params){
@@ -1075,6 +1077,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    },
    
    onCreateRecordResult: function(data){
+      SC.RunLoop.begin();
       // function to process the data from the server when a createRecord call has been made to the server
       // NORMAL REPORTING: console.log('ONR onCreateRecordResult: ' + JSON.stringify(data));
       var createRecordResult = data.createRecordResult;
@@ -1087,9 +1090,11 @@ ONR.ONRDataSource = SC.DataSource.extend({
       // we can destroy the requestCache immediately because relations are inside the record data already, 
       // we don't even have to parse them ...
       delete this._requestCache[requestCacheKey];
+      SC.RunLoop.end();
    },
    
    updateRecord: function(store,storeKey,params){
+      SC.RunLoop.begin();
       // NORMAL REPORTING: console.log('ONR data source updateRecord called');
       // function to send updates to ONR.
       // ONR supports separate relation updates from record information
@@ -1121,7 +1126,8 @@ ONR.ONRDataSource = SC.DataSource.extend({
        var request = { updateRecord: { bucket: bucket, key: key, record: dataToSend, relations: relations, returnData: returnData }};
        this.send(request);
        return YES;
-   },   
+       SC.RunLoop.end();
+   },
 
    onUpdateRecordError: function(data){
       //function to handle ONR error messages for update
@@ -1143,6 +1149,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    },
    
    onUpdateRecordResult: function(data){
+      SC.RunLoop.begin();
       // NORMAL REPORTING: console.log("Received update: " + JSON.stringify(data));
       // different implementation of the onUpdateRecordResult
       // as ONR can also return the data in one go
@@ -1155,6 +1162,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
       var storeKey = requestCache.storeKey;
       store.dataSourceDidComplete(storeKey,recordData);
       delete this._requestCache[requestCacheKey];
+      SC.RunLoop.end();
    },
    
    destroyRecord: function(store,storeKey,params){

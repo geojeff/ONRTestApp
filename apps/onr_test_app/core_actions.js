@@ -49,10 +49,7 @@ ONRTestApp.mixin({
     var count = this.get('loadedReviewCount');
     count++;
     this.set('loadedReviewCount', count);
-  },
-
-  initiateDataCreation: function() {
-    ONRTestApp.reviewsController.loadReviewsSetup();
+    console.log(count);
   }
 
 });

@@ -69,8 +69,10 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
         if (me._tmpRecordCount === 0) {
           delete me._tmpRecordCount;
 
-          console.log('currentStates ' + ONRTestApp.statechart.get('currentStates'));
-          ONRTestApp.statechart.sendEvent('reviewsLoaded');
+          console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+          ONRTestApp.statechart.resumeGotoState();
+          console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+          ONRTestApp.statechart.sendEvent('reviewsDidLoad');
         }
         return YES;
       }

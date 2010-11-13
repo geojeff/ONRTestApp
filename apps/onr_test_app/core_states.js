@@ -10,6 +10,8 @@
 ONRTestApp.statechart = Ki.Statechart.create({
   rootState: Ki.State.design({
     initialSubstate: "loggedOut",
+    trace: YES,
+    //substatesAreConcurrent: YES,
 
     // ----------------------------------------
     //    STATE: loggedOut
@@ -43,49 +45,62 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       authenticate: function() {
+        this.gotoState('authenticating');
+      }
+    }),
+
+    // ----------------------------------------
+    //    STATE: authenticating
+    // ----------------------------------------
+    authenticating: Ki.State.design({
+      enterState: function() {
+        // Call auth on the data source, which has callbacks to send events to the "authResult" functions here.
+        return Ki.Async.perform('logIn');
+      },
+
+      exitState: function() {
+        console.log('exiting');
+      },
+
+      logIn: function() {
         var loginName = ONRTestApp.loginController.get('loginName');
         var password = ONRTestApp.loginController.get('password');
 
-        // Call auth on the data source, which has callbacks to send events to the "authResult" functions here.
-        ONRTestApp.store.dataSource.connect(ONRTestApp.store, function(){
+        ONRTestApp.store.dataSource.connect(ONRTestApp.store, function() {
           ONRTestApp.store.dataSource.authRequest(loginName, password);
         });
       },
 
       authFailure: function(errorMessage) {
         ONRTestApp.loginController.set('loginErrorMessage', errorMessage);
+        this.gotoState('rejected');
       },
 
       authSuccess: function() {
-        this.gotoState('loggedIn');
+        console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+        this.gotoState('authenticated');
       }
+
     }),
 
     // ----------------------------------------
-    //    STATE: loggedIn
+    //    STATE: authenticated
     // ----------------------------------------
-    loggedIn: Ki.State.design({
+    authenticated: Ki.State.design({
       enterState: function() {
-        var panel = ONRTestApp.getPath('loadReviewsPage.panel');
-        if (panel) {
-          panel.append();
-          panel.focus();
-        }
+        return Ki.Async.perform('loadReviews');
       },
 
       exitState: function() {
-        var panel = ONRTestApp.getPath('loadReviewsPage.panel');
-        if (panel) {
-          panel.remove();
-          console.log('panel has been removed');
-        }
+        console.log('reviews were loaded');
       },
 
       loadReviews: function() {
         ONRTestApp.reviewsController.loadReviews();
       },
 
-      reviewsLoaded: function() {
+      reviewsDidLoad: function() {
+        console.log('reviews were loaded');
         this.gotoState('reviewsLoaded');
       }
 
@@ -96,6 +111,38 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     reviewsLoaded: Ki.State.design({
       enterState: function() {
+        console.log('whu');
+        var panel = ONRTestApp.getPath('loadReviewsPage.panel');
+        if (panel) {
+          panel.append();
+          panel.focus();
+        }
+      },
+
+      exitState: function() {
+        console.log('whut whut');
+        var panel = ONRTestApp.getPath('loadReviewsPage.panel');
+        if (panel) {
+          panel.remove();
+        }
+      },
+
+      loadVersions: function() {
+        console.log('whut');
+        console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+        console.log('ONRTestApp.statechart.gotoChartActive ' + ONRTestApp.statechart.get('gotoStateActive'));
+        //debugger;
+        this.gotoState('loadingVersions');
+      }
+
+    }),
+
+    // ----------------------------------------
+    //    STATE: loadingVersions
+    // ----------------------------------------
+    loadingVersions: Ki.State.design({
+      enterState: function() {
+        console.log('whut whut whut');
         var panel = ONRTestApp.getPath('loadVersionsPage.panel');
         if (panel) {
           panel.append();
@@ -114,7 +161,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
         ONRTestApp.booksController.loadBooks();
       },
 
-      booksLoaded: function() {
+      booksDidLoad: function() {
         this.gotoState('booksLoaded');
       }
     }),
@@ -142,7 +189,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
         ONRTestApp.authorsController.loadAuthors();
       },
 
-      authorsLoaded: function() {
+      authorsDidLoad: function() {
         this.gotoState('dataLoaded');
       }
     }),

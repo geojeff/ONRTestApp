@@ -16,18 +16,17 @@ ONRTestApp.loadBooksPage = SC.Page.create({
 
     contentView: SC.View.design({
 
-      layout: { centerX: 0, centerY: 0, width: 400, height: 280 },
+      layout: { centerX: 0, centerY: 0, width: 400, height: 400 },
 
       childViews: 'explanation loadBooksButton'.w(),
 
       explanation: SC.LabelView.design({
-        layout: { left: 0, top: 0, width: 500, height: 250 },
-        textAlign: SC.ALIGN_CENTER,
+        layout: { left: 60, top: 60, right: 60, height: 200 },
         value:  "%@ book versions have been loaded (They have status === READY_CLEAN). Next, we load books.".fmt(ONRTestApp.get('loadedVersionCount'))
       }),
 
       loadBooksButton: SC.ButtonView.design({
-        layout: { right: 10, bottom: 10, width: 80, height: 32 },
+        layout: { right: 60, bottom: 60, width: 120, height: 32 },
         titleMinWidth: 0,
         isDefault: YES,
         title: 'Load Books',
