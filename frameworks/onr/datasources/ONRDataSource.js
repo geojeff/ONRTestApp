@@ -876,6 +876,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    },
    */
    _getRelationsArray: function(recordType) {
+      SC.RunLoop.begin();
       var ret = [], recType, curItem;
       
       //recType = recordType.isClass? recordType: recordType.prototype; // get the class in case recordType is a record
@@ -906,6 +907,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
          return ret;
       }
       else return NO;
+      SC.RunLoop.end();
    },
    
    /* OrionNodeRiak record request api

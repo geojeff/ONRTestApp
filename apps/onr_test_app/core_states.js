@@ -59,7 +59,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('exiting');
       },
 
       logIn: function() {
@@ -73,14 +72,26 @@ ONRTestApp.statechart = Ki.Statechart.create({
 
       authFailure: function(errorMessage) {
         ONRTestApp.loginController.set('loginErrorMessage', errorMessage);
-        this.gotoState('rejected');
+        this.resumeGotoState();
+        this.gotoState('REJECTED');
       },
 
       authSuccess: function() {
-        console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+        this.resumeGotoState();
         this.gotoState('AUTHENTICATED');
       }
+    }),
 
+    // ----------------------------------------
+    //    state: REJECTED
+    // ----------------------------------------
+    REJECTED: Ki.State.design({
+      enterState: function() {
+      },
+
+      exitState: function() {
+        this.gotoState('AUTHENTICATING');
+      }
     }),
 
     // ----------------------------------------
@@ -88,19 +99,16 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     AUTHENTICATED: Ki.State.design({
       enterState: function() {
-        console.log('entering AUTHENTICATED state');
         ONRTestApp.getPath('loadReviewsPane').append();
       },
 
       exitState: function() {
-        console.log('exiting AUTHENTICATED state');
         ONRTestApp.getPath('loadReviewsPane').remove();
       },
 
       loadReviews: function() {
         this.gotoState('LOADING_REVIEWS');
       }
-
     }),
 
     // ----------------------------------------
@@ -112,7 +120,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('exiting loadingReviews state');
       },
 
       callLoadReviews: function() {
@@ -120,11 +127,9 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       reviewsDidLoad: function() {
-        console.log('reviews were loaded');
         this.resumeGotoState();
         this.gotoState('REVIEWS_LOADED');
       }
-
     }),
 
     // ----------------------------------------
@@ -132,19 +137,16 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     REVIEWS_LOADED: Ki.State.design({
       enterState: function() {
-        console.log('entering REVIEWS_LOADED state');
         ONRTestApp.getPath('loadVersionsPane').append();
       },
 
       exitState: function() {
-        console.log('exiting REVIEWS_LOADED state');
         ONRTestApp.getPath('loadVersionsPane').remove();
       },
 
       loadVersions: function() {
         this.gotoState('LOADING_VERSIONS');
       }
-
     }),
 
     // ----------------------------------------
@@ -152,12 +154,10 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     LOADING_VERSIONS: Ki.State.design({
       enterState: function() {
-        console.log('entering loadingVersions state');
         return this.performAsync('callLoadVersions');
       },
 
       exitState: function() {
-        console.log('exiting loadingVersions state');
       },
 
       callLoadVersions: function() {
@@ -165,12 +165,10 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       versionsDidLoad: function() {
-        console.log('versions were loaded');
 
         this.resumeGotoState();
         this.gotoState('VERSIONS_LOADED');
       }
-
     }),
 
     // ----------------------------------------
@@ -178,19 +176,16 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     VERSIONS_LOADED: Ki.State.design({
       enterState: function() {
-        console.log('entering VERSIONS_LOADED state');
         ONRTestApp.getPath('loadBooksPane').append();
       },
 
       exitState: function() {
-        console.log('exiting VERSIONS_LOADED state');
         ONRTestApp.getPath('loadBooksPane').remove();
       },
 
       loadBooks: function() {
         this.gotoState('LOADING_BOOKS');
       }
-
     }),
 
     // ----------------------------------------
@@ -202,7 +197,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('exiting loadingBooks state');
       },
 
       callLoadBooks: function() {
@@ -210,11 +204,9 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       booksDidLoad: function() {
-        console.log('books were loaded');
         this.resumeGotoState();
         this.gotoState('BOOKS_LOADED');
       }
-
     }),
 
     // ----------------------------------------
@@ -222,20 +214,16 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     BOOKS_LOADED: Ki.State.design({
       enterState: function() {
-        console.log('entering BOOKS_LOADED state');
         ONRTestApp.getPath('loadAuthorsPane').append();
-        console.log('whuddup');
       },
 
       exitState: function() {
-        console.log('exiting BOOKS_LOADED state');
         ONRTestApp.getPath('loadAuthorsPane').remove();
       },
 
       loadAuthors: function() {
         this.gotoState('LOADING_AUTHORS');
       }
-
     }),
 
     // ----------------------------------------
@@ -247,7 +235,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('exiting loadingAuthors state');
       },
 
       callLoadAuthors: function() {
@@ -255,11 +242,9 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       authorsDidLoad: function() {
-        console.log('authors were loaded');
         this.resumeGotoState();
         this.gotoState('AUTHORS_LOADED');
       }
-
     }),
 
     // ----------------------------------------
@@ -271,9 +256,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('DONE');
       }
-
     })
   })
 });

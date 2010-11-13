@@ -15,12 +15,10 @@ sc_require('onr/datasources/ONRWebsocketDataSource');
 
 ONRTestApp.DataSource = ONR.ONRWebsocketDataSource.extend({
   authSuccessCallback: function(){
-    ONRTestApp.statechart.resumeGotoState();
     ONRTestApp.statechart.sendEvent('authSuccess');
   },
 
   authFailureCallback: function(){
-    ONRTestApp.statechart.resumeGotoState();
     ONRTestApp.statechart.sendEvent('authFailure');
   }
 });
