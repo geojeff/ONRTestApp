@@ -111,7 +111,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     reviewsLoaded: Ki.State.design({
       enterState: function() {
-        console.log('whu');
         var panel = ONRTestApp.getPath('loadReviewsPage.panel');
         if (panel) {
           panel.append();
@@ -120,7 +119,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       exitState: function() {
-        console.log('whut whut');
+        console.log('exiting reviewsLoaded state');
         var panel = ONRTestApp.getPath('loadReviewsPage.panel');
         if (panel) {
           panel.remove();
@@ -128,7 +127,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
       },
 
       loadVersions: function() {
-        console.log('whut');
         console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
         console.log('ONRTestApp.statechart.gotoChartActive ' + ONRTestApp.statechart.get('gotoStateActive'));
         //debugger;
@@ -141,6 +139,29 @@ ONRTestApp.statechart = Ki.Statechart.create({
     //    STATE: loadingVersions
     // ----------------------------------------
     loadingVersions: Ki.State.design({
+      enterState: function() {
+        return Ki.Async.perform('loadVersions');
+      },
+
+      exitState: function() {
+        console.log('versions were loaded');
+      },
+
+      loadVersions: function() {
+        ONRTestApp.versionsController.loadVersions();
+      },
+
+      versionsDidLoad: function() {
+        console.log('versions were loaded');
+        this.gotoState('versionsLoaded');
+      }
+
+    }),
+
+    // ----------------------------------------
+    //    STATE: versionsLoaded
+    // ----------------------------------------
+    versionsLoaded: Ki.State.design({
       enterState: function() {
         console.log('whut whut whut');
         var panel = ONRTestApp.getPath('loadVersionsPage.panel');

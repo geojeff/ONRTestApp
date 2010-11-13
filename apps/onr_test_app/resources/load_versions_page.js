@@ -8,7 +8,7 @@
    @author Jeff Pittman
 */
 
-ONRTestApp.loadVersionsPage = SC.Page.create({
+ONRTestApp.loadVersionsPage = SC.Page.design({
 
   panel: SC.PanelPane.design({
     layout: { top: 0, bottom: 0, left: 0, right: 0 },

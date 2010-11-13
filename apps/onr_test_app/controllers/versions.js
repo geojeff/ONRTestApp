@@ -129,7 +129,10 @@ ONRTestApp.versionsController = SC.ArrayController.create(
 
           ONRTestApp.store.commitRecords();
 
-          ONRTestApp.statechart.sendEvent('versionsLoaded');
+          console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+          ONRTestApp.statechart.resumeGotoState();
+          console.log('ONRTestApp.statechart.gotoChartSuspended ' + ONRTestApp.statechart.get('gotoStateSuspended'));
+          ONRTestApp.statechart.sendEvent('versionsDidLoad');
         }
         return YES;
       }
