@@ -19,17 +19,6 @@ ONRTestApp.statechart = Ki.Statechart.create({
     STARTING: Ki.State.design({
 
       enterState: function() {
-        var authors = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Author));
-        var books = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Book));
-        //var versions = ONRTestApp.store.find(ONRTestApp.Version);
-        //var reviews = ONRTestApp.store.find(ONRTestApp.Review);
-
-        ONRTestApp.authorsController.set('all', books);
-        ONRTestApp.authorsController.set('content', authors);
-        //ONRTestApp.booksController.set('content', books);
-        //ONRTestApp.versionsController.set('content', versions);
-        //ONRTestApp.reviewsController.set('content', reviews);
-        
         var panel = ONRTestApp.getPath('loginPanel');
         if (panel) {
           panel.append();
@@ -137,6 +126,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     REVIEWS_LOADED: Ki.State.design({
       enterState: function() {
+        console.log('REVIEWS_LOADED');
         ONRTestApp.getPath('loadVersionsPane').append();
       },
 
@@ -176,6 +166,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     VERSIONS_LOADED: Ki.State.design({
       enterState: function() {
+        console.log('VERSIONS_LOADED');
         ONRTestApp.getPath('loadBooksPane').append();
       },
 
@@ -214,6 +205,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     BOOKS_LOADED: Ki.State.design({
       enterState: function() {
+        console.log('BOOKS_LOADED');
         ONRTestApp.getPath('loadAuthorsPane').append();
       },
 
@@ -252,6 +244,18 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     AUTHORS_LOADED: Ki.State.design({
       enterState: function() {
+        console.log('AUTHORS_LOADED');
+        var authors = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Author));
+        var books = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Book));
+        //var versions = ONRTestApp.store.find(ONRTestApp.Version);
+        //var reviews = ONRTestApp.store.find(ONRTestApp.Review);
+
+        ONRTestApp.authorsController.set('all', books);
+        ONRTestApp.authorsController.set('content', authors);
+        //ONRTestApp.booksController.set('content', books);
+        //ONRTestApp.versionsController.set('content', versions);
+        //ONRTestApp.reviewsController.set('content', reviews);
+
         ONRTestApp.getPath('mainPage.mainPanel').append();
       },
 

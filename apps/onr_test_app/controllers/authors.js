@@ -38,7 +38,7 @@ ONRTestApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelega
 	gatherBooks: function() {
     var authors, books;
     authors = this.get("selection"); // multiselect allowed
-    console.log('authors in gatherBooks ' + SC.inspect(authors));
+    //console.log('authors in gatherBooks ' + SC.inspect(authors));
 	  if (!SC.none(authors)) {
 	    books = SC.Set.create();
 	    authors.forEach(function(author){

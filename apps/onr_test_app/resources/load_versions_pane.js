@@ -14,13 +14,20 @@ ONRTestApp.loadVersionsPane = SC.PanelPane.create({
 
   contentView: SC.View.design({
 
-    layout: { centerX: 0, centerY: 0, width: 400, height: 380 },
+    layout: { centerX: 0, centerY: 0, width: 400, height: 392 },
 
-    childViews: 'explanation loadVersionsButton'.w(),
+    childViews: 'explanation1 explanation2 loadVersionsButton'.w(),
 
-    explanation: SC.LabelView.design({
-      layout: { left: 60, top: 60, right: 60, height: 320 },
-      value: "Review records have been loaded. Now we load versions (book versions)."
+    explanation1: SC.LabelView.design({
+      layout: { left: 60, top: 60, right: 60, height: 180},
+      value: "Review records have been loaded. Examine the console for integer counts printed from the controller " +
+             "making the createRecord calls, followed by createRecordResult messages from the ONR datasource. Observe " +
+             "the long hash keys set by Riak, along with the original fixtures integer keys and the record data."
+    }),
+
+    explanation2: SC.LabelView.design({
+      layout: { left: 60, top: 230, right: 60, height: 40 },
+      value: "Now we load versions (book versions: paperback, hardback, DVD, etc.)."
     }),
 
     loadVersionsButton: SC.ButtonView.design({

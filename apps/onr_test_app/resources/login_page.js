@@ -10,24 +10,29 @@ ONRTestApp.loginPanel = SC.PanelPane.create({
 
   contentView: SC.View.design({
 
-    layout: { centerX: 0, centerY: 0, width: 400, height: 260 },
-    childViews: 'loginNameField passwordField loginErrorMessageLabel loginButton'.w(),
+    layout: { centerX: 0, centerY: 0, width: 400, height: 300 },
+    childViews: 'instructions loginNameField passwordField loginErrorMessageLabel loginButton'.w(),
+
+    instructions: SC.LabelView.design({
+      layout: { left: 60, top: 60, right: 60, height: 50 },
+      value: "Use username: test, password: test.)."
+    }),
 
     loginNameField: SC.TextFieldView.design({
-      layout: { top: 60, left: 60, right: 60, height: 32 },
+      layout: { top: 120, left: 60, right: 60, height: 32 },
       hint: 'login name',
       valueBinding: 'ONRTestApp.loginController.loginName'
     }),
 
     passwordField: SC.TextFieldView.design({
-      layout: { top: 112, left: 60, right: 60, height: 32 },
+      layout: { top: 160, left: 60, right: 60, height: 32 },
       isPassword: YES,
       hint: 'password',
       valueBinding: 'ONRTestApp.loginController.password'
     }),
 
     loginErrorMessageLabel: SC.LabelView.design({
-      layout: { top: 164, left: 60, right: 60, height: 20 },
+      layout: { top: 204, left: 60, right: 60, height: 20 },
       valueBinding: SC.Binding.oneWay('ONRTestApp.loginController.loginErrorMessage')
     }),
 

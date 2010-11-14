@@ -351,7 +351,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
       // this is the part where interaction with the store comes into play
       // let's create handlers for every type of action ...
       // if you need extra calls, add 'em here
-      // NORMAL REPORTING: console.log("Received data message: " + JSON.stringify(data));
+      //console.log("Received data message: " + JSON.stringify(data));
       data = (data instanceof Array)? data[0]: data; // make sure we are dealing with an object
       if(data.createRecord) this.onPushedCreateRecord(data);
       if(data.updateRecord) this.onPushedUpdateRecord(data);
@@ -411,7 +411,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
       // function to process the creation of a record in the store with the pushed data by the server
       // used when a different user creates a record of which the current user should know
       var createRequest = data.createRecord;
-      // NORMAL REPORTING: console.log("onPushedUpdateRecord called with: " + data);
+      console.log("onPushedUpdateRecord called with: " + data);
       var bucket = createRequest.bucket, key = createRequest.key;
       var rectype = this._recordTypeCache[bucket];
       //var relations = createRequest.relations; // cannot recall whether this is actually necessary ... 
@@ -430,7 +430,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
       // function to update a change in a record in the store with pushed data by the server
       // used when a different user updates a record of which the current user should know
       // store.pushRetrieve
-      // NORMAL REPORTING: console.log("onPushedUpdateRecord called with: " + data);
+      console.log("onPushedUpdateRecord called with: " + data);
       var updateRequest = data.updateRecord;
       // the layout of the updateRecord call is similar to the updateRecordResult
       var bucket = updateRequest.bucket;
@@ -580,7 +580,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
          var requestKey = this._createRequestCacheKey();
          this._requestCache[requestKey] = { store: store, query: query, numResponses: numResponses };
          request.fetch.returnData = { requestKey: requestKey };
-         // NORMAL REPORTING: console.log('Sending fetchRequest: ' + JSON.stringify(request));
+         console.log('Sending fetchRequest: ' + JSON.stringify(request));
          this.send(request);      
       }
       return YES;
@@ -729,7 +729,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
             } // end of storeKeysInCache && relationSet
             if(this._requestCache[requestKey].numResponses === 0){
                // last request received, clean up
-               // NORMAL REPORTING: console.log("Finishing up the query stuff in Fetch");
+               console.log("Finishing up the query stuff in Fetch");
                store.dataSourceDidFetchQuery(curRequestData.query);
                delete this._requestCache[requestKey];
             }
@@ -896,8 +896,8 @@ ONR.ONRDataSource = SC.DataSource.extend({
                var reverse = curItem.reverse;
                // check whether the reverse is a toMany
                if(reverse && oppositeRecType[reverse].kindOf(SC.ManyAttribute)){
-                  // NORMAL REPORTING: console.log('reverse ' + reverse);
-                  // NORMAL REPORTING: console.log('oppositeRecType[revserse]' + oppositeRecType[reverse]);
+                  console.log('reverse ' + reverse);
+                  console.log('oppositeRecType[revserse]' + oppositeRecType[reverse]);
                   ret.push({ type: 'toOne', bucket: oppositeRecType.bucket, propertyName: i}); 
                }
             } 
@@ -976,7 +976,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    
    onRefreshRecordResult: function(data){
       SC.RunLoop.begin();
-      // NORMAL REPORTING: console.log("Received update: " + JSON.stringify(data));
+      console.log("Received update: " + JSON.stringify(data));
       // function to process the data from the server when a refreshRecord call has been made to the server
       // we have a few cases here that are similar too the fetch request
       // we cannot just write the stuff to the store, as we have separate messages for relation stuff
@@ -1081,7 +1081,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    onCreateRecordResult: function(data){
       SC.RunLoop.begin();
       // function to process the data from the server when a createRecord call has been made to the server
-      // NORMAL REPORTING: console.log('ONR onCreateRecordResult: ' + JSON.stringify(data));
+      console.log('ONR onCreateRecordResult: ' + JSON.stringify(data));
       var createRecordResult = data.createRecordResult;
       var requestCacheKey = createRecordResult.returnData.requestCacheKey;
       var requestCache = this._requestCache[requestCacheKey];
@@ -1097,7 +1097,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    
    updateRecord: function(store,storeKey,params){
       SC.RunLoop.begin();
-      // NORMAL REPORTING: console.log('ONR data source updateRecord called');
+      console.log('ONR data source updateRecord called');
       // function to send updates to ONR.
       // ONR supports separate relation updates from record information
       // SC doesn't at the moment, so we'll just do everything together
@@ -1121,7 +1121,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
           //relations separated from the record data         
        }
        var numResponses = (relations.length>0)? 1 + relations.length: 1;
-       // NORMAL REPORTING: console.log('expecting ' + numResponses + ' responses for this update');
+       console.log('expecting ' + numResponses + ' responses for this update');
        var requestCacheKey = this._createRequestCacheKey();
        this._requestCache[requestCacheKey] = { store: store, storeKey: storeKey, params: params, recordKey: key, numResponses: numResponses };
        var returnData = { requestCacheKey: requestCacheKey };
@@ -1152,7 +1152,7 @@ ONR.ONRDataSource = SC.DataSource.extend({
    
    onUpdateRecordResult: function(data){
       SC.RunLoop.begin();
-      // NORMAL REPORTING: console.log("Received update: " + JSON.stringify(data));
+      console.log("Received update: " + JSON.stringify(data));
       // different implementation of the onUpdateRecordResult
       // as ONR can also return the data in one go
       // which seems the most simple and forward solution

@@ -90,7 +90,6 @@ ONRTestApp.reviewsController = SC.ArrayController.create(
   },
 
   loadReviews: function() {
-    console.log('in loadReviews');
     var len =  ONRTestApp.Review.FIXTURES.get('length');
     this._tmpRecordCount = len;
 
