@@ -118,7 +118,7 @@ ONRTestApp.versionsController = SC.ArrayController.create(
           versionRecords.forEach(function(versionRecord) {
             var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
-            var reviewRecords = ONRTestApp.store.find(SC.Query.create(
+            var reviewRecords = ONRTestApp.store.find(SC.Query.local(
               ONRTestApp.Review,
               { conditions: "fixturesKey ANY {id_fixtures_array}",
                 parameters: { id_fixtures_array: ONRTestApp.Version.FIXTURES[fixturesKey-1].reviews }}
