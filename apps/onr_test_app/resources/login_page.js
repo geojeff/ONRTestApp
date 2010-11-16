@@ -15,7 +15,7 @@ ONRTestApp.loginPanel = SC.PanelPane.create({
 
     instructions: SC.LabelView.design({
       layout: { left: 60, top: 60, right: 60, height: 50 },
-      value: "Use username: test, password: test.)."
+      value: "Use username: test, password: test."
     }),
 
     loginNameField: SC.TextFieldView.design({
