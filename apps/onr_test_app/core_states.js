@@ -7,8 +7,8 @@
    @author Jeff Pittman
 */
 
-ONRTestApp.statechart = Ki.Statechart.create({
-  rootState: Ki.State.design({
+ONRTestApp.statechart = SC.Statechart.create({
+  rootState: SC.State.design({
     initialSubstate: "STARTING",
     //trace: YES,
     //substatesAreConcurrent: YES,
@@ -16,7 +16,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: STARTING
     // ----------------------------------------
-    STARTING: Ki.State.design({
+    STARTING: SC.State.design({
 
       enterState: function() {
         var panel = ONRTestApp.getPath('loginPanel');
@@ -41,10 +41,10 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: AUTHENTICATING
     // ----------------------------------------
-    AUTHENTICATING: Ki.State.design({
+    AUTHENTICATING: SC.State.design({
       enterState: function() {
         // Call auth on the data source, which has callbacks to send events to the "authResult" functions here.
-        return Ki.Async.perform('logIn');
+        return SC.Async.perform('logIn');
       },
 
       exitState: function() {
@@ -74,7 +74,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: REJECTED
     // ----------------------------------------
-    REJECTED: Ki.State.design({
+    REJECTED: SC.State.design({
       enterState: function() {
       },
 
@@ -86,7 +86,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: AUTHENTICATED
     // ----------------------------------------
-    AUTHENTICATED: Ki.State.design({
+    AUTHENTICATED: SC.State.design({
       enterState: function() {
         ONRTestApp.getPath('loadReviewsPane').append();
       },
@@ -103,7 +103,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: LOADING_REVIEWS
     // ----------------------------------------
-    LOADING_REVIEWS: Ki.State.design({
+    LOADING_REVIEWS: SC.State.design({
       enterState: function() {
         return this.performAsync('callLoadReviews');
       },
@@ -124,7 +124,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: REVIEWS_LOADED
     // ----------------------------------------
-    REVIEWS_LOADED: Ki.State.design({
+    REVIEWS_LOADED: SC.State.design({
       enterState: function() {
         console.log('REVIEWS_LOADED');
         ONRTestApp.getPath('loadVersionsPane').append();
@@ -142,7 +142,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: LOADING_VERSIONS
     // ----------------------------------------
-    LOADING_VERSIONS: Ki.State.design({
+    LOADING_VERSIONS: SC.State.design({
       enterState: function() {
         return this.performAsync('callLoadVersions');
       },
@@ -164,7 +164,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: VERSIONS_LOADED
     // ----------------------------------------
-    VERSIONS_LOADED: Ki.State.design({
+    VERSIONS_LOADED: SC.State.design({
       enterState: function() {
         console.log('VERSIONS_LOADED');
         ONRTestApp.getPath('loadBooksPane').append();
@@ -182,7 +182,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: LOADING_BOOKS
     // ----------------------------------------
-    LOADING_BOOKS: Ki.State.design({
+    LOADING_BOOKS: SC.State.design({
       enterState: function() {
         return this.performAsync('callLoadBooks');
       },
@@ -203,7 +203,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: BOOKS_LOADED
     // ----------------------------------------
-    BOOKS_LOADED: Ki.State.design({
+    BOOKS_LOADED: SC.State.design({
       enterState: function() {
         console.log('BOOKS_LOADED');
         ONRTestApp.getPath('loadAuthorsPane').append();
@@ -221,7 +221,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: LOADING_AUTHORS
     // ----------------------------------------
-    LOADING_AUTHORS: Ki.State.design({
+    LOADING_AUTHORS: SC.State.design({
       enterState: function() {
         return this.performAsync('callLoadAuthors');
       },
@@ -242,7 +242,7 @@ ONRTestApp.statechart = Ki.Statechart.create({
     // ----------------------------------------
     //    state: AUTHORS_LOADED (=== DATA_LOADED)
     // ----------------------------------------
-    AUTHORS_LOADED: Ki.State.design({
+    AUTHORS_LOADED: SC.State.design({
       enterState: function() {
         console.log('AUTHORS_LOADED');
         var authors = ONRTestApp.store.find(SC.Query.local(ONRTestApp.Author));
