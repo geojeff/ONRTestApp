@@ -1,3 +1,6 @@
+NOTE: This app was retired, with a rename to ThothApp, coinciding with the
+      renaming of OrionNodeRiak to Thoth.
+      
 This app tests OrionNodeRiak.
 
 It requires adding the following method to your sproutcore/runtime/mixins/observable.js

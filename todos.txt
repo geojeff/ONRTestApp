@@ -1,3 +1,6 @@
+NOTE: This app was retired, with a rename to ThothApp, coinciding with the
+      renaming of OrionNodeRiak to Thoth.
+
 - Investigate createRecord calls sans the key property (relations don't get set if not provided)
 
   [DONE] Maurits found that SC does not handle custom setting of primaryKey, while not providing a
@@ -12,15 +15,21 @@
   into a local array. Reconsider the store query way. See authors controller for current way and for
   commented-out code.
 
+  [DONE]
+
 - Test and fix basic ops, for adding, deleting, etc.
 
   [DONE] Forms and proper findings were added to book view, and fixes made to fields in the forms.
 
 - Add info to README about installation and running ONR, Riak.
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Get label dividers to work in the book form. They show up as blank intervals if added as is now.
 
   [NOTE: not needed if a concise form is preferred, but this needs to be understood for testing Forms]
+
+  [NOT DONE at the time of shift to ThothApp]
 
 - Evaluate the layout of the book form. Labels are needed for the lists, for the form. If design with version list
   left, form on right, reviews list on bottom, kept, handle case of small window size and overlap of reviews list and
@@ -40,15 +49,23 @@
   too much for use on a regular basis (Even if a user liked it in the beginning, wouldn't they get tired of it?). What
   about a setting for turning animation on and off?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Make the versions and reviews list have the first item selected on load.
 
   [DONE]
 
 - Add delete for a book, in the bottom toolbar with a - icon? or, with a dedicated button when Edit activated?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Style long reviews... For text wrapping, with css?  by putting \ns in the text?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Style lists, period. The Contacts app has code for odd/even, which is in here, but not working.
+
+  [NOT DONE at the time of shift to ThothApp]
 
 - Add hints to text fields. Are labels needed?
 
@@ -56,8 +73,12 @@
 
 - Add introduction panel on what to watch, and what reports to expect, when running.
 
+  [DONE] (as a series of panels)
+
 - Add feedback for actions happening with ONR, for initial load (partially done), and for principal actions, such as
   add, delete, etc. Somewhere add feedback on relation-setting, perhaps when a new record is added.
+
+  [NOT DONE at the time of shift to ThothApp] (NOT DONE for individual ops, but there are panels for loading)
 
 - Fix label cutting off in books list. Make wider, but handle long titles with... ellipsis?
 
@@ -65,17 +86,34 @@
 
 - Rename versions to editions?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Add ops buttons to add reviews. Reviews are now attached to versions. Should they be attached to books?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Add more book data. Add media versions... How to handle missing fields in that case, e.g., no page numbers.
+
+  [NOT DONE at the time of shift to ThothApp]
 
 - Review theming, which is now some combination of that from the Contacts app and a few things from test_controls app.
   Redo everything with the Ace theme, ala test_controls?
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Add a view for picking favorites using a linkit-demo type panel (SCUI), for testing and showing relations-setting.
+
+  [NOT DONE at the time of shift to ThothApp]
 
 - Add torture test data, perhaps with python program that emits fake data.
 
+  [NOT DONE at the time of shift to ThothApp]
+
 - Add responder-based app control (aka, statecharts). Use test_controls as a model? Use Ki?
 
+  [DONE] using Ki, then SC.statecharts after Ki was merged into SC.
+
 - Add tests. Use Lebowski?
+
+  [NOT DONE at the time of shift to ThothApp]
+
